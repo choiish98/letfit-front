@@ -10,21 +10,29 @@ import Loader from "../Components/Loader";
 const Register = ({ navigation }) => {
   const [userID, setUserID] = useState("");
   const [userName, setUserName] = useState("");
+  const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const [userPasswordConfirm, setUserPasswordConfirm] = useState("");
+  const [location, setLocation] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorText, setErrorText] = useState("");
   const [isRegistrationSuccess, setIsRegistrationSuccess] = useState(false);
 
   const userIdRef = createRef();
+  const userEmailRef = createRef();
   const userNameRef = createRef();
   const passwordRef = createRef();
   const passwordConfirmRef = createRef();
+  const locationRef = createRef();
 
   const handleSubmitButton = () => {
     setErrorText("");
     if (!userID) {
       alert("Please fill ID");
+      return;
+    }
+    if (!userEmail) {
+      alert("Please fill Email");
       return;
     }
     if (!userName) {
@@ -39,14 +47,20 @@ const Register = ({ navigation }) => {
       alert("Please fill Password Confirm");
       return;
     }
+    if (!location) {
+      alert("Please fill location");
+      return;
+    }
 
     setLoading(true);
 
     var dataToSend = {
-      ID: userID,
-      Name: userName,
-      Passwrod: userPassword,
-      PasswordConfirm: userPasswordConfirm,
+      name: userID,
+      username: userName,
+      email: userEmail,
+      password: userPassword,
+      password2: userPasswordConfirm,
+      location: location,
     };
 
     var formBody = [];
@@ -57,7 +71,7 @@ const Register = ({ navigation }) => {
     }
     formBody = formBody.join("&");
 
-    fetch("어디로 보내지?", {
+    fetch("http://localhost:4000/join", {
       method: "POST",
       body: formBody,
       headers: {
@@ -85,7 +99,7 @@ const Register = ({ navigation }) => {
       return (
         <View>
           <Text>Registration Successful</Text>
-          <TouchableOpacity onPress={() => props.navigation.navigate("Login")}>
+          <TouchableOpacity onPress={() => navigation.navigate("Login")}>
             <Text>Login Now</Text>
           </TouchableOpacity>
         </View>
@@ -108,6 +122,19 @@ const Register = ({ navigation }) => {
               ref={userIdRef}
               onSubmitEditing={() => {
                 userIdRef.current && userIdRef.current.focus();
+              }}
+            />
+          </View>
+          <View>
+            <TextInput
+              placeholder="Enter Email"
+              autoCapitalize="sentences"
+              returnKeyType="next"
+              blurOnSubmit={false}
+              onChangeText={(UserEmail) => setUserEmail(UserEmail)}
+              ref={userEmailRef}
+              onSubmitEditing={() => {
+                userEmailRef.current && userEmailRef.current.focus();
               }}
             />
           </View>
@@ -153,8 +180,28 @@ const Register = ({ navigation }) => {
               }}
             />
           </View>
+          <View>
+            <TextInput
+              placeholder="Enter Location"
+              autoCapitalize="sentences"
+              returnKeyType="next"
+              blurOnSubmit={false}
+              onChangeText={(Location) => setLocation(Location)}
+              ref={locationRef}
+              onSubmitEditing={() => {
+                locationRef.current && locationRef.current.focus();
+              }}
+            />
+          </View>
           <TouchableOpacity onPress={handleSubmitButton}>
             <Text>Register</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("Login");
+            }}
+          >
+            <Text>go to Login</Text>
           </TouchableOpacity>
         </KeyboardAvoidingView>
       </ScrollView>
