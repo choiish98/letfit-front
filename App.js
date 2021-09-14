@@ -4,9 +4,9 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 // import Screens
 import SplashScreen from "./src/Screen/SplashScreen";
-import AppMain from "./src/Components/AppMain";
 import Login from "./src/Screen/Login";
 import Register from "./src/Screen/Register";
+import AppMain from "./src/Components/AppMain";
 
 const Stack = createStackNavigator();
 
@@ -23,7 +23,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="SplashScreen">
-        {/* <Stack.Screen name="SplashScreen" component={SplashScreen} /> */}
+        <Stack.Screen name="SplashScreen" component={SplashScreen} />
         <Stack.Screen name="Auth" component={Auth} />
         <Stack.Screen name="AppMain" component={AppMain} />
       </Stack.Navigator>
