@@ -1,4 +1,4 @@
-import React, { createRef, useState } from "react";
+import React, { useState } from "react";
 import { View, Text, KeyboardAvoidingView } from "react-native";
 import {
   ScrollView,
@@ -15,11 +15,6 @@ const Register = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const [errorText, setErrorText] = useState("");
   const [isRegistrationSuccess, setIsRegistrationSuccess] = useState(false);
-
-  const userEmailRef = createRef();
-  const userNameRef = createRef();
-  const passwordRef = createRef();
-  const passwordConfirmRef = createRef();
 
   const handleSubmitButton = () => {
     setErrorText("");
@@ -57,7 +52,7 @@ const Register = ({ navigation }) => {
     formBody = formBody.join("&");
 
     if (userPassword == userPasswordConfirm) {
-      fetch(`http://7a3a-220-84-188-32.ngrok.io/api/users/`, {
+      fetch(`http://6bec-220-84-188-32.ngrok.io/api/users/`, {
         method: "POST",
         body: formBody,
         headers: {
@@ -108,10 +103,6 @@ const Register = ({ navigation }) => {
               returnKeyType="next"
               blurOnSubmit={false}
               onChangeText={(UserName) => setUserName(UserName)}
-              ref={userNameRef}
-              onSubmitEditing={() => {
-                userNameRef.current && userNameRef.current.focus();
-              }}
             />
           </View>
           <View>
@@ -121,10 +112,6 @@ const Register = ({ navigation }) => {
               returnKeyType="next"
               blurOnSubmit={false}
               onChangeText={(UserEmail) => setUserEmail(UserEmail)}
-              ref={userEmailRef}
-              onSubmitEditing={() => {
-                userEmailRef.current && userEmailRef.current.focus();
-              }}
             />
           </View>
           <View>
@@ -135,10 +122,6 @@ const Register = ({ navigation }) => {
               secureTextEntry={true}
               blurOnSubmit={false}
               onChangeText={(UserPassword) => setUserPassword(UserPassword)}
-              ref={passwordRef}
-              onSubmitEditing={() => {
-                passwordRef.current && passwordRef.current.focus();
-              }}
             />
           </View>
           <View>
@@ -151,11 +134,6 @@ const Register = ({ navigation }) => {
               onChangeText={(UserPasswordConfirm) =>
                 setUserPasswordConfirm(UserPasswordConfirm)
               }
-              ref={passwordConfirmRef}
-              onSubmitEditing={() => {
-                passwordConfirmRef.current &&
-                  passwordConfirmRef.current.focus();
-              }}
             />
           </View>
           <TouchableOpacity onPress={handleSubmitButton}>

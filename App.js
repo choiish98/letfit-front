@@ -7,6 +7,8 @@ import SplashScreen from "./src/Screen/SplashScreen";
 import Login from "./src/Screen/Login";
 import Register from "./src/Screen/Register";
 import AppMain from "./src/Components/AppMain";
+import { Provider } from "react-redux";
+import store from "./src/store";
 
 const Stack = createStackNavigator();
 
@@ -21,13 +23,15 @@ const Auth = () => {
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="SplashScreen">
-        <Stack.Screen name="SplashScreen" component={SplashScreen} />
-        <Stack.Screen name="Auth" component={Auth} />
-        <Stack.Screen name="AppMain" component={AppMain} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="SplashScreen">
+          <Stack.Screen name="SplashScreen" component={SplashScreen} />
+          <Stack.Screen name="Auth" component={Auth} />
+          <Stack.Screen name="AppMain" component={AppMain} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 };
 
