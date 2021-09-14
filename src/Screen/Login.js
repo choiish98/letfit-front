@@ -1,4 +1,4 @@
-import React, { createRef, useState } from "react";
+import React, { useState } from "react";
 import { View, Text, KeyboardAvoidingView, AsyncStorage } from "react-native";
 import {
   ScrollView,
@@ -8,38 +8,40 @@ import {
 import Loader from "../Components/Loader";
 
 const Login = ({ navigation }) => {
-  const [userID, setUserID] = useState("");
-  const [userPassword, setUserPassword] = useState("");
+  const [username, setUserName] = useState("");
+  const [password, setUserPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorText, setErrorText] = useState("");
-
-  const userIDRef = createRef();
-  const passwordRef = createRef();
 
   const handleSubmit = () => {
     setErrorText("");
 
-    if (!userID) {
-      alert("Please fill Email");
+    if (!username) {
+      alert("Please fill Name");
       return;
     }
-    if (!userPassword) {
+    if (!password) {
       alert("Please fill Password");
       return;
     }
 
     setLoading(true);
 
-    let dataToSend = { id: userID, password: userPassword };
-    let formBody = [];
-    for (let key in dataToSend) {
-      let encodedKey = encodeURIComponent(key);
-      let encodedValue = encodeURIComponent(dataToSend[key]);
+    var dataToSend = {
+      username: username,
+      password: password,
+    };
+
+    var formBody = [];
+    for (var key in dataToSend) {
+      var encodedKey = encodeURIComponent(key);
+      var encodedValue = encodeURIComponent(dataToSend[key]);
       formBody.push(encodedKey + "=" + encodedValue);
     }
     formBody = formBody.join("&");
 
-    fetch("어디로갈까요?", {
+    // 로그인 요청 & token 값 호출
+    fetch(`http://7a3a-220-84-188-32.ngrok.io/api/users/token/`, {
       method: "POST",
       body: formBody,
       headers: {
@@ -51,14 +53,28 @@ const Login = ({ navigation }) => {
         setLoading(false);
         console.log(responseJson);
 
-        if (responseJson.status === "success") {
-          AsyncStorage.setItem("user_id", responseJson.data.userID);
-          console.log(responseJson.data.userID);
-          navigation.replace("Navigation");
-        } else {
-          setErrortext(responseJson.msg);
-          console.log("Please check your email id or password");
-        }
+        // 토큰 값 저장
+        AsyncStorage.setItem("token", responseJson.token);
+
+        // 유저 정보 호출
+        fetch(`http://7a3a-220-84-188-32.ngrok.io/api/users/me/`, {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+            Authorization: `X-JWT ${responseJson.token}`,
+          },
+        })
+          .then((tokenResponse) => tokenResponse.json())
+          .then((tokenResponseJson) => {
+            // 유저 정보 리덕스 저장 필요
+            console.log(tokenResponseJson);
+
+            // main으로 화면 이동
+            navigation.replace("AppMain");
+          })
+          .catch((error) => {
+            setLoading(false);
+            console.log(error);
+          });
       })
       .catch((error) => {
         setLoading(false);
@@ -70,26 +86,20 @@ const Login = ({ navigation }) => {
     <View>
       <Loader loading={loading} />
       <ScrollView keyboardShouldPersistTaps="handled">
-        <KeyboardAvoidingView>
+        <KeyboardAvoidingView enabled>
           <TextInput
-            onChange={(UserID) => {
-              setUserID(UserID);
+            onChangeText={(UserName) => {
+              setUserName(UserName);
             }}
-            onSubmitEditing={() =>
-              userIDRef.current && userIDRef.current.focus()
-            }
-            placeholder="Enter ID"
+            placeholder="Enter Name"
             autoCapitalize="none"
             returnKeyType="next"
             blurOnSubmit={false}
           />
           <TextInput
-            onChange={(UserPassword) => {
-              setUserPassword(UserPassword);
+            onChangeText={(Password) => {
+              setUserPassword(Password);
             }}
-            onSubmitEditing={() =>
-              passwordRef.current && passwordRef.current.focus()
-            }
             placeholder="Enter Password"
             autoCapitalize="none"
             returnKeyType="next"

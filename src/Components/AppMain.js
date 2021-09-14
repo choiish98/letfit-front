@@ -4,7 +4,7 @@ import Home from "../Screen/Home";
 
 const Stack = createStackNavigator();
 
-const Navigation = (props) => {
+const AppMain = (props) => {
   return (
     <Stack.Navigator>
       <Stack.Screen name="Home" component={Home} />
@@ -12,4 +12,4 @@ const Navigation = (props) => {
   );
 };
 
-export default Navigation;
+export default AppMain;

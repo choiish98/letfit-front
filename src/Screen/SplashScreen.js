@@ -1,12 +1,22 @@
-import React from "react";
-import { View, Text } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, ActivityIndicator, AsyncStorage } from "react-native";
 
 const SplashScreen = ({ navigation }) => {
+  const [animating, setAnimating] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setAnimating(false);
+
+      AsyncStorage.getItem("token").then((value) => {
+        navigation.replace(value === null ? "Auth" : "AppMain");
+      });
+    }, 3000);
+  }, []);
+
   return (
     <View>
-      <Text onPress={() => navigation.replace("Auth")}>
-        go Log in or Register
-      </Text>
+      <ActivityIndicator animating={animating} color="#ffffff" size="large" />
     </View>
   );
 };
