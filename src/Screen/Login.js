@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, KeyboardAvoidingView, AsyncStorage } from "react-native";
+import { API_URL } from "@env";
 import {
   ScrollView,
   TextInput,
@@ -10,7 +11,6 @@ import Loader from "../Components/Loader";
 import { actionCreators } from "../store";
 
 const Login = (props) => {
-  console.log(props.user);
   const [username, setUserName] = useState("");
   const [password, setUserPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -44,7 +44,7 @@ const Login = (props) => {
     formBody = formBody.join("&");
 
     // 로그인 요청 & token 값 호출
-    fetch(`http://6bec-220-84-188-32.ngrok.io/api/users/token/`, {
+    fetch(`${API_URL}api/users/token/`, {
       method: "POST",
       body: formBody,
       headers: {
@@ -60,7 +60,7 @@ const Login = (props) => {
         AsyncStorage.setItem("token", responseJson.token);
 
         // 유저 정보 호출
-        fetch(`http://6bec-220-84-188-32.ngrok.io/api/users/me/`, {
+        fetch(`${API_URL}api/users/me/`, {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
             Authorization: `X-JWT ${responseJson.token}`,
