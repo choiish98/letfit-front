@@ -48,16 +48,20 @@ const Login = (props) => {
       body: formBody,
       headers: {
         "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+        Accept: "application/json",
       },
     })
-      .then((response) => response.json())
+      .then((response) => {
+        console.log(JSON.stringify(response, null, 4));
+        return response.json();
+      })
       .then((responseJson) => {
         setLoading(false);
         console.log(responseJson);
 
         // 토큰 값 저장
         AsyncStorage.setItem("token", responseJson.token);
-        
+
         // main으로 화면 이동
         props.navigation.replace("AppMain");
       })

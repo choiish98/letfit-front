@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, AsyncStorage } from "react-native";
+import { View, Text, Image, AsyncStorage, StyleSheet } from "react-native";
 import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 import { connect } from "react-redux";
 import { actionCreators } from "../store";
@@ -11,15 +11,10 @@ const Home = (props) => {
   const [loading, setLoading] = useState(false);
   const [trending, setTrending] = useState([]);
 
-  useEffect(() => {
-    (loading === false) ? (
-      // token 받아오기
-      AsyncStorage.getItem("token").then((token) => {
-        // token 값이 없으면 로그인 화면으로 이동
-        if(token === null) {
-          props.navigation.replace("Auth");
-        }
-
+  const getUserData = () => {
+    // token 받아오기
+    AsyncStorage.getItem("token")
+      .then((token) => {
         // 유저 정보 호출
         fetch(`${API_URL}/api/users/me/`, {
           headers: {
@@ -34,23 +29,56 @@ const Home = (props) => {
           })
           .catch((error) => {
             console.log(error);
-          })
-      }),
-
-      fetch(`${API_URL}/api/posts/trending/`, {
-        method: "GET",
-        headers: {
-        "Content-Type": "application/json",
-        },
+          });
       })
-        .then((response) => response.json())
-        .then((responseJson) => {
-            setTrending(responseJson);
-        }),
+      .catch((error) => {
+        console.log("error occured at asyncstorage");
+        console.log("error: " + error);
+        props.navigation.replace("Auth");
+      });
+  };
 
-      setLoading(true)
-    ) : (console.log("user: " + props.user.username));
-  })
+  const loadingFeed = () => {
+    fetch(`${API_URL}/api/posts/trending/`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        setTrending(responseJson);
+      });
+  };
+
+  const homeAction = () => {
+    getUserData();
+    loadingFeed();
+    setLoading(true);
+  };
+
+  useEffect(() => {
+    loading === false
+      ? homeAction()
+      : console.log("user: " + props.user.username);
+  });
+
+  const renderItem = ({ item }) => {
+    const imgeUrl = API_URL + item.photo;
+
+    return (
+      <View>
+        <Image
+          style={{ height: "100%", width: "100%" }}
+          source={{ uri: imgeUrl }}
+        />
+        <Text>{item.title}</Text>
+        <Text>{item.username}</Text>
+        <Text>{item.description}</Text>
+        <Text>{item.created_at}</Text>
+      </View>
+    );
+  };
 
   const logout = async () => {
     props.deleteUser();
@@ -58,40 +86,53 @@ const Home = (props) => {
     props.navigation.replace("Auth");
   };
 
-  const renderItem = ({item}) => {
-    return (
-      <View>
-        <Image source={{uri:API_URL + item.photo}} />
-        <Text>{item.title}</Text>
-        <Text>{item.username}</Text>
-        <Text>{item.description}</Text>
-        <Text>{item.createAt}</Text>
-      </View>
-    )
-  }
+  const goSNS = () => {
+    props.navigation.replace("SNS");
+  };
 
-  return (
-    (loading) ? (
+  const renderFeed = () => {
+    return (
+      <FlatList
+        data={trending}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id.toString()}
+      />
+    );
+  };
+
+  return loading ? (
+    <View style={styles.container}>
       <View>
         <TouchableOpacity activeOpacity={0.5} onPress={logout}>
           <Text>Logout</Text>
         </TouchableOpacity>
-        <View>
-          <Text> Hello {props.user.username} </Text>
-          <Text> Your tier: {props.user.tier} </Text>
-          <Text> Your Email: {props.user.email} </Text>
-        </View>
-        <View>
-          <FlatList 
-            data={trending}
-            renderItem={renderItem}
-            keyExtractor={item => String(item.id)}  
-          />
-        </View>
+        <TouchableOpacity activeOpacity={0.5} onPress={goSNS}>
+          <Text>SNS</Text>
+        </TouchableOpacity>
       </View>
-    ) : (Loader)
+      <View style={styles.userinfo}>
+        <Text> Hello {props.user.username} </Text>
+        <Text> Your tier: {props.user.tier} </Text>
+        <Text> Your Email: {props.user.email} </Text>
+      </View>
+      <View style={styles.feed}>{renderFeed()}</View>
+    </View>
+  ) : (
+    Loader
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  userinfo: {
+    flex: 2,
+  },
+  feed: {
+    flex: 2,
+  },
+});
 
 function mapStateToProps(state) {
   return { user: state };
