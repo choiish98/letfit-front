@@ -6,11 +6,10 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native-gesture-handler";
-import { connect } from "react-redux";
 import Loader from "../Components/Loader";
-import { actionCreators } from "../store";
 
 const Login = (props) => {
+  console.log(API_URL);
   const [username, setUserName] = useState("");
   const [password, setUserPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -43,15 +42,19 @@ const Login = (props) => {
     }
     formBody = formBody.join("&");
 
-    // 로그인 요청 & token 값 호출
-    fetch(`${API_URL}api/users/token/`, {
+    // 로그인 요청
+    fetch(`${API_URL}/api/users/token/`, {
       method: "POST",
       body: formBody,
       headers: {
         "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+        Accept: "application/json",
       },
     })
-      .then((response) => response.json())
+      .then((response) => {
+        console.log(JSON.stringify(response, null, 4));
+        return response.json();
+      })
       .then((responseJson) => {
         setLoading(false);
         console.log(responseJson);
@@ -59,26 +62,8 @@ const Login = (props) => {
         // 토큰 값 저장
         AsyncStorage.setItem("token", responseJson.token);
 
-        // 유저 정보 호출
-        fetch(`${API_URL}api/users/me/`, {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-            Authorization: `X-JWT ${responseJson.token}`,
-          },
-        })
-          .then((tokenResponse) => tokenResponse.json())
-          .then((tokenResponseJson) => {
-            // 유저 정보 리덕스 저장 필요
-            console.log(tokenResponseJson);
-            props.defineUser(tokenResponseJson);
-
-            // main으로 화면 이동
-            props.navigation.replace("AppMain");
-          })
-          .catch((error) => {
-            setLoading(false);
-            console.log(error);
-          });
+        // main으로 화면 이동
+        props.navigation.replace("AppMain");
       })
       .catch((error) => {
         setLoading(false);
@@ -127,14 +112,4 @@ const Login = (props) => {
   );
 };
 
-function mapStateToProps(state, ownProps) {
-  return { user: state };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    defineUser: (user) => dispatch(actionCreators.defineUser(user)),
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default Login;
