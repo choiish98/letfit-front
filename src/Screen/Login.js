@@ -43,7 +43,7 @@ const Login = (props) => {
     formBody = formBody.join("&");
 
     // 로그인 요청
-    fetch(`${API_URL}/api/users/token/`, {
+    fetch(`http://6baa-220-84-188-32.ngrok.io/api/users/token/`, {
       method: "POST",
       body: formBody,
       headers: {
