@@ -7,7 +7,6 @@ import { API_URL } from "@env";
 import Loader from "../Components/Loader";
 
 const Home = (props) => {
-  console.log(API_URL);
   const [loading, setLoading] = useState(false);
   const [trending, setTrending] = useState([]);
 
@@ -15,6 +14,7 @@ const Home = (props) => {
     // token 받아오기
     AsyncStorage.getItem("token")
       .then((token) => {
+
         // 유저 정보 호출
         fetch(`${API_URL}/api/users/me/`, {
           headers: {
@@ -32,7 +32,7 @@ const Home = (props) => {
           });
       })
       .catch((error) => {
-        console.log("error occured at asyncstorage");
+        console.log("error occurred at async storage");
         console.log("error: " + error);
         props.navigation.replace("Auth");
       });
@@ -48,6 +48,7 @@ const Home = (props) => {
       .then((response) => response.json())
       .then((responseJson) => {
         setTrending(responseJson);
+        console.log("피드 업데이트 완료");
       });
   };
 
@@ -64,13 +65,13 @@ const Home = (props) => {
   });
 
   const renderItem = ({ item }) => {
-    const imgeUrl = API_URL + item.photo;
+    const imageUrl = API_URL + item.photo;
 
     return (
       <View>
         <Image
-          style={{ height: "100%", width: "100%" }}
-          source={{ uri: imgeUrl }}
+          style={{ height: "95%", width: "15%" }}
+          source={{ uri: imageUrl }}
         />
         <Text>{item.title}</Text>
         <Text>{item.username}</Text>

@@ -9,7 +9,7 @@ import {
 import Loader from "../Components/Loader";
 
 const Login = (props) => {
-  console.log(API_URL);
+  console.log("https://debf-123-214-10-136.ngrok.io/");
   const [username, setUserName] = useState("");
   const [password, setUserPassword] = useState("");
   const [loading, setLoading] = useState(false);
