@@ -9,7 +9,6 @@ import {
 import Loader from "../Components/Loader";
 
 const Login = (props) => {
-  console.log("https://debf-123-214-10-136.ngrok.io/");
   const [username, setUserName] = useState("");
   const [password, setUserPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -43,7 +42,7 @@ const Login = (props) => {
     formBody = formBody.join("&");
 
     // 로그인 요청
-    fetch(`${API_URL}/api/users/token/`, {
+    fetch(`http://7fa7-123-214-10-136.ngrok.io/api/users/token/`, {
       method: "POST",
       body: formBody,
       headers: {

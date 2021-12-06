@@ -23,7 +23,7 @@ const SNS = (props) => {
 
   const getUserData = () => {
     // 유저 정보 호출
-    fetch(`${API_URL}/api/users/1/`, {
+    fetch(`http://7fa7-123-214-10-136.ngrok.io/api/users/1/`, {
       headers: {
         "method": "GET",
       },

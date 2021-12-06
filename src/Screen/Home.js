@@ -16,7 +16,7 @@ const Home = (props) => {
       .then((token) => {
 
         // 유저 정보 호출
-        fetch(`${API_URL}/api/users/me/`, {
+        fetch(`http://7fa7-123-214-10-136.ngrok.io/api/users/me/`, {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
             Authorization: `X-JWT ${token}`,
@@ -39,7 +39,7 @@ const Home = (props) => {
   };
 
   const loadingFeed = () => {
-    fetch(`${API_URL}/api/posts/trending/`, {
+    fetch(`http://7fa7-123-214-10-136.ngrok.io/api/posts/trending/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -65,19 +65,25 @@ const Home = (props) => {
   });
 
   const renderItem = ({ item }) => {
-    const imageUrl = API_URL + item.photo;
+    const imageUrl = `http://7fa7-123-214-10-136.ngrok.io` + item.photo;
 
     return (
-      <View>
-        <Image
-          style={{ height: "95%", width: "15%" }}
-          source={{ uri: imageUrl }}
-        />
-        <Text>{item.title}</Text>
-        <Text>{item.username}</Text>
-        <Text>{item.description}</Text>
-        <Text>{item.created_at}</Text>
-      </View>
+      <TouchableOpacity  
+        onPress={() => {
+            props.navigation.replace("Detail", {id: item.id});
+          }
+        }>
+          <View>
+            <Image
+              style={{ height: "95%", width: "15%" }}
+              source={{ uri: imageUrl }}
+            />
+            <Text>{item.title}</Text>
+            <Text>{item.username}</Text>
+            <Text>{item.description}</Text>
+            <Text>{item.created_at}</Text>
+          </View>
+      </TouchableOpacity>
     );
   };
 
