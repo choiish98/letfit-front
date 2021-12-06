@@ -1,15 +1,112 @@
-import React from "react";
-import { View, Text } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, Image, StyleSheet } from "react-native";
+import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 import { connect } from "react-redux";
 import { actionCreators } from "../store";
+import { API_URL } from "@env";
+import Loader from "../Components/Loader";
 
 const SNS = (props) => {
-  return (
-    <View>
-      <Text> Hello {props.user.username} </Text>
-    </View>
-  );
+  const [userInfo, setUserInfo] = useState({
+      username: "",
+      tier: "",
+      profile_message: "",
+      accumulated_exercise_day: 0,
+      posts: [
+          {
+              id: "",
+              photo: ""
+          },
+      ]
+  });
+  const [loading, setLoading] = useState(false);
+
+  const getUserData = () => {
+    // 유저 정보 호출
+    fetch(`${API_URL}/api/users/1/`, {
+      headers: {
+        "method": "GET",
+      },
+    }).then((response) => response.json())
+      .then((responseJson) => {
+        // 유저 정보 저장
+        setUserInfo(responseJson);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const goHome = () => {
+    props.navigation.replace("Home");
+  };
+
+  const firstAction = () => {
+    getUserData();
+    setLoading(true);
+  };
+
+  useEffect(() => {
+    loading === false
+      ? firstAction()
+      : console.log("user: " + userInfo.username);
+  });
+
+  const renderItem = ({ item }) => {
+    const imageUrl = API_URL + item.photo;
+
+    return (
+      <View>
+        <Image
+          style={{ height: "100%", width: "100%" }}
+          source={{ uri: imageUrl }}
+        />
+        <Text>뜨냐고~</Text>
+      </View>
+    );
+  };
+
+  const renderPosts = () => {
+    return (
+      <FlatList
+        data={userInfo.posts}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id.toString()}
+      />
+    );
+  };
+
+  return loading ? (
+      <View style={styles.container}>
+        <View style={styles.userInfo}>
+          <Text> username: {userInfo.username} </Text>
+          <Text> tier:  {userInfo.tier} </Text>
+          <Text> pm: {userInfo.profile_message} </Text>
+          <Text> ed: {userInfo.accumulated_exercise_day} </Text>
+          <View>
+            <TouchableOpacity activeOpacity={0.5} onPress={goHome}>
+              <Text>go home</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style={styles.feed}>{renderPosts()}</View>
+      </View>
+    ) : (
+      Loader
+    );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  userInfo: {
+    flex: 2,
+  },
+  feed: {
+    flex: 2,
+  },
+});
 
 function mapStateToProps(state) {
   return { user: state };

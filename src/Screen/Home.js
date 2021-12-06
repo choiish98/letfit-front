@@ -111,7 +111,7 @@ const Home = (props) => {
           <Text>SNS</Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.userinfo}>
+      <View style={styles.userInfo}>
         <Text> Hello {props.user.username} </Text>
         <Text> Your tier: {props.user.tier} </Text>
         <Text> Your Email: {props.user.email} </Text>
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  userinfo: {
+  userInfo: {
     flex: 2,
   },
   feed: {
