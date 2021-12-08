@@ -16,7 +16,7 @@ const Home = (props) => {
       .then((token) => {
 
         // 유저 정보 호출
-        fetch(`${API_URL}/api/users/me/`, {
+        fetch(`http://6baa-220-84-188-32.ngrok.io/api/users/me/`, {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
             Authorization: `X-JWT ${token}`,
@@ -39,7 +39,7 @@ const Home = (props) => {
   };
 
   const loadingFeed = () => {
-    fetch(`${API_URL}/api/posts/trending/`, {
+    fetch(`http://6baa-220-84-188-32.ngrok.io/api/posts/trending/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
