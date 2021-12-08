@@ -42,7 +42,7 @@ const Login = (props) => {
     formBody = formBody.join("&");
 
     // 로그인 요청
-    fetch(`http://7fa7-123-214-10-136.ngrok.io/api/users/token/`, {
+    fetch(`https://bitter-jellyfish-92.loca.lt/api/users/token/`, {
       method: "POST",
       body: formBody,
       headers: {

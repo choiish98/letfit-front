@@ -8,22 +8,22 @@ import Loader from "../Components/Loader";
 
 const SNS = (props) => {
   const [userInfo, setUserInfo] = useState({
-      username: "",
-      tier: "",
-      profile_message: "",
-      accumulated_exercise_day: 0,
-      posts: [
-          {
-              id: "",
-              photo: ""
-          },
-      ]
+    username: "",
+    tier: "",
+    profile_message: "",
+    accumulated_exercise_day: 0,
+    posts: [
+        {
+            id: "",
+            photo: ""
+        },
+    ]
   });
   const [loading, setLoading] = useState(false);
 
   const getUserData = () => {
     // 유저 정보 호출
-    fetch(`http://7fa7-123-214-10-136.ngrok.io/api/users/1/`, {
+    fetch(`https://bitter-jellyfish-92.loca.lt/api/users/1/`, {
       headers: {
         "method": "GET",
       },
@@ -53,7 +53,7 @@ const SNS = (props) => {
   });
 
   const renderItem = ({ item }) => {
-    const imageUrl = API_URL + item.photo;
+    const imageUrl = `https://bitter-jellyfish-92.loca.lt` + item.photo;
 
     return (
       <View>

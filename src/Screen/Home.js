@@ -16,7 +16,7 @@ const Home = (props) => {
       .then((token) => {
 
         // 유저 정보 호출
-        fetch(`http://7fa7-123-214-10-136.ngrok.io/api/users/me/`, {
+        fetch(`https://bitter-jellyfish-92.loca.lt/api/users/me/`, {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
             Authorization: `X-JWT ${token}`,
@@ -39,7 +39,7 @@ const Home = (props) => {
   };
 
   const loadingFeed = () => {
-    fetch(`http://7fa7-123-214-10-136.ngrok.io/api/posts/trending/`, {
+    fetch(`https://bitter-jellyfish-92.loca.lt/api/posts/trending/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -65,7 +65,7 @@ const Home = (props) => {
   });
 
   const renderItem = ({ item }) => {
-    const imageUrl = `http://7fa7-123-214-10-136.ngrok.io` + item.photo;
+    const imageUrl = `https://bitter-jellyfish-92.loca.lt` + item.photo;
 
     return (
       <TouchableOpacity  
