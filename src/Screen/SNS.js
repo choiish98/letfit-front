@@ -41,6 +41,10 @@ const SNS = (props) => {
     props.navigation.replace("Home");
   };
 
+  const goUpload = () => {
+    props.navigation.replace("Upload");
+  };
+
   const firstAction = () => {
     getUserData();
     setLoading(true);
@@ -89,7 +93,12 @@ const SNS = (props) => {
             </TouchableOpacity>
           </View>
         </View>
-        <View style={styles.feed}>{renderPosts()}</View>
+        <View style={styles.feed}>
+          <TouchableOpacity activeOpacity={0.5} onPress={goUpload}>
+            <Text>+</Text>
+          </TouchableOpacity>
+          {renderPosts()}
+        </View>
       </View>
     ) : (
       Loader
