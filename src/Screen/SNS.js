@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import Loader from "../Components/Loader";
 import { actionCreators } from "../store";
 import { API_URL } from "@env";
-import Loader from "../Components/Loader";
 
 const SNS = (props) => {
   const [userInfo, setUserInfo] = useState({
