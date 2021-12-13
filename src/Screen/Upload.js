@@ -1,48 +1,66 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, Image, AsyncStorage, StyleSheet, Button } from "react-native";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
+import * as ImagePicker from 'expo-image-picker';
 import { API_URL } from "@env";
 
 const Upload = (props) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [photo, setPhoto] = useState("");
+  const [photo, setPhoto] = useState(null);
+  const [image, setImage] = useState(null);
     
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      setImage(result.uri);
+      setPhoto(result);
+    }
+  };
+
   const goSNS = () => {
     props.navigation.replace("SNS");
   };
   
   const requestUpload = () => {
-    var dataToSend = {
-      title: title,
-      description: description,
-      photo: photo,
-    };
+    let localUri = photo.uri;
+    let filename = localUri.split('/').pop();
 
-    var formBody = [];
-    for (var key in dataToSend) {
-      var encodedKey = encodeURIComponent(key);
-      var encodedValue = encodeURIComponent(dataToSend[key]);
-      formBody.push(encodedKey + "=" + encodedValue);
-    }
-    formBody = formBody.join("&");
+    // Infer the type of the image
+    let match = /\.(\w+)$/.exec(filename);
+    let type = match ? `image/${match[1]}` : `image`;
+
+    // Upload the image using the fetch and FormData APIs
+    let formData = new FormData();
+    // Assume "photo" is the name of the form field the server expects
+    formData.append('title', title);
+    formData.append('photo', { uri: localUri, name: filename, type });
+    formData.append('description', description);
 
     AsyncStorage.getItem("token").then((token) => {
         console.log(token);
+        console.log(image);
         // 업로드 요청
-        fetch(`https://bitter-jellyfish-92.loca.lt/api/posts/upload/`, {
+        fetch(`https://lazy-starfish-99.loca.lt//api/posts/upload/`, {
+          "method": "POST",
+          body: formData,
             headers: {
-                "method": "POST",
-                body: formBody,
-                "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-                Authorization: `X-JWT ${token}`,
+              "Content-Type": "multipart/form-data",
+              Authorization: `X-JWT ${token}`,
             },
         }).then((response) => response.json())
         .then((responseJson) => {
-            if(responseJson.title === title) {
-                console.log("upload success");
-                goSNS();
-            }
+          console.log(responseJson);
+          console.log("upload success");
+          goSNS();
         })
         .catch((error) => {
         console.log(error);
@@ -62,6 +80,8 @@ const Upload = (props) => {
                 returnKeyType="next"
             />
             <Text>photo</Text>
+            <Button title="photo" onPress={pickImage} />
+            {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
             <Text>description</Text>
             <TextInput 
                 value={description}

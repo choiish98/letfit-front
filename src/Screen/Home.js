@@ -16,7 +16,7 @@ const Home = (props) => {
       .then((token) => {
 
         // 유저 정보 호출
-        fetch(`https://bitter-jellyfish-92.loca.lt/api/users/me/`, {
+        fetch(`https://lazy-starfish-99.loca.lt//api/users/me/`, {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
             Authorization: `X-JWT ${token}`,
@@ -39,7 +39,7 @@ const Home = (props) => {
   };
 
   const loadingFeed = () => {
-    fetch(`https://bitter-jellyfish-92.loca.lt/api/posts/trending/`, {
+    fetch(`https://lazy-starfish-99.loca.lt//api/posts/trending/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -65,7 +65,7 @@ const Home = (props) => {
   });
 
   const renderItem = ({ item }) => {
-    const imageUrl = `https://bitter-jellyfish-92.loca.lt` + item.photo;
+    const imageUrl = `https://lazy-starfish-99.loca.lt/` + item.photo;
 
     return (
       <TouchableOpacity  
