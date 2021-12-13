@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
 import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 import { connect } from "react-redux";
+import Loader from "../Components/Loader";
 import { actionCreators } from "../store";
 import { API_URL } from "@env";
 import Loader from "../Components/Loader";
