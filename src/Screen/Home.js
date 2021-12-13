@@ -16,7 +16,7 @@ const Home = (props) => {
       .then((token) => {
 
         // 유저 정보 호출
-        fetch(`http://6baa-220-84-188-32.ngrok.io/api/users/me/`, {
+        fetch(`https://lazy-starfish-99.loca.lt//api/users/me/`, {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
             Authorization: `X-JWT ${token}`,
@@ -39,7 +39,7 @@ const Home = (props) => {
   };
 
   const loadingFeed = () => {
-    fetch(`http://6baa-220-84-188-32.ngrok.io/api/posts/trending/`, {
+    fetch(`https://lazy-starfish-99.loca.lt//api/posts/trending/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -65,19 +65,25 @@ const Home = (props) => {
   });
 
   const renderItem = ({ item }) => {
-    const imageUrl = API_URL + item.photo;
+    const imageUrl = `https://lazy-starfish-99.loca.lt/` + item.photo;
 
     return (
-      <View>
-        <Image
-          style={{ height: "95%", width: "15%" }}
-          source={{ uri: imageUrl }}
-        />
-        <Text>{item.title}</Text>
-        <Text>{item.username}</Text>
-        <Text>{item.description}</Text>
-        <Text>{item.created_at}</Text>
-      </View>
+      <TouchableOpacity  
+        onPress={() => {
+            props.navigation.replace("Detail", {id: item.id});
+          }
+        }>
+          <View>
+            <Image
+              style={{ height: "95%", width: "15%" }}
+              source={{ uri: imageUrl }}
+            />
+            <Text>{item.title}</Text>
+            <Text>{item.username}</Text>
+            <Text>{item.description}</Text>
+            <Text>{item.created_at}</Text>
+          </View>
+      </TouchableOpacity>
     );
   };
 
@@ -111,7 +117,7 @@ const Home = (props) => {
           <Text>SNS</Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.userinfo}>
+      <View style={styles.userInfo}>
         <Text> Hello {props.user.username} </Text>
         <Text> Your tier: {props.user.tier} </Text>
         <Text> Your Email: {props.user.email} </Text>
@@ -127,7 +133,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  userinfo: {
+  userInfo: {
     flex: 2,
   },
   feed: {

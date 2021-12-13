@@ -9,7 +9,6 @@ import {
 import Loader from "../Components/Loader";
 
 const Login = (props) => {
-  console.log("https://debf-123-214-10-136.ngrok.io/");
   const [username, setUserName] = useState("");
   const [password, setUserPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -43,7 +42,7 @@ const Login = (props) => {
     formBody = formBody.join("&");
 
     // 로그인 요청
-    fetch(`http://6baa-220-84-188-32.ngrok.io/api/users/token/`, {
+    fetch(`https://lazy-starfish-99.loca.lt//api/users/token/`, {
       method: "POST",
       body: formBody,
       headers: {

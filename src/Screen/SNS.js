@@ -1,70 +1,122 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, AsyncStorage } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { View, Text, Image, StyleSheet } from "react-native";
+import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 import { connect } from "react-redux";
 import Loader from "../Components/Loader";
 import { actionCreators } from "../store";
+import { API_URL } from "@env";
+import Loader from "../Components/Loader";
 
 const SNS = (props) => {
-  const [guestUser, setUser] = useState();
+  const [userInfo, setUserInfo] = useState({
+    username: "",
+    tier: "",
+    profile_message: "",
+    accumulated_exercise_day: 0,
+    posts: [
+        {
+            id: "",
+            photo: ""
+        },
+    ]
+  });
   const [loading, setLoading] = useState(false);
 
-  const goMain = () => {
-    props.navigation.replace("Home");
-  };
-
   const getUserData = () => {
-    // token 받아오기
-    AsyncStorage.getItem("token")
-      .then((token) => {
-        // 유저 정보 호출
-        fetch(`http://6baa-220-84-188-32.ngrok.io/api/users/11/`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-            Authorization: `X-JWT ${token}`,
-          },
-        })
-          .then((response) => response.json())
-          .then((responseJson) => {
-            console.log(responseJson);
-
-            // 유저 정보 리덕스 저장
-            setUser(responseJson);
-            console.log(guestUser);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-        setLoading(true);
+    // 유저 정보 호출
+    fetch(`https://lazy-starfish-99.loca.lt//api/users/1/`, {
+      headers: {
+        "method": "GET",
+      },
+    }).then((response) => response.json())
+      .then((responseJson) => {
+        // 유저 정보 저장
+        setUserInfo(responseJson);
       })
       .catch((error) => {
-        console.log("error occured at asyncstorage");
-        console.log("error: " + error);
-        props.navigation.replace("Auth");
+        console.log(error);
       });
   };
 
+  const goHome = () => {
+    props.navigation.replace("Home");
+  };
+
+  const goUpload = () => {
+    props.navigation.replace("Upload");
+  };
+
+  const firstAction = () => {
+    getUserData();
+    setLoading(true);
+  };
+
   useEffect(() => {
-    loading === false ? getUserData() : console.log(error);
+    loading === false
+      ? firstAction()
+      : console.log("user: " + userInfo.username);
   });
 
-  return loading ? (
-    <View>
+  const renderItem = ({ item }) => {
+    const imageUrl = `https://lazy-starfish-99.loca.lt/` + item.photo;
+
+    return (
       <View>
-        <Text> {guestUser.tier} </Text>
-        <Text> {guestUser.accumulated_exercise_day} </Text>
-        <Text> {guestUser.username} </Text>
+        <Image
+          style={{ height: "100%", width: "100%" }}
+          source={{ uri: imageUrl }}
+        />
+        <Text>뜨냐고~</Text>
       </View>
-      <Text> {guestUser.profile_message} </Text>
-      <TouchableOpacity activeOpacity={0.5} onPress={goMain}>
-        <Text>Main</Text>
-      </TouchableOpacity>
-    </View>
-  ) : (
-    Loader
-  );
+    );
+  };
+
+  const renderPosts = () => {
+    return (
+      <FlatList
+        data={userInfo.posts}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id.toString()}
+      />
+    );
+  };
+
+  return loading ? (
+      <View style={styles.container}>
+        <View style={styles.userInfo}>
+          <Text> username: {userInfo.username} </Text>
+          <Text> tier:  {userInfo.tier} </Text>
+          <Text> pm: {userInfo.profile_message} </Text>
+          <Text> ed: {userInfo.accumulated_exercise_day} </Text>
+          <View>
+            <TouchableOpacity activeOpacity={0.5} onPress={goHome}>
+              <Text>go home</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style={styles.feed}>
+          <TouchableOpacity activeOpacity={0.5} onPress={goUpload}>
+            <Text>+</Text>
+          </TouchableOpacity>
+          {renderPosts()}
+        </View>
+      </View>
+    ) : (
+      Loader
+    );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  userInfo: {
+    flex: 2,
+  },
+  feed: {
+    flex: 2,
+  },
+});
 
 function mapStateToProps(state) {
   return { user: state };
