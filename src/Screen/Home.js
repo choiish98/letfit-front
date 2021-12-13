@@ -16,7 +16,7 @@ const Home = (props) => {
       .then((token) => {
 
         // 유저 정보 호출
-        fetch(`https://lazy-starfish-99.loca.lt//api/users/me/`, {
+        fetch(`https://grumpy-fish-54.loca.lt/api/users/me/`, {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
             Authorization: `X-JWT ${token}`,
@@ -39,7 +39,7 @@ const Home = (props) => {
   };
 
   const loadingFeed = () => {
-    fetch(`https://lazy-starfish-99.loca.lt//api/posts/trending/`, {
+    fetch(`https://grumpy-fish-54.loca.lt/api/posts/trending/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -65,7 +65,7 @@ const Home = (props) => {
   });
 
   const renderItem = ({ item }) => {
-    const imageUrl = `https://lazy-starfish-99.loca.lt/` + item.photo;
+    const imageUrl = `https://grumpy-fish-54.loca.lt` + item.photo;
 
     return (
       <TouchableOpacity  
@@ -97,6 +97,10 @@ const Home = (props) => {
     props.navigation.replace("SNS");
   };
 
+  const goExercise = () => {
+    props.navigation.replace("MyRoutineList");
+  };
+
   const renderFeed = () => {
     return (
       <FlatList
@@ -115,6 +119,9 @@ const Home = (props) => {
         </TouchableOpacity>
         <TouchableOpacity activeOpacity={0.5} onPress={goSNS}>
           <Text>SNS</Text>
+        </TouchableOpacity>
+        <TouchableOpacity activeOpacity={0.5} onPress={goExercise}>
+          <Text>Exercise</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.userInfo}>

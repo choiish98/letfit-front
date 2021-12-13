@@ -49,7 +49,7 @@ const Upload = (props) => {
         console.log(token);
         console.log(image);
         // 업로드 요청
-        fetch(`https://lazy-starfish-99.loca.lt//api/posts/upload/`, {
+        fetch(`https://grumpy-fish-54.loca.lt/api/posts/upload/`, {
           "method": "POST",
           body: formData,
             headers: {
