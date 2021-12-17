@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { View, Text, Image, AsyncStorage, StyleSheet } from "react-native";
 import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 import { connect } from "react-redux";
-import { actionCreators } from "../store";
+import { actionCreators } from "../Actions/userIndex";
+import { routineActionCreators } from "../Actions/routineIndex";
 import { API_URL } from "@env";
 import Loader from "../Components/Loader";
 
@@ -13,10 +14,9 @@ const Home = (props) => {
   const getUserData = () => {
     // token 받아오기
     AsyncStorage.getItem("token")
-      .then((token) => {
-
+      .then((token) => {    
         // 유저 정보 호출
-        fetch(`https://grumpy-fish-54.loca.lt/api/users/me/`, {
+        fetch(`https://little-bulldog-37.loca.lt/api/users/me/`, {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
             Authorization: `X-JWT ${token}`,
@@ -37,9 +37,23 @@ const Home = (props) => {
         props.navigation.replace("Auth");
       });
   };
+  
+  const getRoutineData = () => {
+    fetch(`https://little-bulldog-37.loca.lt/api/routines/`, {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        // 유저 정보 리덕스 저장
+        props.defineRoutine(responseJson);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   const loadingFeed = () => {
-    fetch(`https://grumpy-fish-54.loca.lt/api/posts/trending/`, {
+    fetch(`https://little-bulldog-37.loca.lt/api/posts/trending/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -54,6 +68,7 @@ const Home = (props) => {
 
   const homeAction = () => {
     getUserData();
+    getRoutineData();
     loadingFeed();
     setLoading(true);
   };
@@ -61,11 +76,11 @@ const Home = (props) => {
   useEffect(() => {
     loading === false
       ? homeAction()
-      : console.log("user: " + props.user.username);
+      : console.log("user: " + JSON.stringify(props.user) + "\nroutine: " + JSON.stringify(props.routine));
   });
 
   const renderItem = ({ item }) => {
-    const imageUrl = `https://grumpy-fish-54.loca.lt` + item.photo;
+    const imageUrl = `https://little-bulldog-37.loca.lt` + item.photo;
 
     return (
       <TouchableOpacity  
@@ -127,7 +142,6 @@ const Home = (props) => {
       <View style={styles.userInfo}>
         <Text> Hello {props.user.username} </Text>
         <Text> Your tier: {props.user.tier} </Text>
-        <Text> Your Email: {props.user.email} </Text>
       </View>
       <View style={styles.feed}>{renderFeed()}</View>
     </View>
@@ -149,13 +163,17 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps(state) {
-  return { user: state };
+  return { 
+    user: state.userData,
+    routine: state.routineData,
+  };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     defineUser: (user) => dispatch(actionCreators.defineUser(user)),
     deleteUser: () => dispatch(actionCreators.deleteUser()),
+    defineRoutine: (routine) => dispatch(routineActionCreators.defineRoutine(routine)),
   };
 }
 

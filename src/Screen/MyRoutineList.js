@@ -15,7 +15,7 @@ const MyRoutineList = (props) => {
 //       .then((token) => {
 
 //         // 유저 정보 호출
-//         fetch(`https://grumpy-fish-54.loca.lt//api/users/me/`, {
+//         fetch(`https://little-bulldog-37.loca.lt//api/users/me/`, {
 //           headers: {
 //             "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
 //             Authorization: `X-JWT ${token}`,

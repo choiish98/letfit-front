@@ -26,7 +26,7 @@ const Detail = (props) => {
 
   const getPostData = () => {
     // 유저 정보 호출
-    fetch(`https://grumpy-fish-54.loca.lt/api/posts/${props.route.params.id}/`, {
+    fetch(`https://little-bulldog-37.loca.lt/api/posts/${props.route.params.id}/`, {
       headers: {
         "method": "GET",
       },
@@ -64,7 +64,7 @@ const Detail = (props) => {
       <View>
         <Image
           style={{ height: "50%", width: "50%" }}
-          source={{ uri: `https://grumpy-fish-54.loca.lt` + postData.photo }}
+          source={{ uri: `https://little-bulldog-37.loca.lt` + postData.photo }}
         />
         <Text> username: {postData.poster.username} </Text>
         <Text> title: {postData.title} </Text>
