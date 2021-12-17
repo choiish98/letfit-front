@@ -23,7 +23,7 @@ const SNS = (props) => {
 
   const getUserData = () => {
     // 유저 정보 호출
-    fetch(`https://lazy-starfish-99.loca.lt//api/users/1/`, {
+    fetch(`https://little-bulldog-37.loca.lt/api/users/1/`, {
       headers: {
         "method": "GET",
       },
@@ -57,7 +57,7 @@ const SNS = (props) => {
   });
 
   const renderItem = ({ item }) => {
-    const imageUrl = `https://lazy-starfish-99.loca.lt/` + item.photo;
+    const imageUrl = `https://little-bulldog-37.loca.lt` + item.photo;
 
     return (
       <View>
