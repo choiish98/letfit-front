@@ -16,7 +16,7 @@ const Home = (props) => {
     AsyncStorage.getItem("token")
       .then((token) => {    
         // 유저 정보 호출
-        fetch(`https://little-bulldog-37.loca.lt/api/users/me/`, {
+        fetch(`https://shy-eel-62.loca.lt/api/users/me/`, {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
             Authorization: `X-JWT ${token}`,
@@ -39,7 +39,7 @@ const Home = (props) => {
   };
   
   const getRoutineData = () => {
-    fetch(`https://little-bulldog-37.loca.lt/api/routines/`, {
+    fetch(`https://shy-eel-62.loca.lt/api/routines/`, {
       method: "GET",
     })
       .then((response) => response.json())
@@ -53,7 +53,7 @@ const Home = (props) => {
   };
 
   const loadingFeed = () => {
-    fetch(`https://little-bulldog-37.loca.lt/api/posts/trending/`, {
+    fetch(`https://shy-eel-62.loca.lt/api/posts/trending/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -80,7 +80,7 @@ const Home = (props) => {
   });
 
   const renderItem = ({ item }) => {
-    const imageUrl = `https://little-bulldog-37.loca.lt` + item.photo;
+    const imageUrl = `https://old-chipmunk-19.loca.lt/` + item.photo;
 
     return (
       <TouchableOpacity  

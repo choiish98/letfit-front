@@ -7,7 +7,8 @@ import { API_URL } from "@env";
 import Loader from "../Components/Loader";
 
 const MyRoutineList = (props) => {
-    const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [date, setDate] = useState(new Date());
 
 //   const getRoutineData = () => {
 //     // token 받아오기
@@ -15,7 +16,7 @@ const MyRoutineList = (props) => {
 //       .then((token) => {
 
 //         // 유저 정보 호출
-//         fetch(`https://little-bulldog-37.loca.lt//api/users/me/`, {
+//         fetch(`https://shy-eel-62.loca.lt/api/users/me/`, {
 //           headers: {
 //             "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
 //             Authorization: `X-JWT ${token}`,
@@ -42,11 +43,33 @@ const MyRoutineList = (props) => {
 //     setLoading(true);
 //   };
 
-//   useEffect(() => {
-//     loading === false
-//       ? MyRoutineListAction()
-//       : console.log("user: " + props.user.username);
-//   });
+  const firstAction = () => {
+    myRepresentRoutine();
+    console.log(date);
+  }
+
+  const myRepresentRoutine = () => {
+    fetch(`https://shy-eel-62.loca.lt/api/routines/1/`, {
+      headers: {
+        "method": "GET",
+      },
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        // 유저 정보 리덕스 저장
+        console.log(JSON.stringify(responseJson));
+        setLoading(true);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  useEffect(() => {
+    loading === false
+      ? firstAction()
+      : console.log("asdf");
+  });
 
   const goHome = () => {
     props.navigation.replace("Home");
