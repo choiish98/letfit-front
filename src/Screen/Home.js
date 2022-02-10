@@ -102,6 +102,26 @@ const Home = (props) => {
     );
   };
 
+  const secession = () => {
+    // 아이디가 같을 경우에만 보이게 수정 필요
+    // 아이디가 같은지 검사 필요
+    AsyncStorage.getItem("token")
+      .then((token) => {    
+        fetch(`https://popular-wasp-90.loca.lt/api/users/`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `X-JWT ${token}`,
+          },
+        }).catch((error) => {
+            console.error(error);
+          });
+      })
+      .catch((error) => {
+        console.log("error occurred at async storage");
+        console.log("error: " + error);
+      });
+  }
+
   const logout = async () => {
     props.deleteUser();
     await AsyncStorage.removeItem("token");
@@ -137,6 +157,9 @@ const Home = (props) => {
         </TouchableOpacity>
         <TouchableOpacity activeOpacity={0.5} onPress={goExercise}>
           <Text>Exercise</Text>
+        </TouchableOpacity>
+        <TouchableOpacity activeOpacity={0.5} onPress={secession}>
+          <Text>회원탈퇴</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.userInfo}>
