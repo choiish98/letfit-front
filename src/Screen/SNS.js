@@ -23,7 +23,7 @@ const SNS = (props) => {
 
   const getUserData = () => {
     // 유저 정보 호출
-    fetch(`https://shy-eel-62.loca.lt/api/users/1/`, {
+    fetch(`https://popular-wasp-90.loca.lt/api/users/1/`, {
       headers: {
         "method": "GET",
       },

@@ -1,68 +1,48 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, AsyncStorage, StyleSheet } from "react-native";
-import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
+import { View, Text} from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { connect } from "react-redux";
 import { actionCreators } from "../store";
-import { API_URL } from "@env";
+import * as Progress from 'react-native-progress';
 import Loader from "../Components/Loader";
 
 const MyRoutineList = (props) => {
   const [loading, setLoading] = useState(false);
   const [date, setDate] = useState(new Date());
+  const [r_routine, setR_routine] = useState(0);
+  const [todayDone, setTodayDone] = useState(0);
+  const [quota, setQuota] = useState(0);
 
-//   const getRoutineData = () => {
-//     // token 받아오기
-//     AsyncStorage.getItem("token")
-//       .then((token) => {
+  console.log("대표루틴: " + JSON.stringify(r_routine));
 
-//         // 유저 정보 호출
-//         fetch(`https://shy-eel-62.loca.lt/api/users/me/`, {
-//           headers: {
-//             "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-//             Authorization: `X-JWT ${token}`,
-//           },
-//         })
-//           .then((response) => response.json())
-//           .then((responseJson) => {
-//             // 유저 정보 리덕스 저장
-//             props.defineUser(responseJson);
-//           })
-//           .catch((error) => {
-//             console.log(error);
-//           });
-//       })
-//       .catch((error) => {
-//         console.log("error occurred at async storage");
-//         console.log("error: " + error);
-//         props.navigation.replace("Auth");
-//       });
-//   };
+  // 대표 루틴 받아오기
+  const myRepresentRoutine = () => {
+    const myRoutineId = props.user.userData.represent_routine.routine;
 
-//   const MyRoutineListAction = () => {
-//     getRoutineData();
-//     setLoading(true);
-//   };
-
+    if(myRoutineId == null) {
+      // null 처리필요
+      myRoutineId = 1;
+    } else {
+      fetch(`https://popular-wasp-90.loca.lt/api/routines/${myRoutineId}/`, { 
+        headers: {
+            "method": "GET",
+          },
+        })
+        .then((response) => response.json())
+        .then((responseJson) => {
+            // 대표 루틴 저장
+            setR_routine(responseJson);
+            setLoading(true);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+    }
+  }
+    
   const firstAction = () => {
     myRepresentRoutine();
-    console.log(date);
-  }
-
-  const myRepresentRoutine = () => {
-    fetch(`https://shy-eel-62.loca.lt/api/routines/1/`, {
-      headers: {
-        "method": "GET",
-      },
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        // 유저 정보 리덕스 저장
-        console.log(JSON.stringify(responseJson));
-        setLoading(true);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    console.log("date" + date);
   }
 
   useEffect(() => {
@@ -77,10 +57,12 @@ const MyRoutineList = (props) => {
 
   return loading ? (
     <View>
-        <Text>Hello</Text>
-        <TouchableOpacity activeOpacity={0.5} onPress={goHome}>
-          <Text>Home</Text>
-        </TouchableOpacity>
+        <TouchableOpacity activeOpacity={0.5} onPress={goHome} />
+          <Text>{date.getFullYear()}.{date.getMonth()}.{date.getDay()}</Text>
+          <Text>완료 {todayDone} 루틴 {r_routine.length}</Text>
+          <View>
+            <Progress.Bar progress={0.3}/>
+          </View>
     </View>
   ) : (
     Loader

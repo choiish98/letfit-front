@@ -13,6 +13,7 @@
     "@react-navigation/stack": "^6.0.7",
     "asyncstorage": "^1.5.0",
     "expo": "~42.0.1",
+    "expo-image-picker": "~10.2.2",
     "expo-status-bar": "~1.0.4",
     "flatted": "^3.2.2",
     "fs": "0.0.1-security",
@@ -21,11 +22,12 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-image-picker": "^4.4.1",
+    "react-native-progress": "^5.0.0",
     "react-native-screens": "^3.7.2",
+    "react-native-svg": "^12.1.1",
     "react-native-web": "^0.17.5",
     "react-redux": "^7.2.5",
-    "redux": "^4.1.1",
-    "expo-image-picker": "~10.2.2"
+    "redux": "^4.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

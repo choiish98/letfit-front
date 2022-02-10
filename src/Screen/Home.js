@@ -16,7 +16,7 @@ const Home = (props) => {
     AsyncStorage.getItem("token")
       .then((token) => {    
         // 유저 정보 호출
-        fetch(`https://shy-eel-62.loca.lt/api/users/me/`, {
+        fetch(`https://popular-wasp-90.loca.lt/api/users/me/`, {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
             Authorization: `X-JWT ${token}`,
@@ -39,7 +39,7 @@ const Home = (props) => {
   };
   
   const getRoutineData = () => {
-    fetch(`https://shy-eel-62.loca.lt/api/routines/`, {
+    fetch(`https://popular-wasp-90.loca.lt/api/routines/`, {
       method: "GET",
     })
       .then((response) => response.json())
@@ -53,7 +53,7 @@ const Home = (props) => {
   };
 
   const loadingFeed = () => {
-    fetch(`https://shy-eel-62.loca.lt/api/posts/trending/`, {
+    fetch(`https://popular-wasp-90.loca.lt/api/posts/trending/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

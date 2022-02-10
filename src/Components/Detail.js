@@ -26,7 +26,7 @@ const Detail = (props) => {
 
   const getPostData = () => {
     // 유저 정보 호출
-    fetch(`https://shy-eel-62.loca.lt/api/posts/${props.route.params.id}/`, {
+    fetch(`https://popular-wasp-90.loca.lt/api/posts/${props.route.params.id}/`, {
       headers: {
         "method": "GET",
       },
