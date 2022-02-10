@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, Image, StyleSheet, AsyncStorage } from "react-native";
 import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 import { connect } from "react-redux";
 import Loader from "../Components/Loader";
@@ -20,6 +20,33 @@ const SNS = (props) => {
     ]
   });
   const [loading, setLoading] = useState(false);
+
+  const follow = () => {
+    // 사용자와 팔로우 하려는 아이디가 같은지 검사 필요
+    // 언팔로우 구현 필요
+    AsyncStorage.getItem("token")
+      .then((token) => {    
+        fetch(`https://popular-wasp-90.loca.lt/api/users/follow/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": 'application/json',
+            Authorization: `X-JWT ${token}`,
+          },
+          body: JSON.stringify({id: 1})
+        })
+          .then((response) => response.json())
+          .then((responseJson) => {
+            console.log(JSON.stringify(responseJson));
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      })
+      .catch((error) => {
+        console.log("error occurred at async storage");
+        console.log("error: " + error);
+      });
+  }
 
   const getUserData = () => {
     // 유저 정보 호출
@@ -87,6 +114,9 @@ const SNS = (props) => {
           <Text> tier:  {userInfo.tier} </Text>
           <Text> pm: {userInfo.profile_message} </Text>
           <Text> ed: {userInfo.accumulated_exercise_day} </Text>
+          <TouchableOpacity activeOpacity={0.5} onPress={follow}>
+              <Text>follow</Text>
+            </TouchableOpacity>
           <View>
             <TouchableOpacity activeOpacity={0.5} onPress={goHome}>
               <Text>go home</Text>
