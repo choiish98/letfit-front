@@ -16,7 +16,7 @@ const Home = (props) => {
     AsyncStorage.getItem("token")
       .then((token) => {    
         // 유저 정보 호출
-        fetch(`https://popular-wasp-90.loca.lt/api/users/me/`, {
+        fetch(`${API_URL}/api/users/me/`, {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
             Authorization: `X-JWT ${token}`,
@@ -39,7 +39,7 @@ const Home = (props) => {
   };
   
   const getRoutineData = () => {
-    fetch(`https://popular-wasp-90.loca.lt/api/routines/`, {
+    fetch(`${API_URL}/api/routines/`, {
       method: "GET",
     })
       .then((response) => response.json())
@@ -53,7 +53,7 @@ const Home = (props) => {
   };
 
   const loadingFeed = () => {
-    fetch(`https://popular-wasp-90.loca.lt/api/posts/trending/`, {
+    fetch(`${API_URL}/api/posts/trending/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -80,7 +80,7 @@ const Home = (props) => {
   });
 
   const renderItem = ({ item }) => {
-    const imageUrl = `https://old-chipmunk-19.loca.lt/` + item.photo;
+    const imageUrl = `${API_URL}` + item.photo;
 
     return (
       <TouchableOpacity  
@@ -107,7 +107,7 @@ const Home = (props) => {
     // 아이디가 같은지 검사 필요
     AsyncStorage.getItem("token")
       .then((token) => {    
-        fetch(`https://popular-wasp-90.loca.lt/api/users/`, {
+        fetch(`${API_URL}/api/users/`, {
           method: "DELETE",
           headers: {
             Authorization: `X-JWT ${token}`,

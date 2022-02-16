@@ -26,7 +26,7 @@ const SNS = (props) => {
     // 언팔로우 구현 필요
     AsyncStorage.getItem("token")
       .then((token) => {    
-        fetch(`https://popular-wasp-90.loca.lt/api/users/follow/`, {
+        fetch(`${API_URL}/api/users/follow/`, {
           method: "POST",
           headers: {
             "Content-Type": 'application/json',
@@ -50,7 +50,7 @@ const SNS = (props) => {
 
   const getUserData = () => {
     // 유저 정보 호출
-    fetch(`https://popular-wasp-90.loca.lt/api/users/1/`, {
+    fetch(`${API_URL}/api/users/1/`, {
       headers: {
         "method": "GET",
       },
@@ -84,7 +84,7 @@ const SNS = (props) => {
   });
 
   const renderItem = ({ item }) => {
-    const imageUrl = `https://old-chipmunk-19.loca.lt` + item.photo;
+    const imageUrl = `${API_URL}` + item.photo;
 
     return (
       <View>

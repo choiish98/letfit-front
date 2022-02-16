@@ -53,7 +53,7 @@ const Register = ({ navigation }) => {
     formBody = formBody.join("&");
 
     if (userPassword == userPasswordConfirm) {
-      fetch(`https://popular-wasp-90.loca.lt/api/users/`, {
+      fetch(`${API_URL}/api/users/`, {
         method: "POST",
         body: formBody,
         headers: {
