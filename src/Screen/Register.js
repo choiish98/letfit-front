@@ -53,11 +53,12 @@ const Register = ({ navigation }) => {
     formBody = formBody.join("&");
 
     if (userPassword == userPasswordConfirm) {
-      fetch(`${API_URL}/api/users/`, {
+      fetch(`${`https://new-rattlesnake-85.loca.lt`}/api/users/`, {
         method: "POST",
         body: formBody,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+          Accept: "application/json",
         },
       })
         .then((response) => response.json())
