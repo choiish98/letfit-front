@@ -16,7 +16,7 @@ const Home = (props) => {
     AsyncStorage.getItem("token")
       .then((token) => {    
         // 유저 정보 호출
-        fetch(`${API_URL}/api/users/me/`, {
+        fetch(`${`https://new-rattlesnake-85.loca.lt`}/api/users/me/`, {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
             Authorization: `X-JWT ${token}`,
@@ -39,7 +39,7 @@ const Home = (props) => {
   };
   
   const getRoutineData = () => {
-    fetch(`${API_URL}/api/routines/`, {
+    fetch(`${`https://new-rattlesnake-85.loca.lt`}/api/routines/`, {
       method: "GET",
     })
       .then((response) => response.json())
@@ -53,7 +53,7 @@ const Home = (props) => {
   };
 
   const loadingFeed = () => {
-    fetch(`${API_URL}/api/posts/trending/`, {
+    fetch(`${`https://new-rattlesnake-85.loca.lt`}/api/posts/trending/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -80,7 +80,7 @@ const Home = (props) => {
   });
 
   const renderItem = ({ item }) => {
-    const imageUrl = `${API_URL}` + item.photo;
+    const imageUrl = `${`https://new-rattlesnake-85.loca.lt`}` + item.photo;
 
     return (
       <TouchableOpacity  
@@ -107,7 +107,7 @@ const Home = (props) => {
     // 아이디가 같은지 검사 필요
     AsyncStorage.getItem("token")
       .then((token) => {    
-        fetch(`${API_URL}/api/users/`, {
+        fetch(`${`https://new-rattlesnake-85.loca.lt`}/api/users/`, {
           method: "DELETE",
           headers: {
             Authorization: `X-JWT ${token}`,
