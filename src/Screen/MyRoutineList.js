@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Text} from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 import { connect } from "react-redux";
 import { actionCreators } from "../store";
 import {API_URL} from "@env";
@@ -11,7 +11,7 @@ const MyRoutineList = (props) => {
   const [loading, setLoading] = useState(false);
   const [date, setDate] = useState(new Date());
   const [todayDone, setTodayDone] = useState(0);
-  const [quota, setQuota] = useState(0);
+  const [todayExercise, setTodayExercise] = useState([]);
   const [mon, setMon] = useState("");
   const [tue, setTue] = useState("");
   const [wed, setWed] = useState("");
@@ -43,9 +43,7 @@ const MyRoutineList = (props) => {
 
             //요일 별 부위 삽입
             responseJson.map(routine => {
-              const day = routine.day;
-
-              switch (day) {
+              switch(routine.day) {
                 case "월":
                   setMon(mon + routine.body_part);
                   break;
@@ -73,6 +71,30 @@ const MyRoutineList = (props) => {
           .catch((error) => {
             console.log(error);
           });
+
+      fetch(`${`https://new-rattlesnake-85.loca.lt`}/api/routines/${myRoutineId}/exercises`, { 
+        headers: {
+            "method": "GET",
+          },
+        }
+      ) .then((response) => response.json())
+        .then((responseJson) => {
+          // 오늘 운동 불러오기
+          const tempArray = [];
+
+          responseJson[0].exercise.filter(exercise => {
+            if(exercise.body_part === "어깨") {
+              const thisExercise = "[" +  exercise.body_part + "] " + exercise.name;
+              tempArray.push(thisExercise);
+            }
+          });
+  
+          console.log("TempArray: " + tempArray);
+          setTodayExercise(tempArray);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   }
     
@@ -90,6 +112,24 @@ const MyRoutineList = (props) => {
 
   const goHome = () => {
     props.navigation.replace("Home");
+  };
+
+  const renderItem = ({ item }) => {
+    return (
+      <View>
+        <Text>{item}</Text>
+      </View>
+    );
+  };
+
+  const renderFeed = () => {
+    return (
+      <FlatList
+        data={todayExercise}
+        renderItem={renderItem}
+        keyExtractor={(item) => item}
+      />
+    );
   };
 
   return loading ? (
@@ -111,6 +151,7 @@ const MyRoutineList = (props) => {
         <View>
           <Progress.Bar progress={0.3}/>
         </View>
+        <View>{renderFeed()}</View>
     </View>
   ) : (
     Loader

@@ -105,21 +105,21 @@ const Home = (props) => {
   const secession = () => {
     // 아이디가 같을 경우에만 보이게 수정 필요
     // 아이디가 같은지 검사 필요
-    AsyncStorage.getItem("token")
-      .then((token) => {    
-        fetch(`${`https://new-rattlesnake-85.loca.lt`}/api/users/`, {
-          method: "DELETE",
-          headers: {
-            Authorization: `X-JWT ${token}`,
-          },
-        }).catch((error) => {
-            console.error(error);
-          });
-      })
-      .catch((error) => {
-        console.log("error occurred at async storage");
-        console.log("error: " + error);
-      });
+    // AsyncStorage.getItem("token")
+    //   .then((token) => {    
+    //     fetch(`${`https://new-rattlesnake-85.loca.lt`}/api/users/`, {
+    //       method: "DELETE",
+    //       headers: {
+    //         Authorization: `X-JWT ${token}`,
+    //       },
+    //     }).catch((error) => {
+    //         console.error(error);
+    //       });
+    //   })
+    //   .catch((error) => {
+    //     console.log("error occurred at async storage");
+    //     console.log("error: " + error);
+    //   });
   }
 
   const logout = async () => {
