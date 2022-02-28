@@ -5,6 +5,7 @@ import SNS from "../Screen/SNS";
 import Upload from "../Screen/Upload";
 import Detail from "./Detail";
 import MyRoutineList from "../Screen/MyRoutineList";
+import RoutineList from "../Screen/RoutineList";
 
 const Stack = createStackNavigator();
 
@@ -16,6 +17,7 @@ const AppMain = (props) => {
       <Stack.Screen name="Detail" component={Detail} />
       <Stack.Screen name="Upload" component={Upload} />
       <Stack.Screen name="MyRoutineList" component={MyRoutineList} />
+      <Stack.Screen name="RoutineList" component={RoutineList} />
     </Stack.Navigator>
   );
 };

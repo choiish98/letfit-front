@@ -49,7 +49,7 @@ const Upload = (props) => {
         console.log(token);
         console.log(image);
         // 업로드 요청
-        fetch(`${`https://new-rattlesnake-85.loca.lt`}/api/posts/upload/`, {
+        fetch(`${`https://heavy-bulldog-13.loca.lt`}/api/posts/upload/`, {
           "method": "POST",
           body: formData,
             headers: {

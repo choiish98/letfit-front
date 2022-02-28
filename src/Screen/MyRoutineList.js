@@ -23,7 +23,7 @@ const MyRoutineList = (props) => {
   // 대표 루틴 받아오기
   const myRepresentRoutine = () => {    
     const myRoutineId = props.user.userData.represent_routine.routine;
-
+    
     if(myRoutineId == null) {
       // null 처리필요
       console.log("대표루틴이 존재하지 x")
@@ -31,7 +31,7 @@ const MyRoutineList = (props) => {
       myRoutineId = 1;
     } else {
 
-      fetch(`${`https://new-rattlesnake-85.loca.lt`}/api/routines/${myRoutineId}/days`, { 
+      fetch(`${`https://heavy-bulldog-13.loca.lt`}/api/routines/${myRoutineId}/days`, { 
         headers: {
             "method": "GET",
           },
@@ -72,7 +72,7 @@ const MyRoutineList = (props) => {
             console.log(error);
           });
 
-      fetch(`${`https://new-rattlesnake-85.loca.lt`}/api/routines/${myRoutineId}/exercises`, { 
+      fetch(`${`https://heavy-bulldog-13.loca.lt`}/api/routines/${myRoutineId}/exercises`, { 
         headers: {
             "method": "GET",
           },
@@ -114,6 +114,10 @@ const MyRoutineList = (props) => {
     props.navigation.replace("Home");
   };
 
+  const goRoutineLIst = () => {
+    props.navigation.replace("RoutineList");
+  };
+
   const renderItem = ({ item }) => {
     return (
       <View>
@@ -136,6 +140,9 @@ const MyRoutineList = (props) => {
     <View>
         <TouchableOpacity activeOpacity={0.5} onPress={goHome}> 
           <Text>go home</Text>
+        </TouchableOpacity>
+        <TouchableOpacity activeOpacity={0.5} onPress={goRoutineLIst}> 
+          <Text>+</Text>
         </TouchableOpacity>
         <Text>{date.getFullYear()}.{date.getMonth()}.{date.getDay()}</Text>
         <Text>완료 {todayDone} 루틴 3</Text>
