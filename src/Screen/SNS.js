@@ -26,7 +26,7 @@ const SNS = (props) => {
     // 언팔로우 구현 필요
     AsyncStorage.getItem("token")
       .then((token) => {    
-        fetch(`${`https://new-rattlesnake-85.loca.lt`}/api/users/follow/`, {
+        fetch(`${`https://curvy-bird-61.loca.lt`}/api/users/follow/`, {
           method: "POST",
           headers: {
             "Content-Type": 'application/json',
@@ -50,7 +50,7 @@ const SNS = (props) => {
 
   const getUserData = () => {
     // 유저 정보 호출
-    fetch(`${`https://new-rattlesnake-85.loca.lt`}/api/users/1/`, {
+    fetch(`${`https://curvy-bird-61.loca.lt`}/api/users/5/`, {
       headers: {
         "method": "GET",
       },
@@ -84,7 +84,7 @@ const SNS = (props) => {
   });
 
   const renderItem = ({ item }) => {
-    const imageUrl = `${`https://new-rattlesnake-85.loca.lt`}` + item.photo;
+    const imageUrl = `${`https://curvy-bird-61.loca.lt`}` + item.photo;
 
     return (
       <View>
