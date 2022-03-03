@@ -26,7 +26,7 @@ const Detail = (props) => {
 
   const getPostData = () => {
     // 유저 정보 호출
-    fetch(`${`https://heavy-bulldog-13.loca.lt`}/api/posts/${props.route.params.id}/`, {
+    fetch(`https://curvy-bird-61.loca.lt/api/posts/${props.route.params.id}/`, {
       headers: {
         "method": "GET",
       },
@@ -64,7 +64,7 @@ const Detail = (props) => {
       <View>
         <Image
           style={{ height: "50%", width: "50%" }}
-          source={{ uri: `${`https://heavy-bulldog-13.loca.lt`}` + postData.photo }}
+          source={{ uri: `https://curvy-bird-61.loca.lt` + postData.photo }}
         />
         <Text> username: {postData.poster.username} </Text>
         <Text> title: {postData.title} </Text>

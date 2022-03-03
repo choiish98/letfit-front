@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text} from "react-native";
+import { View, Text, TextInput} from "react-native";
 import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 import { connect } from "react-redux";
 import { actionCreators } from "../store";
@@ -8,7 +8,11 @@ import Loader from "../Components/Loader";
 
 const RoutineList = (props) => {
   const [loading, setLoading] = useState(false);
-  console.log(props.user.routineData);
+  const [searchInput, setSearchInput] = useState();
+
+  const search = () => {
+    console.log(searchInput);
+  }
 
   const setRoutineData = () => {
     console.log(props.user);
@@ -50,7 +54,13 @@ const RoutineList = (props) => {
         <Text>루틴리스트</Text>
         <Text>추천순</Text>
         <Text>+</Text>
-        <Text>검색</Text>
+        <TextInput 
+          placeholder="검색어를 입력하세요 WWW"
+          onChangeText={(userInput) => setSearchInput(userInput)}
+        />
+        <TouchableOpacity activeOpacity={0.5} onPress={search}>
+          <Text>검색</Text>
+        </TouchableOpacity>
         <View>{renderFeed()}</View>
     </View>
   ) : (

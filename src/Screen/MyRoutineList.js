@@ -31,7 +31,7 @@ const MyRoutineList = (props) => {
       myRoutineId = 1;
     } else {
 
-      fetch(`${`https://heavy-bulldog-13.loca.lt`}/api/routines/${myRoutineId}/days`, { 
+      fetch(`${`https://curvy-bird-61.loca.lt`}/api/routines/${myRoutineId}/days`, { 
         headers: {
             "method": "GET",
           },
@@ -72,7 +72,7 @@ const MyRoutineList = (props) => {
             console.log(error);
           });
 
-      fetch(`${`https://heavy-bulldog-13.loca.lt`}/api/routines/${myRoutineId}/exercises`, { 
+      fetch(`${`https://curvy-bird-61.loca.lt`}/api/routines/${myRoutineId}/exercises`, { 
         headers: {
             "method": "GET",
           },
@@ -100,7 +100,7 @@ const MyRoutineList = (props) => {
     
   const firstAction = () => {
     myRepresentRoutine();
-    console.log("date" + date);
+    setDate(new Date());
     setLoading(true);
   }
 

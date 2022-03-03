@@ -49,14 +49,15 @@ const Upload = (props) => {
         console.log(token);
         console.log(image);
         // 업로드 요청
-        fetch(`${`https://heavy-bulldog-13.loca.lt`}/api/posts/upload/`, {
+        fetch(`https://curvy-bird-61.loca.lt/api/posts/upload/`, {
           "method": "POST",
           body: formData,
-            headers: {
-              "Content-Type": "multipart/form-data",
-              Authorization: `X-JWT ${token}`,
-            },
-        }).then((response) => response.json())
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `X-JWT ${token}`,
+            'Accept': 'application/json',
+          },
+        }).then((response) => response.text())
         .then((responseJson) => {
           console.log(responseJson);
           console.log("upload success");
