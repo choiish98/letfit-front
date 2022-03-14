@@ -31,7 +31,7 @@ const MyRoutineList = (props) => {
       myRoutineId = 1;
     } else {
       fetch(
-        `${`https://wet-emu-68.loca.lt`}/api/routines/${myRoutineId}/days`,
+        `${`https://yellow-dragonfly-77.loca.lt`}/api/routines/${myRoutineId}/days`,
         {
           headers: {
             method: "GET",
@@ -75,7 +75,7 @@ const MyRoutineList = (props) => {
         });
 
       fetch(
-        `${`https://wet-emu-68.loca.lt`}/api/routines/${myRoutineId}/exercises`,
+        `${`https://yellow-dragonfly-77.loca.lt`}/api/routines/${myRoutineId}/exercises`,
         {
           headers: {
             method: "GET",

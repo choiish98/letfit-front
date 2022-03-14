@@ -6,6 +6,7 @@ import { actionCreators } from "../Actions/userIndex";
 import { routineActionCreators } from "../Actions/routineIndex";
 import { API_URL } from "@env";
 import Loader from "../Components/Loader";
+import * as Progress from "react-native-progress";
 
 const Home = (props) => {
   const [loading, setLoading] = useState(false);
@@ -16,7 +17,7 @@ const Home = (props) => {
     AsyncStorage.getItem("token")
       .then((token) => {
         // 유저 정보 호출
-        fetch(`https://wet-emu-68.loca.lt/api/users/me/`, {
+        fetch(`https://yellow-dragonfly-77.loca.lt/api/users/me/`, {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
             Authorization: `X-JWT ${token}`,
@@ -40,7 +41,7 @@ const Home = (props) => {
   };
 
   const getRoutineData = () => {
-    fetch(`https://wet-emu-68.loca.lt/api/routines/`, {
+    fetch(`https://yellow-dragonfly-77.loca.lt/api/routines/`, {
       method: "GET",
     })
       .then((response) => response.json())
@@ -55,7 +56,7 @@ const Home = (props) => {
   };
 
   const loadingFeed = () => {
-    fetch(`https://wet-emu-68.loca.lt/api/posts/trending/`, {
+    fetch(`https://yellow-dragonfly-77.loca.lt/api/posts/trending/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -87,7 +88,7 @@ const Home = (props) => {
   });
 
   const renderItem = ({ item }) => {
-    const imageUrl = `https://wet-emu-68.loca.lt` + item.photo;
+    const imageUrl = `https://yellow-dragonfly-77.loca.lt` + item.photo;
 
     return (
       <TouchableOpacity
@@ -114,7 +115,7 @@ const Home = (props) => {
     // 아이디가 같은지 검사 필요
     // AsyncStorage.getItem("token")
     //   .then((token) => {
-    //     fetch(`${`https://wet-emu-68.loca.lt`}/api/users/`, {
+    //     fetch(`${`https://yellow-dragonfly-77.loca.lt`}/api/users/`, {
     //       method: "DELETE",
     //       headers: {
     //         Authorization: `X-JWT ${token}`,
@@ -152,26 +153,81 @@ const Home = (props) => {
       />
     );
   };
+  // <TouchableOpacity activeOpacity={0.5} onPress={logout}>
+  //   <Text>Logout</Text>
+  // </TouchableOpacity>
+  // <TouchableOpacity activeOpacity={0.5} onPress={secession}>
+  //   <Text>회원탈퇴</Text>
+  // </TouchableOpacity>
 
   return loading ? (
     <View style={styles.container}>
-      <View>
-        <TouchableOpacity activeOpacity={0.5} onPress={logout}>
-          <Text>Logout</Text>
-        </TouchableOpacity>
-        <TouchableOpacity activeOpacity={0.5} onPress={goSNS}>
-          <Text>SNS</Text>
-        </TouchableOpacity>
-        <TouchableOpacity activeOpacity={0.5} onPress={goExercise}>
-          <Text>Exercise</Text>
-        </TouchableOpacity>
-        <TouchableOpacity activeOpacity={0.5} onPress={secession}>
-          <Text>회원탈퇴</Text>
-        </TouchableOpacity>
-      </View>
       <View style={styles.userInfo}>
-        <Text> Hello {props.user.username} </Text>
-        <Text> Your tier: {props.user.tier} </Text>
+        <View style={styles.userInfo_days}>
+          <Text style={styles.userInfo_days_upperText}>
+            {" "}
+            {props.user.accumulated_exercise_day}{" "}
+          </Text>
+          <Text style={styles.userInfo_days_underText}> Days </Text>
+        </View>
+        <View style={styles.userInfo_tier_goal}>
+          <View>
+            <Image
+              style={styles.userInfo_tier_goal_staff}
+              source={require("../Image/gold.png")}
+            />
+            <Text style={styles.userInfo_tier_goal_text}>
+              {" "}
+              {props.user.tier}{" "}
+            </Text>
+          </View>
+          <View>
+            <Progress.Circle
+              progress={0.3}
+              style={styles.userInfo_tier_goal_staff}
+              color="white"
+              thickness={6}
+              strokeCap="square"
+              borderColor="#D9533A"
+            />
+            <Text style={styles.userInfo_tier_goal_text}>
+              Goal {props.user.exercise_success_number}/
+              {props.user.exercise_goal_number}
+            </Text>
+          </View>
+        </View>
+      </View>
+      <View style={styles.icons}>
+        <TouchableOpacity
+          activeOpacity={0.5}
+          onPress={goSNS}
+          style={styles.icons_each}
+        >
+          <Image
+            style={styles.icons_each_image}
+            source={require("../Image/SNS.png")}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.5}
+          onPress={goExercise}
+          style={styles.icons_center}
+        >
+          <Image
+            style={styles.icons_center_image}
+            source={require("../Image/Home.png")}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.5}
+          onPress={goExercise}
+          style={styles.icons_each}
+        >
+          <Image
+            style={styles.icons_each_image}
+            source={require("../Image/gold.png")}
+          />
+        </TouchableOpacity>
       </View>
       <View style={styles.feed}>{renderFeed()}</View>
     </View>
@@ -185,12 +241,78 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   userInfo: {
-    flex: 2,
+    flex: 1.5,
+    paddingTop: 10,
+    marginBottom: 20,
+    backgroundColor: "#D9533A",
+  },
+  userInfo_days: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  userInfo_days_upperText: {
+    fontSize: 90,
+    color: "white",
+  },
+  userInfo_days_underText: {
+    fontSize: 20,
+    color: "white",
+  },
+  userInfo_tier_goal: {
+    flex: 1,
+    paddingTop: 10,
+    flexDirection: "row",
+    justifyContent: "space-around",
+  },
+  userInfo_tier_goal_staff: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: 50,
+    height: 50,
+  },
+  userInfo_tier_goal_text: {
+    marginTop: 10,
+    fontSize: 15,
+    color: "white",
+  },
+  icons: {
+    flex: 0.5,
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    alignItems: "center",
+  },
+  icons_center: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: 110,
+    height: 110,
+    borderWidth: 1,
+    borderRadius: 100,
+    borderColor: "#DEDEDE",
+  },
+  icons_center_image: {
+    width: 80,
+    height: 80,
+  },
+  icons_each: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: 70,
+    height: 70,
+    borderWidth: 1,
+    borderRadius: 100,
+    borderColor: "#DEDEDE",
+  },
+  icons_each_image: {
+    width: 40,
+    height: 40,
   },
   feed: {
     flex: 2,
-    backgroundColor: "grey",
-    margin: 15,
+    backgroundColor: "#DEDEDE",
+    marginTop: 50,
+    margin: 20,
   },
 });
 

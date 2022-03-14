@@ -26,11 +26,14 @@ const Detail = (props) => {
 
   const getPostData = () => {
     // 유저 정보 호출
-    fetch(`https://wet-emu-68.loca.lt/api/posts/${props.route.params.id}/`, {
-      headers: {
-        method: "GET",
-      },
-    })
+    fetch(
+      `https://yellow-dragonfly-77.loca.lt/api/posts/${props.route.params.id}/`,
+      {
+        headers: {
+          method: "GET",
+        },
+      }
+    )
       .then((response) => response.json())
       .then((responseJson) => {
         // post data 저장
@@ -63,7 +66,7 @@ const Detail = (props) => {
         <Image
           style={{ height: "50%", width: "50%" }}
           source={{
-            uri: `https://wet-emu-68.loca.lt` + postData.photo,
+            uri: `https://yellow-dragonfly-77.loca.lt` + postData.photo,
           }}
         />
         <Text> username: {postData.poster.username} </Text>

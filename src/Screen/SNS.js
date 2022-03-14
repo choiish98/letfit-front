@@ -26,7 +26,7 @@ const SNS = (props) => {
     // 언팔로우 구현 필요
     AsyncStorage.getItem("token")
       .then((token) => {
-        fetch(`${`https://wet-emu-68.loca.lt`}/api/users/follow/`, {
+        fetch(`${`https://yellow-dragonfly-77.loca.lt`}/api/users/follow/`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -50,7 +50,7 @@ const SNS = (props) => {
 
   const getUserData = () => {
     // 유저 정보 호출
-    fetch(`${`https://wet-emu-68.loca.lt`}/api/users/5/`, {
+    fetch(`${`https://yellow-dragonfly-77.loca.lt`}/api/users/5/`, {
       headers: {
         method: "GET",
       },
@@ -85,7 +85,7 @@ const SNS = (props) => {
   });
 
   const renderItem = ({ item }) => {
-    const imageUrl = `${`https://wet-emu-68.loca.lt`}` + item.photo;
+    const imageUrl = `${`https://yellow-dragonfly-77.loca.lt`}` + item.photo;
 
     return (
       <View>

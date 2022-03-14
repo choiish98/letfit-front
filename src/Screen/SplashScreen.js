@@ -9,7 +9,7 @@ const SplashScreen = ({ navigation }) => {
       setAnimating(false);
 
       AsyncStorage.getItem("token").then((value) => {
-        navigation.replace(value === null ? "Auth" : "AppMain");
+        navigation.replace(value === null ? "Auth" : "LETFIT");
       });
     }, 3000);
   }, []);

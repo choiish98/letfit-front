@@ -42,7 +42,7 @@ const Login = (props) => {
     formBody = formBody.join("&");
 
     // 로그인 요청
-    fetch(`https://wet-emu-68.loca.lt/api/users/token/`, {
+    fetch(`https://yellow-dragonfly-77.loca.lt/api/users/token/`, {
       method: "POST",
       body: formBody,
       headers: {
@@ -61,7 +61,7 @@ const Login = (props) => {
         AsyncStorage.setItem("token", responseJson.token);
 
         // main으로 화면 이동
-        props.navigation.replace("AppMain");
+        props.navigation.replace("LETFIT");
       })
       .catch((error) => {
         setLoading(false);
