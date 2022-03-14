@@ -14,9 +14,9 @@ const Home = (props) => {
   const getUserData = () => {
     // token 받아오기
     AsyncStorage.getItem("token")
-      .then((token) => {    
+      .then((token) => {
         // 유저 정보 호출
-        fetch(`https://curvy-bird-61.loca.lt/api/users/me/`, {
+        fetch(`https://wet-emu-68.loca.lt/api/users/me/`, {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
             Authorization: `X-JWT ${token}`,
@@ -38,9 +38,9 @@ const Home = (props) => {
         props.navigation.replace("Auth");
       });
   };
-  
+
   const getRoutineData = () => {
-    fetch(`https://curvy-bird-61.loca.lt/api/routines/`, {
+    fetch(`https://wet-emu-68.loca.lt/api/routines/`, {
       method: "GET",
     })
       .then((response) => response.json())
@@ -55,7 +55,7 @@ const Home = (props) => {
   };
 
   const loadingFeed = () => {
-    fetch(`https://curvy-bird-61.loca.lt/api/posts/trending/`, {
+    fetch(`https://wet-emu-68.loca.lt/api/posts/trending/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -78,28 +78,33 @@ const Home = (props) => {
   useEffect(() => {
     loading === false
       ? homeAction()
-      : console.log("user: " + JSON.stringify(props.user) + "\nroutine: " + JSON.stringify(props.routine));
+      : console.log(
+          "user: " +
+            JSON.stringify(props.user) +
+            "\nroutine: " +
+            JSON.stringify(props.routine)
+        );
   });
 
   const renderItem = ({ item }) => {
-    const imageUrl = `https://curvy-bird-61.loca.lt` + item.photo;
+    const imageUrl = `https://wet-emu-68.loca.lt` + item.photo;
 
     return (
-      <TouchableOpacity  
+      <TouchableOpacity
         onPress={() => {
-            props.navigation.replace("Detail", {id: item.id});
-          }
-        }>
-          <View>
-            <Image
-              style={{ height: "95%", width: "15%" }}
-              source={{ uri: imageUrl }}
-            />
-            <Text>{item.title}</Text>
-            <Text>{item.username}</Text>
-            <Text>{item.description}</Text>
-            <Text>{item.created_at}</Text>
-          </View>
+          props.navigation.replace("Detail", { id: item.id });
+        }}
+      >
+        <View>
+          <Image
+            style={{ height: "95%", width: "15%" }}
+            source={{ uri: imageUrl }}
+          />
+          <Text>{item.title}</Text>
+          <Text>{item.username}</Text>
+          <Text>{item.description}</Text>
+          <Text>{item.created_at}</Text>
+        </View>
       </TouchableOpacity>
     );
   };
@@ -108,8 +113,8 @@ const Home = (props) => {
     // 아이디가 같을 경우에만 보이게 수정 필요
     // 아이디가 같은지 검사 필요
     // AsyncStorage.getItem("token")
-    //   .then((token) => {    
-    //     fetch(`${`https://curvy-bird-61.loca.lt`}/api/users/`, {
+    //   .then((token) => {
+    //     fetch(`${`https://wet-emu-68.loca.lt`}/api/users/`, {
     //       method: "DELETE",
     //       headers: {
     //         Authorization: `X-JWT ${token}`,
@@ -122,7 +127,7 @@ const Home = (props) => {
     //     console.log("error occurred at async storage");
     //     console.log("error: " + error);
     //   });
-  }
+  };
 
   const logout = async () => {
     props.deleteUser();
@@ -184,11 +189,13 @@ const styles = StyleSheet.create({
   },
   feed: {
     flex: 2,
+    backgroundColor: "grey",
+    margin: 15,
   },
 });
 
 function mapStateToProps(state) {
-  return { 
+  return {
     user: state.userData,
     routine: state.routineData,
   };
@@ -198,7 +205,8 @@ function mapDispatchToProps(dispatch) {
   return {
     defineUser: (user) => dispatch(actionCreators.defineUser(user)),
     deleteUser: () => dispatch(actionCreators.deleteUser()),
-    defineRoutine: (routine) => dispatch(routineActionCreators.defineRoutine(routine)),
+    defineRoutine: (routine) =>
+      dispatch(routineActionCreators.defineRoutine(routine)),
   };
 }
 

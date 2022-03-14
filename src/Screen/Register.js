@@ -53,7 +53,7 @@ const Register = ({ navigation }) => {
     formBody = formBody.join("&");
 
     if (userPassword == userPasswordConfirm) {
-      fetch(`${`https://curvy-bird-61.loca.lt`}/api/users/`, {
+      fetch(`${`https://wet-emu-68.loca.lt`}/api/users/`, {
         method: "POST",
         body: formBody,
         headers: {

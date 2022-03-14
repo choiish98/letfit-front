@@ -13,11 +13,11 @@ const SNS = (props) => {
     profile_message: "",
     accumulated_exercise_day: 0,
     posts: [
-        {
-            id: "",
-            photo: ""
-        },
-    ]
+      {
+        id: "",
+        photo: "",
+      },
+    ],
   });
   const [loading, setLoading] = useState(false);
 
@@ -25,14 +25,14 @@ const SNS = (props) => {
     // 사용자와 팔로우 하려는 아이디가 같은지 검사 필요
     // 언팔로우 구현 필요
     AsyncStorage.getItem("token")
-      .then((token) => {    
-        fetch(`${`https://curvy-bird-61.loca.lt`}/api/users/follow/`, {
+      .then((token) => {
+        fetch(`${`https://wet-emu-68.loca.lt`}/api/users/follow/`, {
           method: "POST",
           headers: {
-            "Content-Type": 'application/json',
+            "Content-Type": "application/json",
             Authorization: `X-JWT ${token}`,
           },
-          body: JSON.stringify({id: 1})
+          body: JSON.stringify({ id: 1 }),
         })
           .then((response) => response.json())
           .then((responseJson) => {
@@ -46,15 +46,16 @@ const SNS = (props) => {
         console.log("error occurred at async storage");
         console.log("error: " + error);
       });
-  }
+  };
 
   const getUserData = () => {
     // 유저 정보 호출
-    fetch(`${`https://curvy-bird-61.loca.lt`}/api/users/5/`, {
+    fetch(`${`https://wet-emu-68.loca.lt`}/api/users/5/`, {
       headers: {
-        "method": "GET",
+        method: "GET",
       },
-    }).then((response) => response.json())
+    })
+      .then((response) => response.json())
       .then((responseJson) => {
         // 유저 정보 저장
         setUserInfo(responseJson);
@@ -84,7 +85,7 @@ const SNS = (props) => {
   });
 
   const renderItem = ({ item }) => {
-    const imageUrl = `${`https://curvy-bird-61.loca.lt`}` + item.photo;
+    const imageUrl = `${`https://wet-emu-68.loca.lt`}` + item.photo;
 
     return (
       <View>
@@ -108,31 +109,31 @@ const SNS = (props) => {
   };
 
   return loading ? (
-      <View style={styles.container}>
-        <View style={styles.userInfo}>
-          <Text> username: {userInfo.username} </Text>
-          <Text> tier:  {userInfo.tier} </Text>
-          <Text> pm: {userInfo.profile_message} </Text>
-          <Text> ed: {userInfo.accumulated_exercise_day} </Text>
-          <TouchableOpacity activeOpacity={0.5} onPress={follow}>
-              <Text>follow</Text>
-            </TouchableOpacity>
-          <View>
-            <TouchableOpacity activeOpacity={0.5} onPress={goHome}>
-              <Text>go home</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-        <View style={styles.feed}>
-          <TouchableOpacity activeOpacity={0.5} onPress={goUpload}>
-            <Text>+</Text>
+    <View style={styles.container}>
+      <View style={styles.userInfo}>
+        <Text> username: {userInfo.username} </Text>
+        <Text> tier: {userInfo.tier} </Text>
+        <Text> pm: {userInfo.profile_message} </Text>
+        <Text> ed: {userInfo.accumulated_exercise_day} </Text>
+        <TouchableOpacity activeOpacity={0.5} onPress={follow}>
+          <Text>follow</Text>
+        </TouchableOpacity>
+        <View>
+          <TouchableOpacity activeOpacity={0.5} onPress={goHome}>
+            <Text>go home</Text>
           </TouchableOpacity>
-          {renderPosts()}
         </View>
       </View>
-    ) : (
-      Loader
-    );
+      <View style={styles.feed}>
+        <TouchableOpacity activeOpacity={0.5} onPress={goUpload}>
+          <Text>+</Text>
+        </TouchableOpacity>
+        {renderPosts()}
+      </View>
+    </View>
+  ) : (
+    Loader
+  );
 };
 
 const styles = StyleSheet.create({

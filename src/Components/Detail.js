@@ -11,8 +11,8 @@ const Detail = (props) => {
     photo: "",
     like: [
       {
-        username: ""
-      }
+        username: "",
+      },
     ],
     poster: {
       username: "",
@@ -26,9 +26,9 @@ const Detail = (props) => {
 
   const getPostData = () => {
     // 유저 정보 호출
-    fetch(`https://curvy-bird-61.loca.lt/api/posts/${props.route.params.id}/`, {
+    fetch(`https://wet-emu-68.loca.lt/api/posts/${props.route.params.id}/`, {
       headers: {
-        "method": "GET",
+        method: "GET",
       },
     })
       .then((response) => response.json())
@@ -47,11 +47,9 @@ const Detail = (props) => {
   };
 
   useEffect(() => {
-    loading === false
-      ? firstAction()
-      : console.log(postData.id);
+    loading === false ? firstAction() : console.log(postData.id);
   });
-  
+
   const goHome = () => {
     props.navigation.navigate("Home");
   };
@@ -64,7 +62,9 @@ const Detail = (props) => {
       <View>
         <Image
           style={{ height: "50%", width: "50%" }}
-          source={{ uri: `https://curvy-bird-61.loca.lt` + postData.photo }}
+          source={{
+            uri: `https://wet-emu-68.loca.lt` + postData.photo,
+          }}
         />
         <Text> username: {postData.poster.username} </Text>
         <Text> title: {postData.title} </Text>
