@@ -30,7 +30,7 @@ const SNS = (props) => {
     // 언팔로우 구현 필요
     AsyncStorage.getItem("token")
       .then((token) => {
-        fetch(`https://dangerous-wombat-71.loca.lt/api/users/follow/`, {
+        fetch(`https://lucky-zebra-19.loca.lt/api/users/follow/`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -54,7 +54,7 @@ const SNS = (props) => {
 
   const getUserData = () => {
     // 유저 정보 호출
-    fetch(`https://dangerous-wombat-71.loca.lt/api/users/4`, {
+    fetch(`https://lucky-zebra-19.loca.lt/api/users/4`, {
       headers: {
         method: "GET",
       },
@@ -69,14 +69,6 @@ const SNS = (props) => {
       });
   };
 
-  const goHome = () => {
-    props.navigation.replace("Home");
-  };
-
-  const goUpload = () => {
-    props.navigation.replace("Upload");
-  };
-
   const firstAction = () => {
     getUserData();
     setLoading(true);
@@ -85,6 +77,14 @@ const SNS = (props) => {
   useEffect(() => {
     loading === false ? firstAction() : console.log("유저 정보 업데이트 완료");
   });
+
+  const goHome = () => {
+    props.navigation.replace("Home");
+  };
+
+  const goUpload = () => {
+    props.navigation.replace("Upload");
+  };
 
   const renderFeeds = () => {
     let photos = [];
@@ -105,12 +105,17 @@ const SNS = (props) => {
 
     userInfo.posts.map((item) => {
       photos.push(
-        <View key={item.id}>
+        <TouchableOpacity
+          onPress={() => {
+            props.navigation.replace("Detail", { id: item.id });
+          }}
+          key={item.id}
+        >
           <Image
             style={styles.feeds_card}
-            source={{ uri: `https://dangerous-wombat-71.loca.lt` + item.photo }}
+            source={{ uri: `https://lucky-zebra-19.loca.lt` + item.photo }}
           />
-        </View>
+        </TouchableOpacity>
       );
     });
 

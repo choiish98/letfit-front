@@ -31,7 +31,7 @@ const MyRoutineList = (props) => {
       myRoutineId = 1;
     } else {
       fetch(
-        `${`https://dangerous-wombat-71.loca.lt`}/api/routines/${myRoutineId}/days`,
+        `${`https://lucky-zebra-19.loca.lt`}/api/routines/${myRoutineId}/days`,
         {
           headers: {
             method: "GET",
@@ -75,7 +75,7 @@ const MyRoutineList = (props) => {
         });
 
       fetch(
-        `${`https://dangerous-wombat-71.loca.lt`}/api/routines/${myRoutineId}/exercises`,
+        `${`https://lucky-zebra-19.loca.lt`}/api/routines/${myRoutineId}/exercises`,
         {
           headers: {
             method: "GET",
