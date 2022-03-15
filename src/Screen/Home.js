@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, Image, AsyncStorage, StyleSheet } from "react-native";
-import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
+import {
+  FlatList,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+} from "react-native-gesture-handler";
 import { connect } from "react-redux";
 import { actionCreators } from "../Actions/userIndex";
 import { routineActionCreators } from "../Actions/routineIndex";
@@ -166,6 +170,7 @@ const Home = (props) => {
     return days > 1000 ? parseInt(days / 1000) + "," + (days % 1000) : days;
   };
 
+  // progress bar 게이지 계산
   const goalProgress = () => {
     return props.user.exercise_success_number / props.user.exercise_goal_number;
   };
@@ -173,6 +178,9 @@ const Home = (props) => {
   return loading ? (
     <View style={styles.container}>
       <View style={styles.userInfo}>
+        <View style={styles.topbar}>
+          <Text style={styles.topbar_text}>LETFIT</Text>
+        </View>
         <View style={styles.userInfo_days}>
           <Text style={styles.userInfo_days_upperText}>{daysComma()}</Text>
           <Text style={styles.userInfo_days_underText}> Days </Text>
@@ -194,7 +202,7 @@ const Home = (props) => {
               color="white"
               thickness={6}
               strokeCap="square"
-              borderColor="#D9533A"
+              borderColor="#2A3042"
             />
             <Text style={styles.userInfo_tier_goal_text}>
               Goal {props.user.exercise_success_number}/
@@ -243,10 +251,20 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   userInfo: {
-    flex: 1.5,
+    flex: 1.7,
     paddingTop: 10,
     marginBottom: 20,
-    backgroundColor: "#D9533A",
+    backgroundColor: "#2A3042",
+  },
+  topbar: {
+    flex: 0.8,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  topbar_text: {
+    fontSize: 25,
+    color: "white",
+    fontWeight: "600",
   },
   userInfo_days: {
     flex: 1,

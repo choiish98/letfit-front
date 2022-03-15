@@ -51,9 +51,7 @@ const App = () => {
             name="LETFIT"
             component={LETFIT}
             options={{
-              headerTintColor: "white",
-              headerStyle: { backgroundColor: "#D9533A" },
-              cardStyle: { borderColor: "#D9533A" },
+              headerShown: false,
             }}
           />
         </Stack.Navigator>
