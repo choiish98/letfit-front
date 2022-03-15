@@ -26,13 +26,13 @@ const SNS = (props) => {
     // 언팔로우 구현 필요
     AsyncStorage.getItem("token")
       .then((token) => {
-        fetch(`${`https://yellow-dragonfly-77.loca.lt`}/api/users/follow/`, {
+        fetch(`https://dangerous-wombat-71.loca.lt/api/users/follow/`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             Authorization: `X-JWT ${token}`,
           },
-          body: JSON.stringify({ id: 1 }),
+          body: JSON.stringify({ id: 4 }),
         })
           .then((response) => response.json())
           .then((responseJson) => {
@@ -50,7 +50,7 @@ const SNS = (props) => {
 
   const getUserData = () => {
     // 유저 정보 호출
-    fetch(`${`https://yellow-dragonfly-77.loca.lt`}/api/users/5/`, {
+    fetch(`https://dangerous-wombat-71.loca.lt/api/users/4`, {
       headers: {
         method: "GET",
       },
@@ -85,7 +85,7 @@ const SNS = (props) => {
   });
 
   const renderItem = ({ item }) => {
-    const imageUrl = `${`https://yellow-dragonfly-77.loca.lt`}` + item.photo;
+    const imageUrl = `${`https://dangerous-wombat-71.loca.lt`}` + item.photo;
 
     return (
       <View>

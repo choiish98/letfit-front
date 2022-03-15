@@ -27,7 +27,7 @@ const Detail = (props) => {
   const getPostData = () => {
     // 유저 정보 호출
     fetch(
-      `https://yellow-dragonfly-77.loca.lt/api/posts/${props.route.params.id}/`,
+      `https://dangerous-wombat-71.loca.lt/api/posts/${props.route.params.id}/`,
       {
         headers: {
           method: "GET",
@@ -66,7 +66,7 @@ const Detail = (props) => {
         <Image
           style={{ height: "50%", width: "50%" }}
           source={{
-            uri: `https://yellow-dragonfly-77.loca.lt` + postData.photo,
+            uri: `https://dangerous-wombat-71.loca.lt` + postData.photo,
           }}
         />
         <Text> username: {postData.poster.username} </Text>

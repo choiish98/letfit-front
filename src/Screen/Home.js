@@ -17,7 +17,7 @@ const Home = (props) => {
     AsyncStorage.getItem("token")
       .then((token) => {
         // 유저 정보 호출
-        fetch(`https://yellow-dragonfly-77.loca.lt/api/users/me/`, {
+        fetch(`https://dangerous-wombat-71.loca.lt/api/users/me/`, {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
             Authorization: `X-JWT ${token}`,
@@ -41,7 +41,7 @@ const Home = (props) => {
   };
 
   const getRoutineData = () => {
-    fetch(`https://yellow-dragonfly-77.loca.lt/api/routines/`, {
+    fetch(`https://dangerous-wombat-71.loca.lt/api/routines/`, {
       method: "GET",
     })
       .then((response) => response.json())
@@ -56,7 +56,7 @@ const Home = (props) => {
   };
 
   const loadingFeed = () => {
-    fetch(`https://yellow-dragonfly-77.loca.lt/api/posts/trending/`, {
+    fetch(`https://dangerous-wombat-71.loca.lt/api/posts/trending/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -88,7 +88,7 @@ const Home = (props) => {
   });
 
   const renderItem = ({ item }) => {
-    const imageUrl = `https://yellow-dragonfly-77.loca.lt` + item.photo;
+    const imageUrl = `https://dangerous-wombat-71.loca.lt` + item.photo;
 
     return (
       <TouchableOpacity
@@ -115,7 +115,7 @@ const Home = (props) => {
     // 아이디가 같은지 검사 필요
     // AsyncStorage.getItem("token")
     //   .then((token) => {
-    //     fetch(`${`https://yellow-dragonfly-77.loca.lt`}/api/users/`, {
+    //     fetch(`${`https://dangerous-wombat-71.loca.lt`}/api/users/`, {
     //       method: "DELETE",
     //       headers: {
     //         Authorization: `X-JWT ${token}`,
@@ -160,14 +160,21 @@ const Home = (props) => {
   //   <Text>회원탈퇴</Text>
   // </TouchableOpacity>
 
+  // day 천 자리 넘을 경우 콤마 찍어서 리턴
+  const daysComma = () => {
+    const days = props.user.accumulated_exercise_day;
+    return days > 1000 ? parseInt(days / 1000) + "," + (days % 1000) : days;
+  };
+
+  const goalProgress = () => {
+    return props.user.exercise_success_number / props.user.exercise_goal_number;
+  };
+
   return loading ? (
     <View style={styles.container}>
       <View style={styles.userInfo}>
         <View style={styles.userInfo_days}>
-          <Text style={styles.userInfo_days_upperText}>
-            {" "}
-            {props.user.accumulated_exercise_day}{" "}
-          </Text>
+          <Text style={styles.userInfo_days_upperText}>{daysComma()}</Text>
           <Text style={styles.userInfo_days_underText}> Days </Text>
         </View>
         <View style={styles.userInfo_tier_goal}>
@@ -177,13 +184,12 @@ const Home = (props) => {
               source={require("../Image/gold.png")}
             />
             <Text style={styles.userInfo_tier_goal_text}>
-              {" "}
-              {props.user.tier}{" "}
+              {props.user.tier}
             </Text>
           </View>
           <View>
             <Progress.Circle
-              progress={0.3}
+              progress={goalProgress()}
               style={styles.userInfo_tier_goal_staff}
               color="white"
               thickness={6}
@@ -208,16 +214,12 @@ const Home = (props) => {
             source={require("../Image/SNS.png")}
           />
         </TouchableOpacity>
-        <TouchableOpacity
-          activeOpacity={0.5}
-          onPress={goExercise}
-          style={styles.icons_center}
-        >
+        <View style={styles.icons_center}>
           <Image
             style={styles.icons_center_image}
             source={require("../Image/Home.png")}
           />
-        </TouchableOpacity>
+        </View>
         <TouchableOpacity
           activeOpacity={0.5}
           onPress={goExercise}
