@@ -21,7 +21,7 @@ const Home = (props) => {
     AsyncStorage.getItem("token")
       .then((token) => {
         // 유저 정보 호출
-        fetch(`https://lucky-zebra-19.loca.lt/api/users/me/`, {
+        fetch(`https://polite-cow-75.loca.lt/api/users/me/`, {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
             Authorization: `X-JWT ${token}`,
@@ -45,7 +45,7 @@ const Home = (props) => {
   };
 
   const getRoutineData = () => {
-    fetch(`https://lucky-zebra-19.loca.lt/api/routines/`, {
+    fetch(`https://polite-cow-75.loca.lt/api/routines/`, {
       method: "GET",
     })
       .then((response) => response.json())
@@ -60,7 +60,7 @@ const Home = (props) => {
   };
 
   const loadingFeed = () => {
-    fetch(`https://lucky-zebra-19.loca.lt/api/posts/trending/`, {
+    fetch(`https://polite-cow-75.loca.lt/api/posts/trending/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -92,7 +92,7 @@ const Home = (props) => {
   });
 
   const renderItem = ({ item }) => {
-    const imageUrl = `https://lucky-zebra-19.loca.lt` + item.photo;
+    const imageUrl = `https://polite-cow-75.loca.lt` + item.photo;
 
     return (
       <TouchableOpacity
@@ -119,7 +119,7 @@ const Home = (props) => {
     // 아이디가 같은지 검사 필요
     // AsyncStorage.getItem("token")
     //   .then((token) => {
-    //     fetch(`${`https://lucky-zebra-19.loca.lt`}/api/users/`, {
+    //     fetch(`${`https://polite-cow-75.loca.lt`}/api/users/`, {
     //       method: "DELETE",
     //       headers: {
     //         Authorization: `X-JWT ${token}`,

@@ -60,7 +60,7 @@ const Upload = (props) => {
       console.log(token);
       console.log(image);
       // 업로드 요청
-      fetch(`https://lucky-zebra-19.loca.lt/api/posts/upload/`, {
+      fetch(`https://polite-cow-75.loca.lt/api/posts/upload/`, {
         method: "POST",
         body: formData,
         headers: {
@@ -87,7 +87,7 @@ const Upload = (props) => {
         <TouchableOpacity activeOpacity={0.5} onPress={goHome}>
           <Image source={require("../Image/back.png")} width={30} height={30} />
         </TouchableOpacity>
-        <Text style={styles.topbar_text}>LETFIT</Text>
+        <Text style={styles.topbar_text}>게시글 작성</Text>
         <TouchableOpacity activeOpacity={0.5} onPress={requestUpload}>
           <Image
             source={require("../Image/Upload.png")}
@@ -98,28 +98,30 @@ const Upload = (props) => {
       </View>
       <View style={styles.imagePicker}>
         <TouchableOpacity activeOpacity={0.5} onPress={pickImage}>
-          <Image source={image} width={30} height={30} />
+          <Image source={image} style={styles.imagePicker_imgage} />
         </TouchableOpacity>
         {image && (
           <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
         )}
       </View>
       <View style={styles.description}>
-        <Text>title</Text>
         <TextInput
+          style={styles.description_text}
           value={title}
           onChangeText={(text) => setTitle(text)}
           autoCapitalize="sentences"
           autoCorrect
           returnKeyType="next"
+          placeholder="제목을 입력하세요."
         />
-        <Text>description</Text>
         <TextInput
+          style={styles.description_text}
           value={description}
           onChangeText={(text) => setDescription(text)}
           autoCapitalize="sentences"
           autoCorrect
           returnKeyType="done"
+          placeholder="내용을 입력하세요."
         />
       </View>
     </View>
@@ -146,9 +148,25 @@ const styles = StyleSheet.create({
   },
   imagePicker: {
     flex: 2,
+    alignItems: "center",
+    backgroundColor: "#DEDEDE",
+  },
+  imagePicker_imgage: {
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "white",
+    width: 150,
+    height: 150,
+    marginTop: 30,
   },
   description: {
     flex: 5,
+  },
+  description_text: {
+    margin: 10,
+    marginLeft: 20,
+    marginTop: 20,
+    fontSize: 20,
   },
 });
 

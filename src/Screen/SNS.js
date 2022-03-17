@@ -30,7 +30,7 @@ const SNS = (props) => {
     // 언팔로우 구현 필요
     AsyncStorage.getItem("token")
       .then((token) => {
-        fetch(`https://lucky-zebra-19.loca.lt/api/users/follow/`, {
+        fetch(`https://polite-cow-75.loca.lt/api/users/follow/`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -54,7 +54,7 @@ const SNS = (props) => {
 
   const getUserData = () => {
     // 유저 정보 호출
-    fetch(`https://lucky-zebra-19.loca.lt/api/users/4`, {
+    fetch(`https://polite-cow-75.loca.lt/api/users/4`, {
       headers: {
         method: "GET",
       },
@@ -113,7 +113,7 @@ const SNS = (props) => {
         >
           <Image
             style={styles.feeds_card}
-            source={{ uri: `https://lucky-zebra-19.loca.lt` + item.photo }}
+            source={{ uri: `https://polite-cow-75.loca.lt` + item.photo }}
           />
         </TouchableOpacity>
       );
