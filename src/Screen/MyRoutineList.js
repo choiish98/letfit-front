@@ -127,7 +127,7 @@ const MyRoutineList = (props) => {
   const renderItem = ({ item }) => {
     return (
       <View style={styles.todayExerciseCard}>
-        <Text>{item}</Text>
+        <Text style={styles.todayExerciseCard_text}>{item}</Text>
       </View>
     );
   };
@@ -228,6 +228,7 @@ const MyRoutineList = (props) => {
             width={340}
             height={15}
           />
+
           <View style={styles.progress_status}>
             <Text progress_status_center_value>오늘</Text>
 
@@ -256,7 +257,7 @@ const MyRoutineList = (props) => {
           </View>
         </View>
 
-        <View>{renderFeed()}</View>
+        <View style={styles.doinList}>{renderFeed()}</View>
       </View>
       <TouchableOpacity activeOpacity={0.5} onPress={goHome}>
         <Text>go home</Text>
@@ -325,13 +326,15 @@ const styles = StyleSheet.create({
   },
   progress: {
     margin: 20,
-    marginBottom: 40,
   },
   progress_status: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-end",
     paddingTop: 10,
+    paddingBottom: 10,
+    borderBottomWidth: 0.5,
+    borderBottomColor: "#2A3042",
   },
   progress_status_middle: {
     justifyContent: "center",
@@ -353,6 +356,19 @@ const styles = StyleSheet.create({
   settingIcon: {
     width: 25,
     height: 25,
+  },
+  todayExerciseCard: {
+    justifyContent: "center",
+    alignItems: "center",
+    height: 70,
+    backgroundColor: "#DEDEDE",
+    color: "#2A3042",
+    margin: 10,
+  },
+  todayExerciseCard_text: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#2A3042",
   },
 });
 

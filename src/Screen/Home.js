@@ -101,10 +101,7 @@ const Home = (props) => {
         }}
       >
         <View>
-          <Image
-            style={{ height: "95%", width: "15%" }}
-            source={{ uri: imageUrl }}
-          />
+          <Image style={styles.feed_box} source={{ uri: imageUrl }} />
           <Text>{item.title}</Text>
           <Text>{item.username}</Text>
           <Text>{item.description}</Text>
@@ -157,9 +154,7 @@ const Home = (props) => {
       />
     );
   };
-  // <TouchableOpacity activeOpacity={0.5} onPress={logout}>
-  //   <Text>Logout</Text>
-  // </TouchableOpacity>
+
   // <TouchableOpacity activeOpacity={0.5} onPress={secession}>
   //   <Text>회원탈퇴</Text>
   // </TouchableOpacity>
@@ -330,9 +325,16 @@ const styles = StyleSheet.create({
   },
   feed: {
     flex: 2,
+    justifyContent: "center",
+    alignItems: "center",
     backgroundColor: "#DEDEDE",
     marginTop: 50,
     margin: 20,
+  },
+  feed_box: {
+    width: "100%",
+    height: 100,
+    marginTop: 20,
   },
 });
 
