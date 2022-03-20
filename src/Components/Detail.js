@@ -25,15 +25,12 @@ const Detail = (props) => {
   });
 
   const getPostData = () => {
-    // 유저 정보 호출
-    fetch(
-      `https://yellow-dragonfly-77.loca.lt/api/posts/${props.route.params.id}/`,
-      {
-        headers: {
-          method: "GET",
-        },
-      }
-    )
+    // 게시글 정보 호출
+    fetch(`https://polite-cow-75.loca.lt/api/posts/${props.route.params.id}/`, {
+      headers: {
+        method: "GET",
+      },
+    })
       .then((response) => response.json())
       .then((responseJson) => {
         // post data 저장
@@ -58,15 +55,15 @@ const Detail = (props) => {
   };
 
   return loading ? (
-    <View>
-      <TouchableOpacity activeOpacity={0.5} onPress={goHome}>
-        <Text>go Home</Text>
-      </TouchableOpacity>
-      <View>
+    <View style={styles.container}>
+      <View style={styles.topbar}>
+        <Text style={styles.topbar_text}>LETFIT</Text>
+      </View>
+      <View style={styles.imagePicker}>
         <Image
           style={{ height: "50%", width: "50%" }}
           source={{
-            uri: `https://yellow-dragonfly-77.loca.lt` + postData.photo,
+            uri: `https://polite-cow-75.loca.lt` + postData.photo,
           }}
         />
         <Text> username: {postData.poster.username} </Text>
@@ -74,10 +71,36 @@ const Detail = (props) => {
         <Text> description: {postData.description} </Text>
         <Text> created at: {postData.created_at} </Text>
       </View>
+      <View style={styles.description}></View>
+      <TouchableOpacity activeOpacity={0.5} onPress={goHome}>
+        <Text>go Home</Text>
+      </TouchableOpacity>
     </View>
   ) : (
     Loader
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  topbar: {
+    flex: 0.8,
+    justifyContent: "flex-end",
+    alignItems: "center",
+  },
+  topbar_text: {
+    fontSize: 25,
+    color: "#2A3042",
+    fontWeight: "600",
+  },
+  imagePicker: {
+    flex: 2,
+  },
+  description: {
+    flex: 5,
+  },
+});
 
 export default Detail;

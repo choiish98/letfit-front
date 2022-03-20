@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, Image, AsyncStorage, StyleSheet } from "react-native";
-import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
+import {
+  FlatList,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+} from "react-native-gesture-handler";
 import { connect } from "react-redux";
 import { actionCreators } from "../Actions/userIndex";
 import { routineActionCreators } from "../Actions/routineIndex";
@@ -17,7 +21,7 @@ const Home = (props) => {
     AsyncStorage.getItem("token")
       .then((token) => {
         // 유저 정보 호출
-        fetch(`https://yellow-dragonfly-77.loca.lt/api/users/me/`, {
+        fetch(`https://polite-cow-75.loca.lt/api/users/me/`, {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
             Authorization: `X-JWT ${token}`,
@@ -41,7 +45,7 @@ const Home = (props) => {
   };
 
   const getRoutineData = () => {
-    fetch(`https://yellow-dragonfly-77.loca.lt/api/routines/`, {
+    fetch(`https://polite-cow-75.loca.lt/api/routines/`, {
       method: "GET",
     })
       .then((response) => response.json())
@@ -56,7 +60,7 @@ const Home = (props) => {
   };
 
   const loadingFeed = () => {
-    fetch(`https://yellow-dragonfly-77.loca.lt/api/posts/trending/`, {
+    fetch(`https://polite-cow-75.loca.lt/api/posts/trending/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -88,7 +92,7 @@ const Home = (props) => {
   });
 
   const renderItem = ({ item }) => {
-    const imageUrl = `https://yellow-dragonfly-77.loca.lt` + item.photo;
+    const imageUrl = `https://polite-cow-75.loca.lt` + item.photo;
 
     return (
       <TouchableOpacity
@@ -97,10 +101,7 @@ const Home = (props) => {
         }}
       >
         <View>
-          <Image
-            style={{ height: "95%", width: "15%" }}
-            source={{ uri: imageUrl }}
-          />
+          <Image style={styles.feed_box} source={{ uri: imageUrl }} />
           <Text>{item.title}</Text>
           <Text>{item.username}</Text>
           <Text>{item.description}</Text>
@@ -115,7 +116,7 @@ const Home = (props) => {
     // 아이디가 같은지 검사 필요
     // AsyncStorage.getItem("token")
     //   .then((token) => {
-    //     fetch(`${`https://yellow-dragonfly-77.loca.lt`}/api/users/`, {
+    //     fetch(`${`https://polite-cow-75.loca.lt`}/api/users/`, {
     //       method: "DELETE",
     //       headers: {
     //         Authorization: `X-JWT ${token}`,
@@ -153,21 +154,30 @@ const Home = (props) => {
       />
     );
   };
-  // <TouchableOpacity activeOpacity={0.5} onPress={logout}>
-  //   <Text>Logout</Text>
-  // </TouchableOpacity>
+
   // <TouchableOpacity activeOpacity={0.5} onPress={secession}>
   //   <Text>회원탈퇴</Text>
   // </TouchableOpacity>
 
+  // day 천 자리 넘을 경우 콤마 찍어서 리턴
+  const daysComma = () => {
+    const days = props.user.accumulated_exercise_day;
+    return days > 1000 ? parseInt(days / 1000) + "," + (days % 1000) : days;
+  };
+
+  // progress bar 게이지 계산
+  const goalProgress = () => {
+    return props.user.exercise_success_number / props.user.exercise_goal_number;
+  };
+
   return loading ? (
     <View style={styles.container}>
       <View style={styles.userInfo}>
+        <View style={styles.topbar}>
+          <Text style={styles.topbar_text}>LETFIT</Text>
+        </View>
         <View style={styles.userInfo_days}>
-          <Text style={styles.userInfo_days_upperText}>
-            {" "}
-            {props.user.accumulated_exercise_day}{" "}
-          </Text>
+          <Text style={styles.userInfo_days_upperText}>{daysComma()}</Text>
           <Text style={styles.userInfo_days_underText}> Days </Text>
         </View>
         <View style={styles.userInfo_tier_goal}>
@@ -177,18 +187,17 @@ const Home = (props) => {
               source={require("../Image/gold.png")}
             />
             <Text style={styles.userInfo_tier_goal_text}>
-              {" "}
-              {props.user.tier}{" "}
+              {props.user.tier}
             </Text>
           </View>
           <View>
             <Progress.Circle
-              progress={0.3}
+              progress={goalProgress()}
               style={styles.userInfo_tier_goal_staff}
               color="white"
               thickness={6}
               strokeCap="square"
-              borderColor="#D9533A"
+              borderColor="#2A3042"
             />
             <Text style={styles.userInfo_tier_goal_text}>
               Goal {props.user.exercise_success_number}/
@@ -208,16 +217,12 @@ const Home = (props) => {
             source={require("../Image/SNS.png")}
           />
         </TouchableOpacity>
-        <TouchableOpacity
-          activeOpacity={0.5}
-          onPress={goExercise}
-          style={styles.icons_center}
-        >
+        <View style={styles.icons_center}>
           <Image
             style={styles.icons_center_image}
             source={require("../Image/Home.png")}
           />
-        </TouchableOpacity>
+        </View>
         <TouchableOpacity
           activeOpacity={0.5}
           onPress={goExercise}
@@ -241,10 +246,20 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   userInfo: {
-    flex: 1.5,
+    flex: 1.7,
     paddingTop: 10,
     marginBottom: 20,
-    backgroundColor: "#D9533A",
+    backgroundColor: "#2A3042",
+  },
+  topbar: {
+    flex: 0.8,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  topbar_text: {
+    fontSize: 25,
+    color: "white",
+    fontWeight: "600",
   },
   userInfo_days: {
     flex: 1,
@@ -310,9 +325,16 @@ const styles = StyleSheet.create({
   },
   feed: {
     flex: 2,
+    justifyContent: "center",
+    alignItems: "center",
     backgroundColor: "#DEDEDE",
     marginTop: 50,
     margin: 20,
+  },
+  feed_box: {
+    width: "100%",
+    height: 100,
+    marginTop: 20,
   },
 });
 

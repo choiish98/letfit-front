@@ -42,7 +42,7 @@ const Login = (props) => {
     formBody = formBody.join("&");
 
     // 로그인 요청
-    fetch(`https://yellow-dragonfly-77.loca.lt/api/users/token/`, {
+    fetch(`https://polite-cow-75.loca.lt/api/users/token/`, {
       method: "POST",
       body: formBody,
       headers: {

@@ -5,6 +5,10 @@ import { connect } from "react-redux";
 import Loader from "../Components/Loader";
 import { actionCreators } from "../store";
 import { API_URL } from "@env";
+import {
+  backgroundColor,
+  color,
+} from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
 
 const SNS = (props) => {
   const [userInfo, setUserInfo] = useState({
@@ -26,13 +30,13 @@ const SNS = (props) => {
     // 언팔로우 구현 필요
     AsyncStorage.getItem("token")
       .then((token) => {
-        fetch(`${`https://yellow-dragonfly-77.loca.lt`}/api/users/follow/`, {
+        fetch(`https://polite-cow-75.loca.lt/api/users/follow/`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             Authorization: `X-JWT ${token}`,
           },
-          body: JSON.stringify({ id: 1 }),
+          body: JSON.stringify({ id: 4 }),
         })
           .then((response) => response.json())
           .then((responseJson) => {
@@ -50,7 +54,7 @@ const SNS = (props) => {
 
   const getUserData = () => {
     // 유저 정보 호출
-    fetch(`${`https://yellow-dragonfly-77.loca.lt`}/api/users/5/`, {
+    fetch(`https://polite-cow-75.loca.lt/api/users/4`, {
       headers: {
         method: "GET",
       },
@@ -65,6 +69,15 @@ const SNS = (props) => {
       });
   };
 
+  const firstAction = () => {
+    getUserData();
+    setLoading(true);
+  };
+
+  useEffect(() => {
+    loading === false ? firstAction() : console.log("유저 정보 업데이트 완료");
+  });
+
   const goHome = () => {
     props.navigation.replace("Home");
   };
@@ -73,62 +86,97 @@ const SNS = (props) => {
     props.navigation.replace("Upload");
   };
 
-  const firstAction = () => {
-    getUserData();
-    setLoading(true);
+  const renderFeeds = () => {
+    let photos = [];
+
+    if (true) {
+      photos.push(
+        <View>
+          <TouchableOpacity
+            activeOpacity={0.5}
+            onPress={goUpload}
+            style={styles.feed_uploadBtn}
+          >
+            <Text style={styles.feed_uploadBtn_text}>+</Text>
+          </TouchableOpacity>
+        </View>
+      );
+    }
+
+    userInfo.posts.map((item) => {
+      photos.push(
+        <TouchableOpacity
+          onPress={() => {
+            props.navigation.replace("Detail", { id: item.id });
+          }}
+          key={item.id}
+        >
+          <Image
+            style={styles.feeds_card}
+            source={{ uri: `https://polite-cow-75.loca.lt` + item.photo }}
+          />
+        </TouchableOpacity>
+      );
+    });
+
+    return <View style={styles.feeds}>{photos}</View>;
   };
 
-  useEffect(() => {
-    loading === false
-      ? firstAction()
-      : console.log("user: " + userInfo.username);
-  });
-
-  const renderItem = ({ item }) => {
-    const imageUrl = `${`https://yellow-dragonfly-77.loca.lt`}` + item.photo;
-
-    return (
-      <View>
-        <Image
-          style={{ height: "100%", width: "100%" }}
-          source={{ uri: imageUrl }}
-        />
-        <Text>뜨냐고~</Text>
-      </View>
-    );
-  };
-
-  const renderPosts = () => {
-    return (
-      <FlatList
-        data={userInfo.posts}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id.toString()}
-      />
-    );
+  // day 천 자리 넘을 경우 콤마 찍어서 리턴
+  const daysComma = () => {
+    const days = userInfo.accumulated_exercise_day;
+    return days > 1000 ? parseInt(days / 1000) + "," + (days % 1000) : days;
   };
 
   return loading ? (
     <View style={styles.container}>
       <View style={styles.userInfo}>
-        <Text> username: {userInfo.username} </Text>
-        <Text> tier: {userInfo.tier} </Text>
-        <Text> pm: {userInfo.profile_message} </Text>
-        <Text> ed: {userInfo.accumulated_exercise_day} </Text>
-        <TouchableOpacity activeOpacity={0.5} onPress={follow}>
-          <Text>follow</Text>
-        </TouchableOpacity>
-        <View>
-          <TouchableOpacity activeOpacity={0.5} onPress={goHome}>
-            <Text>go home</Text>
+        <View style={styles.topbar}>
+          <Text style={styles.topbar_text}>LETFIT</Text>
+        </View>
+        <View style={styles.userInfo_upperInfo}>
+          <View style={styles.userInfo_upperInfo_each}>
+            <Image
+              style={styles.userInfo_tier_goal_staff}
+              source={require("../Image/gold.png")}
+              width={30}
+              height={30}
+            />
+            <Text style={{ fontSize: 13 }}> {userInfo.tier} </Text>
+          </View>
+          <View style={styles.userInfo_upperInfo_each}>
+            <Text style={styles.userInfo_upperInfo_days}>{daysComma()}</Text>
+            <Text style={{ fontSize: 13 }}> Days </Text>
+          </View>
+          <View style={styles.userInfo_upperInfo_each}>
+            <Text style={{ fontSize: 25 }}>{userInfo.follower_count}</Text>
+            <Text style={{ fontSize: 13 }}> FAN </Text>
+          </View>
+        </View>
+        <View style={styles.userInfo_underInfo}>
+          <View>
+            <Text style={{ fontSize: 25 }}>{userInfo.username}</Text>
+          </View>
+          <TouchableOpacity
+            activeOpacity={0.5}
+            onPress={follow}
+            style={styles.userInfo_underInfo_follow}
+          >
+            <Text style={styles.userInfo_underInfo_follow_text}>구독</Text>
           </TouchableOpacity>
         </View>
       </View>
       <View style={styles.feed}>
-        <TouchableOpacity activeOpacity={0.5} onPress={goUpload}>
-          <Text>+</Text>
+        <View style={styles.profile}></View>
+        <View style={styles.feed_profile_message}>
+          <Text style={styles.feed_profile_message_text}>
+            {userInfo.profile_message}
+          </Text>
+        </View>
+        {renderFeeds()}
+        <TouchableOpacity activeOpacity={0.5} onPress={goHome}>
+          <Text>go home</Text>
         </TouchableOpacity>
-        {renderPosts()}
       </View>
     </View>
   ) : (
@@ -141,10 +189,97 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   userInfo: {
-    flex: 2,
+    flex: 1,
+    backgroundColor: "#DEDEDE",
+  },
+  topbar: {
+    flex: 1,
+    justifyContent: "flex-end",
+    alignItems: "center",
+  },
+  topbar_text: {
+    fontSize: 25,
+    color: "#2A3042",
+    fontWeight: "600",
+  },
+  userInfo_upperInfo: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+  },
+  userInfo_upperInfo_each: {
+    width: 100,
+    height: 80,
+    justifyContent: "flex-end",
+    alignItems: "center",
+  },
+  userInfo_upperInfo_days: {
+    fontSize: 44,
+    fontWeight: "600",
+  },
+  userInfo_underInfo: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    margin: 50,
+  },
+  userInfo_underInfo_follow: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: 48,
+    height: 28,
+    backgroundColor: "#2A3042",
+  },
+  userInfo_underInfo_follow_text: {
+    fontSize: 20,
+    color: "white",
+  },
+  profile: {
+    position: "absolute",
+    bottom: "85%",
+    justifyContent: "center",
+    alignItems: "center",
+    alignSelf: "center",
+    backgroundColor: "#F9F5EE",
+    width: 180,
+    height: 180,
+    borderRadius: 150,
   },
   feed: {
     flex: 2,
+    backgroundColor: "#2A3042",
+  },
+  feed_profile_message: {
+    paddingTop: 100,
+    margin: 10,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  feed_profile_message_text: {
+    fontSize: 18,
+    color: "white",
+  },
+  feeds: {
+    flex: 5,
+    flexDirection: "row",
+    width: "100%",
+  },
+  feed_uploadBtn: {
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#DEDEDE",
+    margin: 5,
+    width: 120,
+    height: 120,
+  },
+  feed_uploadBtn_text: {
+    fontSize: 80,
+    fontWeight: "600",
+    color: "grey",
+  },
+  feeds_card: {
+    margin: 5,
+    width: 120,
+    height: 120,
   },
 });
 
