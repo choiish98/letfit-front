@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, Image, StyleSheet, AsyncStorage } from "react-native";
-import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { connect } from "react-redux";
 import Loader from "../Components/Loader";
 import { actionCreators } from "../store";
 import { API_URL } from "@env";
-import {
-  backgroundColor,
-  color,
-} from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
 
 const SNS = (props) => {
+  //console.log("user id" + props.user.userData.id);
+  //console.log("this id" + props.route.params.id);
   const [userInfo, setUserInfo] = useState({
     username: "",
     tier: "",
@@ -26,35 +24,40 @@ const SNS = (props) => {
   const [loading, setLoading] = useState(false);
 
   const follow = () => {
-    // 사용자와 팔로우 하려는 아이디가 같은지 검사 필요
     // 언팔로우 구현 필요
-    AsyncStorage.getItem("token")
-      .then((token) => {
-        fetch(`https://polite-cow-75.loca.lt/api/users/follow/`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `X-JWT ${token}`,
-          },
-          body: JSON.stringify({ id: 4 }),
-        })
-          .then((response) => response.json())
-          .then((responseJson) => {
-            console.log(JSON.stringify(responseJson));
+    if(props.user.userData.id === props.route.params.id) {
+      console.log("자기 자신을 팔로우 할 수 없습니다.");
+    //} else if () {
+    //  console.log("언팔로우");
+    } else {
+      AsyncStorage.getItem("token")
+        .then((token) => {
+          fetch(`https://terrible-lion-5.loca.lt/api/users/follow/`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `X-JWT ${token}`,
+            },
+            body: JSON.stringify({ id: props.route.params.id }),
           })
-          .catch((error) => {
-            console.error(error);
-          });
-      })
-      .catch((error) => {
-        console.log("error occurred at async storage");
-        console.log("error: " + error);
-      });
+            .then((response) => response.json())
+            .then((responseJson) => {
+              console.log(JSON.stringify(responseJson));
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        })
+        .catch((error) => {
+          console.log("error occurred at async storage");
+          console.log("error: " + error);
+        });
+    }
   };
 
   const getUserData = () => {
     // 유저 정보 호출
-    fetch(`https://polite-cow-75.loca.lt/api/users/4`, {
+    fetch(`https://terrible-lion-5.loca.lt/api/users/${props.route.params.id}`, {
       headers: {
         method: "GET",
       },
@@ -113,7 +116,7 @@ const SNS = (props) => {
         >
           <Image
             style={styles.feeds_card}
-            source={{ uri: `https://polite-cow-75.loca.lt` + item.photo }}
+            source={{ uri: `https://terrible-lion-5.loca.lt` + item.photo }}
           />
         </TouchableOpacity>
       );

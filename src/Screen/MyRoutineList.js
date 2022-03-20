@@ -31,7 +31,7 @@ const MyRoutineList = (props) => {
       goHome();
       myRoutineId = 1;
     } else {
-      fetch(`https://polite-cow-75.loca.lt/api/routines/${myRoutineId}/days`, {
+      fetch(`https://terrible-lion-5.loca.lt/api/routines/${myRoutineId}/days`, {
         headers: {
           method: "GET",
         },
@@ -73,7 +73,7 @@ const MyRoutineList = (props) => {
         });
 
       fetch(
-        `${`https://polite-cow-75.loca.lt`}/api/routines/${myRoutineId}/exercises`,
+        `${`https://terrible-lion-5.loca.lt`}/api/routines/${myRoutineId}/exercises`,
         {
           headers: {
             method: "GET",

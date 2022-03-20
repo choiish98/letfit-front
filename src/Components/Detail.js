@@ -26,7 +26,7 @@ const Detail = (props) => {
 
   const getPostData = () => {
     // 게시글 정보 호출
-    fetch(`https://polite-cow-75.loca.lt/api/posts/${props.route.params.id}/`, {
+    fetch(`https://terrible-lion-5.loca.lt/api/posts/${props.route.params.id}/`, {
       headers: {
         method: "GET",
       },
@@ -63,7 +63,7 @@ const Detail = (props) => {
         <Image
           style={{ height: "50%", width: "50%" }}
           source={{
-            uri: `https://polite-cow-75.loca.lt` + postData.photo,
+            uri: `https://terrible-lion-5.loca.lt` + postData.photo,
           }}
         />
         <Text> username: {postData.poster.username} </Text>
