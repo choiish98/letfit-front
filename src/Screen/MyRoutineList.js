@@ -9,6 +9,9 @@ import Loader from "../Components/Loader";
 import { stringify } from "flatted";
 import { color } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
 
+// 완료 루틴 수 업데이트 필요
+// 요일 별 부위 밑에 날짜 업데이트 필요
+
 const MyRoutineList = (props) => {
   const [loading, setLoading] = useState(false);
   const [date, setDate] = useState(new Date());
@@ -31,7 +34,7 @@ const MyRoutineList = (props) => {
       goHome();
       myRoutineId = 1;
     } else {
-      fetch(`https://terrible-lion-5.loca.lt/api/routines/${myRoutineId}/days`, {
+      fetch(`https://green-duck-21.loca.lt/api/routines/${myRoutineId}/days`, {
         headers: {
           method: "GET",
         },
@@ -73,7 +76,7 @@ const MyRoutineList = (props) => {
         });
 
       fetch(
-        `${`https://terrible-lion-5.loca.lt`}/api/routines/${myRoutineId}/exercises`,
+        `${`https://green-duck-21.loca.lt`}/api/routines/${myRoutineId}/exercises`,
         {
           headers: {
             method: "GET",
@@ -86,6 +89,8 @@ const MyRoutineList = (props) => {
           const tempArray = [];
 
           responseJson[0].exercise.filter((exercise) => {
+            // 어깨로 해놨는데 오늘 운동 부위로 바꿔줘야 함
+            // 운동 자료구조를 이름만 넣는게 아니라 성공 횟수 목표 횟수 운동 시간을 넣는 걸로 업데이트 필요
             if (exercise.body_part === "어깨") {
               const thisExercise =
                 "[" + exercise.body_part + "] " + exercise.name;
@@ -101,6 +106,7 @@ const MyRoutineList = (props) => {
     }
   };
 
+  // 날짜 처리 아직 안 됨
   const getDate = () => {
     const date = new Date();
     setDate(date);
@@ -126,9 +132,16 @@ const MyRoutineList = (props) => {
 
   const renderItem = ({ item }) => {
     return (
-      <View style={styles.todayExerciseCard}>
-        <Text style={styles.todayExerciseCard_text}>{item}</Text>
-      </View>
+      <TouchableOpacity
+        activeOpacity={0.5}
+        onPress={() => {
+          props.navigation.replace("Exercise", { item });
+        }}
+      >
+        <View style={styles.todayExerciseCard}>
+          <Text style={styles.todayExerciseCard_text}>{item}</Text>
+        </View>
+      </TouchableOpacity>
     );
   };
 

@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, Image, AsyncStorage, StyleSheet } from "react-native";
-import {
-  FlatList,
-  TouchableOpacity,
-} from "react-native-gesture-handler";
+import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 import { connect } from "react-redux";
 import { actionCreators } from "../Actions/userIndex";
 import { routineActionCreators } from "../Actions/routineIndex";
@@ -20,7 +17,7 @@ const Home = (props) => {
     AsyncStorage.getItem("token")
       .then((token) => {
         // 유저 정보 호출
-        fetch(`https://terrible-lion-5.loca.lt/api/users/me/`, {
+        fetch(`https://green-duck-21.loca.lt/api/users/me/`, {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
             Authorization: `X-JWT ${token}`,
@@ -44,7 +41,7 @@ const Home = (props) => {
   };
 
   const getRoutineData = () => {
-    fetch(`https://terrible-lion-5.loca.lt/api/routines/`, {
+    fetch(`https://green-duck-21.loca.lt/api/routines/`, {
       method: "GET",
     })
       .then((response) => response.json())
@@ -59,7 +56,7 @@ const Home = (props) => {
   };
 
   const loadingFeed = () => {
-    fetch(`https://terrible-lion-5.loca.lt/api/posts/trending/`, {
+    fetch(`https://green-duck-21.loca.lt/api/posts/trending/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -91,7 +88,7 @@ const Home = (props) => {
   });
 
   const renderItem = ({ item }) => {
-    const imageUrl = `https://terrible-lion-5.loca.lt` + item.photo;
+    const imageUrl = `https://green-duck-21.loca.lt` + item.photo;
 
     return (
       <TouchableOpacity
@@ -115,7 +112,7 @@ const Home = (props) => {
     // 아이디가 같은지 검사 필요
     // AsyncStorage.getItem("token")
     //   .then((token) => {
-    //     fetch(`${`https://terrible-lion-5.loca.lt`}/api/users/`, {
+    //     fetch(`${`https://green-duck-21.loca.lt`}/api/users/`, {
     //       method: "DELETE",
     //       headers: {
     //         Authorization: `X-JWT ${token}`,
@@ -137,7 +134,7 @@ const Home = (props) => {
   };
 
   const goSNS = () => {
-    props.navigation.replace("SNS", { id: props.user.id});
+    props.navigation.replace("SNS", { id: props.user.id });
   };
 
   const goExercise = () => {

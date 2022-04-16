@@ -25,14 +25,14 @@ const SNS = (props) => {
 
   const follow = () => {
     // 언팔로우 구현 필요
-    if(props.user.userData.id === props.route.params.id) {
+    if (props.user.userData.id === props.route.params.id) {
       console.log("자기 자신을 팔로우 할 수 없습니다.");
-    //} else if () {
-    //  console.log("언팔로우");
+      //} else if () {
+      //  console.log("언팔로우");
     } else {
       AsyncStorage.getItem("token")
         .then((token) => {
-          fetch(`https://terrible-lion-5.loca.lt/api/users/follow/`, {
+          fetch(`https://green-duck-21.loca.lt/api/users/follow/`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -57,7 +57,7 @@ const SNS = (props) => {
 
   const getUserData = () => {
     // 유저 정보 호출
-    fetch(`https://terrible-lion-5.loca.lt/api/users/${props.route.params.id}`, {
+    fetch(`https://green-duck-21.loca.lt/api/users/${props.route.params.id}`, {
       headers: {
         method: "GET",
       },
@@ -116,7 +116,7 @@ const SNS = (props) => {
         >
           <Image
             style={styles.feeds_card}
-            source={{ uri: `https://terrible-lion-5.loca.lt` + item.photo }}
+            source={{ uri: `https://green-duck-21.loca.lt` + item.photo }}
           />
         </TouchableOpacity>
       );

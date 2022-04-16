@@ -60,7 +60,7 @@ const Upload = (props) => {
       console.log(token);
       console.log(image);
       // 업로드 요청
-      fetch(`https://terrible-lion-5.loca.lt/api/posts/upload/`, {
+      fetch(`https://green-duck-21.loca.lt/api/posts/upload/`, {
         method: "POST",
         body: formData,
         headers: {
