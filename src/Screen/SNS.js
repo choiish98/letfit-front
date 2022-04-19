@@ -7,8 +7,6 @@ import { actionCreators } from "../store";
 import { API_URL } from "@env";
 
 const SNS = (props) => {
-  //console.log("user id" + props.user.userData.id);
-  //console.log("this id" + props.route.params.id);
   const [userInfo, setUserInfo] = useState({
     username: "",
     tier: "",
@@ -32,7 +30,7 @@ const SNS = (props) => {
     } else {
       AsyncStorage.getItem("token")
         .then((token) => {
-          fetch(`https://green-duck-21.loca.lt/api/users/follow/`, {
+          fetch(`https://heavy-wasp-16.loca.lt/api/users/follow/`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -57,7 +55,7 @@ const SNS = (props) => {
 
   const getUserData = () => {
     // 유저 정보 호출
-    fetch(`https://green-duck-21.loca.lt/api/users/${props.route.params.id}`, {
+    fetch(`https://heavy-wasp-16.loca.lt/api/users/${props.route.params.id}`, {
       headers: {
         method: "GET",
       },
@@ -116,7 +114,7 @@ const SNS = (props) => {
         >
           <Image
             style={styles.feeds_card}
-            source={{ uri: `https://green-duck-21.loca.lt` + item.photo }}
+            source={{ uri: `https://heavy-wasp-16.loca.lt` + item.photo }}
           />
         </TouchableOpacity>
       );

@@ -17,7 +17,7 @@ const Home = (props) => {
     AsyncStorage.getItem("token")
       .then((token) => {
         // 유저 정보 호출
-        fetch(`https://green-duck-21.loca.lt/api/users/me/`, {
+        fetch(`https://heavy-wasp-16.loca.lt/api/users/me/`, {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
             Authorization: `X-JWT ${token}`,
@@ -41,7 +41,7 @@ const Home = (props) => {
   };
 
   const getRoutineData = () => {
-    fetch(`https://green-duck-21.loca.lt/api/routines/`, {
+    fetch(`https://heavy-wasp-16.loca.lt/api/routines/`, {
       method: "GET",
     })
       .then((response) => response.json())
@@ -56,7 +56,7 @@ const Home = (props) => {
   };
 
   const loadingFeed = () => {
-    fetch(`https://green-duck-21.loca.lt/api/posts/trending/`, {
+    fetch(`https://heavy-wasp-16.loca.lt/api/posts/trending/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -88,7 +88,7 @@ const Home = (props) => {
   });
 
   const renderItem = ({ item }) => {
-    const imageUrl = `https://green-duck-21.loca.lt` + item.photo;
+    const imageUrl = `https://heavy-wasp-16.loca.lt` + item.photo;
 
     return (
       <TouchableOpacity
@@ -112,7 +112,7 @@ const Home = (props) => {
     // 아이디가 같은지 검사 필요
     // AsyncStorage.getItem("token")
     //   .then((token) => {
-    //     fetch(`${`https://green-duck-21.loca.lt`}/api/users/`, {
+    //     fetch(`${`https://heavy-wasp-16.loca.lt`}/api/users/`, {
     //       method: "DELETE",
     //       headers: {
     //         Authorization: `X-JWT ${token}`,
@@ -139,6 +139,10 @@ const Home = (props) => {
 
   const goExercise = () => {
     props.navigation.replace("MyRoutineList");
+  };
+
+  const goList = () => {
+    props.navigation.replace("RoutineList");
   };
 
   const renderFeed = () => {
@@ -205,7 +209,7 @@ const Home = (props) => {
       <View style={styles.icons}>
         <TouchableOpacity
           activeOpacity={0.5}
-          onPress={goSNS}
+          onPress={goList}
           style={styles.icons_each}
         >
           <Image
@@ -213,15 +217,19 @@ const Home = (props) => {
             source={require("../Image/SNS.png")}
           />
         </TouchableOpacity>
-        <View style={styles.icons_center}>
+        <TouchableOpacity
+          activeOpacity={0.5}
+          onPress={goExercise}
+          style={styles.icons_center}
+        >
           <Image
             style={styles.icons_center_image}
             source={require("../Image/Home.png")}
           />
-        </View>
+        </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={0.5}
-          onPress={goExercise}
+          onPress={goSNS}
           style={styles.icons_each}
         >
           <Image

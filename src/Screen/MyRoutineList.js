@@ -9,7 +9,7 @@ import Loader from "../Components/Loader";
 import { stringify } from "flatted";
 import { color } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
 
-// 완료 루틴 수 업데이트 필요
+// 완료 루틴 수 업데이트 기능 필요
 // 요일 별 부위 밑에 날짜 업데이트 필요
 
 const MyRoutineList = (props) => {
@@ -34,7 +34,7 @@ const MyRoutineList = (props) => {
       goHome();
       myRoutineId = 1;
     } else {
-      fetch(`https://green-duck-21.loca.lt/api/routines/${myRoutineId}/days`, {
+      fetch(`https://heavy-wasp-16.loca.lt/api/routines/${myRoutineId}/days`, {
         headers: {
           method: "GET",
         },
@@ -76,7 +76,7 @@ const MyRoutineList = (props) => {
         });
 
       fetch(
-        `${`https://green-duck-21.loca.lt`}/api/routines/${myRoutineId}/exercises`,
+        `${`https://heavy-wasp-16.loca.lt`}/api/routines/${myRoutineId}/exercises`,
         {
           headers: {
             method: "GET",
