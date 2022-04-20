@@ -34,7 +34,7 @@ const MyRoutineList = (props) => {
       goHome();
       myRoutineId = 1;
     } else {
-      fetch(`https://heavy-wasp-16.loca.lt/api/routines/${myRoutineId}/days`, {
+      fetch(`https://tender-cat-20.loca.lt/api/routines/${myRoutineId}/days`, {
         headers: {
           method: "GET",
         },
@@ -76,7 +76,7 @@ const MyRoutineList = (props) => {
         });
 
       fetch(
-        `${`https://heavy-wasp-16.loca.lt`}/api/routines/${myRoutineId}/exercises`,
+        `${`https://tender-cat-20.loca.lt`}/api/routines/${myRoutineId}/exercises`,
         {
           headers: {
             method: "GET",

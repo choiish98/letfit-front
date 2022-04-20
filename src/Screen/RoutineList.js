@@ -22,7 +22,7 @@ const RoutineList = (props) => {
   });
 
   const getUserProfile = (id) => {
-    fetch(`https://heavy-wasp-16.loca.lt/api/users/${id}`, {
+    fetch(`https://tender-cat-20.loca.lt/api/users/${id}`, {
       headers: {
         method: "GET",
       },
@@ -49,21 +49,30 @@ const RoutineList = (props) => {
       <TouchableOpacity
         activeOpacity={0.5}
         onPress={() => console.log(item.id)}
+        style={styles.list_card}
       >
-        <View>
-          <View>
-            <Text>1</Text>
+        <View style={styles.list_top}>
+          <View style={styles.list_top_rank}>
+            <Text style={styles.list_top_rank_text}>1</Text>
+            <Text style={styles.list_top_rank_underLine}> </Text>
           </View>
-          <View>
-            <Text>{item.name}</Text>
-            <Text>{item.followers}</Text>
+          <View style={styles.list_top_rank_info}>
+            <Text style={styles.list_top_rank_info_name}>{item.name}</Text>
+            <Text style={styles.list_top_rank_info_follow}>
+              {item.followers}명이 팔로우 중
+            </Text>
           </View>
         </View>
-        <View>
-          <Text>{thisTags}</Text>
-          <View>
-            <Text>{item.creator.username}</Text>
-            <Image source={require("../Image/like_profile_base.png")} />
+        <View style={styles.list_bottom}>
+          <Text style={styles.list_hashtags}>{thisTags}</Text>
+          <View style={styles.list_bottom_creator}>
+            <Text style={styles.list_bottom_creator_username}>
+              {item.creator.username}
+            </Text>
+            <Image
+              source={require("../Image/like_profile_base.png")}
+              style={styles.list_bottom_creator_img}
+            />
           </View>
         </View>
       </TouchableOpacity>
@@ -98,23 +107,44 @@ const RoutineList = (props) => {
         <TouchableOpacity
           activeOpacity={0.5}
           onPress={goHome}
-          style={styles.topbar_back}
+          style={styles.topbar_box}
         >
-          <Image source={require("../Image/back_bnt.png")} />
+          <Image
+            source={require("../Image/back_white_bnt.png")}
+            style={styles.topbar_back_img}
+          />
         </TouchableOpacity>
         <Text style={styles.topbar_text}>LETFIT</Text>
+        <Text style={styles.topbar_box}> </Text>
       </View>
       <View style={styles.body}>
         <View style={styles.body_topBox}>
           <Text style={styles.body_topBox_Text}>루틴리스트</Text>
-          <Text>추천순</Text>
+          <View style={styles.body_topBox_sort}>
+            <Text style={styles.body_topBox_sort_text}>추천순</Text>
+            <Image
+              source={require("../Image/sort_bnt.png")}
+              style={styles.body_topBox_btn}
+            />
+          </View>
         </View>
-        <TouchableOpacity activeOpacity={0.5} onPress={goMakeRoutine}>
-          <Text>+</Text>
-        </TouchableOpacity>
-        <TouchableOpacity activeOpacity={0.5} onPress={goSearch}>
-          <Text>검색</Text>
-        </TouchableOpacity>
+        <View style={styles.body_toolBox}>
+          <View style={styles.body_toolBox_left}>
+            <TouchableOpacity activeOpacity={0.5} onPress={goMakeRoutine}>
+              <Image
+                source={require("../Image/routine_add_bnt.png")}
+                style={styles.body_toolBox_add}
+              />
+            </TouchableOpacity>
+            <Text>내 루틴 만들기</Text>
+          </View>
+          <TouchableOpacity activeOpacity={0.5} onPress={goSearch}>
+            <Image
+              source={require("../Image/serach_bnt.png")}
+              style={styles.body_toolBox_search}
+            />
+          </TouchableOpacity>
+        </View>
         <View>{renderFeed()}</View>
       </View>
     </View>
@@ -126,37 +156,150 @@ const RoutineList = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "white",
   },
   topbar: {
-    flex: 1,
-    justifyContent: "flex-end",
-    alignItems: "center",
+    flex: 0.8,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-end",
+    width: "100%",
     backgroundColor: "#2A3042",
+    paddingBottom: 15,
   },
-  topbar_back: {},
+  topbar_box: {
+    paddingLeft: 10,
+    width: 33,
+  },
+  topbar_back_img: {
+    width: 13,
+    height: 23,
+  },
   topbar_text: {
+    width: "33%",
     textAlign: "center",
     fontSize: 25,
     color: "#2A3042",
     fontWeight: "600",
-    paddingBottom: 15,
     color: "white",
   },
   body: {
     flex: 7.5,
-    backgroundColor: "red",
+    width: "90%",
+    marginLeft: "5%",
   },
   body_topBox: {
-    flex: 0.12,
+    flex: 0.07,
     justifyContent: "center",
-    alignContent: "center",
+    alignItems: "center",
+    marginTop: 10,
+  },
+  body_topBox_Text: {
+    fontSize: 20,
+    fontWeight: "600",
+    paddingBottom: 4,
+  },
+  body_topBox_sort: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  body_topBox_sort_text: {
+    fontSize: 16,
+    marginRight: 5,
+  },
+  body_topBox_btn: {
+    width: 8,
+    height: 8,
+  },
+  body_toolBox: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingBottom: 3,
+    borderBottomWidth: 1,
+    marginBottom: 10,
+  },
+  body_toolBox_left: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "flex-end",
+  },
+  body_toolBox_add: {
+    width: 17,
+    height: 17,
+    marginRight: 5,
+  },
+  body_toolBox_search: {
+    width: 23,
+    height: 23,
+  },
+  list_card: {
+    borderBottomWidth: 1,
+    marginBottom: 20,
+  },
+  list_top: {
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
+  },
+  list_top_rank: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: 40,
+    height: 40,
+    marginLeft: 5,
+    backgroundColor: "#242A3D",
+  },
+  list_top_rank_text: {
+    textAlign: "center",
+    fontSize: 25,
+    fontWeight: "600",
+    color: "white",
+    marginBottom: -2,
+  },
+  list_top_rank_underLine: {
+    width: "28%",
+    height: 1,
     backgroundColor: "white",
   },
-  body_topText: {
+  list_top_rank_info: {
     justifyContent: "center",
-    alignContent: "center",
-    fontSize: 13,
+    alignItems: "flex-start",
+    marginLeft: 20,
+  },
+  list_top_rank_info_name: {
+    fontSize: 20,
     fontWeight: "600",
+    color: "#242A3D",
+  },
+  list_top_rank_info_follow: {
+    fontSize: 11,
+    color: "#464B58",
+  },
+  list_bottom: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  list_hashtags: {
+    color: "#242A3D",
+  },
+  list_bottom_creator: {
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+  },
+  list_bottom_creator_username: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#464B58",
+  },
+  list_bottom_creator_img: {
+    width: 25,
+    height: 25,
+    marginLeft: 10,
+    marginBottom: 3,
   },
 });
 
