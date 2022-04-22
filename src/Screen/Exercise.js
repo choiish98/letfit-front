@@ -12,7 +12,7 @@ import * as Progress from "react-native-progress";
 
 const Exercise = (props) => {
   const [loading, setLoading] = useState(false);
-  const [rep, setSep] = useState(2);
+  const [rep, setRep] = useState(2);
   const [set, setSet] = useState(2);
   const [runningTime, setRunningTime] = useState(5);
   const [restTime, setRestTime] = useState(5);
@@ -38,7 +38,15 @@ const Exercise = (props) => {
 
   // 완료 확인
   useEffect(() => {
-    if (timerSets === set) goPre();
+    if (timerSets === set)
+      props.navigation.replace("Exercise_done", {
+        timerSets,
+        set,
+        runningTime,
+        restTime,
+        totalTime,
+        item: props.route.params.item,
+      });
   }, [timerSets]);
 
   // 타이머 시작 종료마다 남은 시간을 검사 하여 브레이크 모드 전환

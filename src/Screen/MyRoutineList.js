@@ -9,8 +9,8 @@ import Loader from "../Components/Loader";
 import { stringify } from "flatted";
 import { color } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
 
-// 완료 루틴 수 업데이트 기능 필요
 // 요일 별 부위 밑에 날짜 업데이트 필요
+// 날짜로 요일 찾아서 오늘 운동 업데이트 필요
 
 const MyRoutineList = (props) => {
   const [loading, setLoading] = useState(false);
@@ -92,7 +92,8 @@ const MyRoutineList = (props) => {
           const tempArray = [];
 
           responseJson[0].exercise.filter((exercise) => {
-            // 어깨로 해놨는데 오늘 운동 부위로 바꿔줘야 함
+            // 어깨로 해놨는데 오늘 운동 부위로 바꿔줘야 함, today_bodypart.include(exercise.body_part)
+            // 요일을 찾아서 today_body_part가 뭔지 찾아야 함
             // 운동 자료구조를 이름만 넣는게 아니라 성공 횟수 목표 횟수 운동 시간을 넣는 걸로 업데이트 필요
             if (exercise.body_part === "어깨") {
               const thisExercise =

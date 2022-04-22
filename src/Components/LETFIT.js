@@ -7,6 +7,7 @@ import Detail from "./Detail";
 import MyRoutineList from "../Screen/MyRoutineList";
 import RoutineList from "../Screen/RoutineList";
 import Exercise from "../Screen/Exercise";
+import Exercise_done from "../Screen/Exercise_done";
 
 const Stack = createStackNavigator();
 
@@ -58,6 +59,13 @@ const LETFIT = (props) => {
       <Stack.Screen
         name="Exercise"
         component={Exercise}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="Exercise_done"
+        component={Exercise_done}
         options={{
           headerShown: false,
         }}
