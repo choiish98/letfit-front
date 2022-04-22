@@ -30,7 +30,7 @@ const SNS = (props) => {
     } else {
       AsyncStorage.getItem("token")
         .then((token) => {
-          fetch(`https://tender-cat-20.loca.lt/api/users/follow/`, {
+          fetch(`https://wicked-catfish-71.loca.lt/api/users/follow/`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -55,11 +55,14 @@ const SNS = (props) => {
 
   const getUserData = () => {
     // 유저 정보 호출
-    fetch(`https://tender-cat-20.loca.lt/api/users/${props.route.params.id}`, {
-      headers: {
-        method: "GET",
-      },
-    })
+    fetch(
+      `https://wicked-catfish-71.loca.lt/api/users/${props.route.params.id}`,
+      {
+        headers: {
+          method: "GET",
+        },
+      }
+    )
       .then((response) => response.json())
       .then((responseJson) => {
         // 유저 정보 저장
@@ -114,7 +117,7 @@ const SNS = (props) => {
         >
           <Image
             style={styles.feeds_card}
-            source={{ uri: `https://tender-cat-20.loca.lt` + item.photo }}
+            source={{ uri: `https://wicked-catfish-71.loca.lt` + item.photo }}
           />
         </TouchableOpacity>
       );

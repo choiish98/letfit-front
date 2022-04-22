@@ -34,11 +34,14 @@ const MyRoutineList = (props) => {
       goHome();
       myRoutineId = 1;
     } else {
-      fetch(`https://tender-cat-20.loca.lt/api/routines/${myRoutineId}/days`, {
-        headers: {
-          method: "GET",
-        },
-      })
+      fetch(
+        `https://wicked-catfish-71.loca.lt/api/routines/${myRoutineId}/days`,
+        {
+          headers: {
+            method: "GET",
+          },
+        }
+      )
         .then((response) => response.json())
         .then((responseJson) => {
           // 대표 루틴 저장
@@ -76,7 +79,7 @@ const MyRoutineList = (props) => {
         });
 
       fetch(
-        `${`https://tender-cat-20.loca.lt`}/api/routines/${myRoutineId}/exercises`,
+        `${`https://wicked-catfish-71.loca.lt`}/api/routines/${myRoutineId}/exercises`,
         {
           headers: {
             method: "GET",
@@ -181,18 +184,29 @@ const MyRoutineList = (props) => {
   return loading ? (
     <View style={styles.container}>
       <View style={styles.topbar}>
+        <TouchableOpacity
+          activeOpacity={0.5}
+          onPress={goHome}
+          style={styles.topbar_box}
+        >
+          <Image
+            source={require("../Image/back_white_bnt.png")}
+            style={styles.topbar_back_img}
+          />
+        </TouchableOpacity>
         <Text style={styles.topbar_text}>LETFIT</Text>
-      </View>
-      <View style={styles.status}>
-        <Text>
-          {date.getFullYear()}.{date.getMonth()}.{date.getDay()}
-        </Text>
-        <Text>
-          완료 {props.user.userData.exercise_success_number} 루틴{" "}
-          {props.user.userData.exercise_goal_number}
-        </Text>
+        <Text style={styles.topbar_box}> </Text>
       </View>
       <View style={styles.body}>
+        <View style={styles.status}>
+          <Text>
+            {date.getFullYear()}.{date.getMonth()}.{date.getDay()}
+          </Text>
+          <Text>
+            완료 {props.user.userData.exercise_success_number} 루틴{" "}
+            {props.user.userData.exercise_goal_number}
+          </Text>
+        </View>
         <View style={styles.calander}>
           <View style={styles.calader_day}>
             <Text>{arrToText(mon)}</Text>
@@ -238,7 +252,7 @@ const MyRoutineList = (props) => {
             unfilledColor="#DEDEDE"
             borderColor="#DEDEDE"
             borderRadius="0"
-            width={340}
+            width={330}
             height={15}
           />
 
@@ -272,9 +286,6 @@ const MyRoutineList = (props) => {
 
         <View style={styles.doinList}>{renderFeed()}</View>
       </View>
-      <TouchableOpacity activeOpacity={0.5} onPress={goHome}>
-        <Text>go home</Text>
-      </TouchableOpacity>
     </View>
   ) : (
     Loader
@@ -284,19 +295,37 @@ const MyRoutineList = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "white",
   },
   topbar: {
-    flex: 1,
-    justifyContent: "flex-end",
-    alignItems: "center",
+    flex: 0.8,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-end",
+    width: "100%",
     backgroundColor: "#2A3042",
+    paddingBottom: 15,
+  },
+  topbar_box: {
+    paddingLeft: 10,
+    width: 33,
+  },
+  topbar_back_img: {
+    width: 13,
+    height: 23,
   },
   topbar_text: {
+    width: "33%",
+    textAlign: "center",
     fontSize: 25,
     color: "#2A3042",
     fontWeight: "600",
-    paddingBottom: 15,
     color: "white",
+  },
+  body: {
+    flex: 6,
+    width: "90%",
+    marginLeft: "5%",
   },
   status: {
     flexDirection: "row",
@@ -304,14 +333,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 10,
   },
-  body: {
-    flex: 6,
-  },
   calander: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: 5,
   },
   calader_day: {
     justifyContent: "flex-end",
@@ -338,7 +363,11 @@ const styles = StyleSheet.create({
     color: "#DEDEDE",
   },
   progress: {
-    margin: 20,
+    justifyContent: "center",
+    marginTop: 20,
+    marginBottom: 20,
+    marginLeft: 10,
+    marginRight: 10,
   },
   progress_status: {
     flexDirection: "row",
