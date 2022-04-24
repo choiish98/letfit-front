@@ -6,8 +6,7 @@ import { actionCreators } from "../Actions/userIndex";
 import { routineActionCreators } from "../Actions/routineIndex";
 import Loader from "../Components/Loader";
 
-// 운동 info api
-// break mode에서 reps를 break time 이미지로 변환 필요
+// 운동 완료 api
 
 const Exercise = (props) => {
   const [loading, setLoading] = useState(false);
@@ -16,8 +15,9 @@ const Exercise = (props) => {
   const timerSets = props.route.params.timerSets;
   const set = props.route.params.set;
   const totalTime = props.route.params.totalTime;
-  const runningTime = props.route.params.runningTime;
-  const restTime = props.route.params.restTime;
+  const userRunningTime = props.route.params.userRunningTime;
+  const userRestTime = props.route.params.userRestTime;
+  const item = props.route.params.item;
 
   const firstAction = () => {
     setLoading(true);
@@ -27,28 +27,6 @@ const Exercise = (props) => {
   useEffect(() => {
     loading === false ? firstAction() : console.log("운동 화면");
   });
-
-  // [부위] 운동명 <= 렌더링 함수, 배열을 <Text> [부위] </Text> <Text> 운동명 </Text>로
-  const renderingTitle = () => {
-    const title = [];
-    props.route.params.item.split("] ").map((item) => {
-      if (item.includes("[")) {
-        title.push(
-          <Text key={"parts"} style={styles.title_parts}>
-            {item.toString() + "]"}
-          </Text>
-        );
-      } else {
-        title.push(
-          <Text key={"exercise"} style={styles.title_exercise}>
-            {item.toString()}
-          </Text>
-        );
-      }
-    });
-
-    return <View style={styles.title}>{title}</View>;
-  };
 
   // 초를 분 단위로
   const secToMin = (sec) => {
@@ -69,7 +47,10 @@ const Exercise = (props) => {
         <Text style={styles.topbar_text}>LETFIT</Text>
       </View>
       <View style={styles.body}>
-        <View style={styles.body_topBox}>{renderingTitle()}</View>
+        <View style={styles.title}>
+          <Text style={styles.title_parts}>{item.body_part}</Text>
+          <Text style={styles.title_exercise}>{item.name}</Text>
+        </View>
         <View style={styles.body_info}>
           <Text style={styles.body_info_today}>TODAY</Text>
           <View style={styles.body_info_goalBox}>
@@ -106,7 +87,9 @@ const Exercise = (props) => {
             </View>
             <Text style={styles.body_setBox_small_text}>전체 운동 시간</Text>
           </View>
-          <Text style={styles.body_report_text}>{secToMin(totalTime)}</Text>
+          <Text style={styles.body_report_text}>
+            {secToMin(userRunningTime + userRestTime)}
+          </Text>
         </View>
         <View style={styles.body_setBox}>
           <View style={styles.body_setBox_small}>
@@ -120,7 +103,9 @@ const Exercise = (props) => {
               세트 당 평균 소요 시간
             </Text>
           </View>
-          <Text style={styles.body_report_text}>{secToMin(runningTime)}</Text>
+          <Text style={styles.body_report_text}>
+            {secToMin(userRunningTime / timerSets)}
+          </Text>
         </View>
         <View style={styles.body_setBox}>
           <View style={styles.body_setBox_small}>
@@ -134,13 +119,19 @@ const Exercise = (props) => {
               세트 당 평균 휴식 시간
             </Text>
           </View>
-          <Text style={styles.body_report_text}>{secToMin(restTime)}</Text>
+          <Text style={styles.body_report_text}>
+            {secToMin(userRestTime / (timerSets - 1))}
+          </Text>
         </View>
-        <View style={styles.confirm}>
-          <TouchableOpacity activeOpacity={0.5} onPress={confirm}>
+        <View style={styles.body_confirm}>
+          <TouchableOpacity
+            activeOpacity={0.5}
+            onPress={confirm}
+            style={styles.body_confirm_box}
+          >
             <Image
               source={require("../Image/work_complete(bigger).png")}
-              style={styles.body_complete}
+              style={styles.body_setBox_img}
             />
           </TouchableOpacity>
         </View>
@@ -237,9 +228,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginTop: 20,
-    paddingBottom: 5,
-    borderBottomWidth: 2,
+    marginTop: 30,
+    paddingBottom: 10,
+    borderBottomWidth: 3,
     borderBottomColor: "#DEDEDF",
   },
   body_setBox_small: {
@@ -280,15 +271,15 @@ const styles = StyleSheet.create({
     height: null,
     resizeMode: "contain",
   },
-  body_complete: {
-    width: 100,
-    height: 100,
-  },
-  confirm: {
+  body_confirm: {
+    width: "100%",
+    height: "30%",
     justifyContent: "center",
     alignItems: "center",
-    width: 100,
-    height: 100,
+  },
+  body_confirm_box: {
+    width: 150,
+    height: 150,
   },
 });
 

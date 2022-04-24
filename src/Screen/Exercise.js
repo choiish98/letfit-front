@@ -12,13 +12,14 @@ import * as Progress from "react-native-progress";
 
 const Exercise = (props) => {
   const [loading, setLoading] = useState(false);
+  const [item, setItem] = useState({});
   const [rep, setRep] = useState(2);
   const [set, setSet] = useState(2);
   const [runningTime, setRunningTime] = useState(5);
   const [restTime, setRestTime] = useState(5);
   const [totalTime, setTotalTime] = useState(set * (runningTime + restTime));
   const [isTimerRunning, setisTimerRunning] = useState(false); // 일시 정지
-  const [isBreak, setIsBreak] = useState(false); // 일시 정지
+  const [isBreak, setIsBreak] = useState(false); // 쉬는 시간
 
   // timer에 쓰이는 변수들
   const [timerRep, setTimerRep] = useState(rep); // 남은 렙스
@@ -28,6 +29,7 @@ const Exercise = (props) => {
   const [intervalId, setIntervalId] = useState(0); // timer 저장
 
   const firstAction = () => {
+    setItem(props.route.params.item);
     setLoading(true);
   };
 
@@ -38,15 +40,16 @@ const Exercise = (props) => {
 
   // 완료 확인
   useEffect(() => {
-    if (timerSets === set)
+    if (timerSets === set) {
       props.navigation.replace("Exercise_done", {
         timerSets,
         set,
-        runningTime,
-        restTime,
         totalTime,
-        item: props.route.params.item,
+        userRunningTime: { runningTime },
+        userRestTime: { restTime },
+        item,
       });
+    }
   }, [timerSets]);
 
   // 타이머 시작 종료마다 남은 시간을 검사 하여 브레이크 모드 전환
@@ -86,6 +89,7 @@ const Exercise = (props) => {
   };
 
   // 1초마다 남은 렙스 횟수를 감소시킴, running time이 지나면 종료, 종료 후 set 증가
+  // gogo 버튼 재생 함수
   const timerActive = () => {
     if (!isTimerRunning) {
       console.log("시작");
@@ -112,33 +116,20 @@ const Exercise = (props) => {
     return 1 - thisResult;
   };
 
+  // 운동 시간, 쉬는 시간, 남은 시간 보여주기
+  const timerSetting = () => {
+    if (!isBreak) {
+      return secToMin(timerRunningTime);
+    } else {
+      return secToMin(timerRunningTime);
+    }
+  };
+
   // 초를 분 단위로
   const secToMin = (sec) => {
     let parseSec = parseInt(sec % 60);
     parseSec = parseSec < 10 ? "0" + parseSec : parseSec;
     return parseInt(sec / 60) + ":" + parseSec;
-  };
-
-  // [부위] 운동명 <= 렌더링 함수, 배열을 <Text> [부위] </Text> <Text> 운동명 </Text>로
-  const renderingTitle = () => {
-    const title = [];
-    props.route.params.item.split("] ").map((item) => {
-      if (item.includes("[")) {
-        title.push(
-          <Text key={"parts"} style={styles.title_parts}>
-            {item.toString() + "]"}
-          </Text>
-        );
-      } else {
-        title.push(
-          <Text key={"exercise"} style={styles.title_exercise}>
-            {item.toString()}
-          </Text>
-        );
-      }
-    });
-
-    return <View style={styles.title}>{title}</View>;
   };
 
   // 이전 화면으로 전환
@@ -149,22 +140,14 @@ const Exercise = (props) => {
   return loading ? (
     <View style={styles.container}>
       <View style={styles.topbar}>
-        <TouchableOpacity
-          activeOpacity={0.5}
-          onPress={goPre}
-          style={styles.topbar_box}
-        >
-          <Image
-            source={require("../Image/back_white_bnt.png")}
-            style={styles.topbar_back_img}
-          />
-        </TouchableOpacity>
         <Text style={styles.topbar_text}>LETFIT</Text>
-        <Text style={styles.topbar_box}> </Text>
       </View>
       <View style={styles.body}>
         <View style={styles.body_topBox}>
-          {renderingTitle()}
+          <View style={styles.title}>
+            <Text style={styles.title_parts}>{item.body_part}</Text>
+            <Text style={styles.title_exercise}>{item.name}</Text>
+          </View>
           <TouchableOpacity
             activeOpacity={0.5}
             style={styles.body_topBox_question}
@@ -198,7 +181,7 @@ const Exercise = (props) => {
             marginBottom={20}
           />
           <Text style={styles.body_count}>{timerRep}</Text>
-          <Text style={styles.body_restTime}>{secToMin(timerRunningTime)}</Text>
+          <Text style={styles.body_restTime}>{timerSetting()}</Text>
         </View>
         <View>
           <View style={styles.body_counterBox}>
@@ -218,8 +201,15 @@ const Exercise = (props) => {
             </View>
           </View>
         </View>
-        <TouchableOpacity activeOpacity={0.5} onPress={timerActive}>
-          <Text> gogo </Text>
+        <TouchableOpacity
+          activeOpacity={0.5}
+          onPress={timerActive}
+          style={styles.body_play_box}
+        >
+          <Image
+            source={require("../Image/play_work_bnt.png")}
+            style={styles.body_play}
+          />
         </TouchableOpacity>
       </View>
     </View>
@@ -235,20 +225,10 @@ const styles = StyleSheet.create({
   },
   topbar: {
     flex: 0.8,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-end",
-    width: "100%",
+    justifyContent: "flex-end",
+    alignItems: "center",
     backgroundColor: "#2A3042",
     paddingBottom: 15,
-  },
-  topbar_box: {
-    paddingLeft: 10,
-    width: 33,
-  },
-  topbar_back_img: {
-    width: 13,
-    height: 23,
   },
   topbar_text: {
     width: "33%",

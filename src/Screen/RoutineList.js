@@ -22,7 +22,7 @@ const RoutineList = (props) => {
   });
 
   const getUserProfile = (id) => {
-    fetch(`https://wicked-catfish-71.loca.lt/api/users/${id}`, {
+    fetch(`https://pink-lionfish-91.loca.lt/api/users/${id}`, {
       headers: {
         method: "GET",
       },

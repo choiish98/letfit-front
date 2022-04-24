@@ -42,7 +42,7 @@ const Login = (props) => {
     formBody = formBody.join("&");
 
     // 로그인 요청
-    fetch(`https://wicked-catfish-71.loca.lt/api/users/token/`, {
+    fetch(`https://pink-lionfish-91.loca.lt/api/users/token/`, {
       method: "POST",
       body: formBody,
       headers: {

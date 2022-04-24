@@ -14,8 +14,10 @@ import { color } from "react-native/Libraries/Components/View/ReactNativeStyleAt
 
 const MyRoutineList = (props) => {
   const [loading, setLoading] = useState(false);
-  const [date, setDate] = useState(new Date());
   const [todayExercise, setTodayExercise] = useState([]);
+  const [d, setD] = useState(0);
+
+  // 이번 주 운동 저장
   const [mon, setMon] = useState("");
   const [tue, setTue] = useState("");
   const [wed, setWed] = useState("");
@@ -24,10 +26,78 @@ const MyRoutineList = (props) => {
   const [sat, setSat] = useState("");
   const [sun, setSun] = useState("");
 
+  // 요일 별 날짜 저장
+  let date = [1, 2, 3, 4, 5, 6, 7];
+
+  // dummy
+  const dummy = [
+    {
+      id: 1,
+      name: "사레레",
+      body_part: "어깨",
+      set: 2,
+      runningTime: 6,
+      restTime: 6,
+      reps: 2,
+      done: false,
+    },
+    {
+      id: 2,
+      name: "프레",
+      body_part: "어깨",
+      set: 2,
+      runningTime: 6,
+      restTime: 6,
+      reps: 2,
+      done: true,
+    },
+    {
+      id: 3,
+      name: "밀프",
+      body_part: "어깨",
+      set: 2,
+      runningTime: 6,
+      restTime: 6,
+      reps: 2,
+      done: true,
+    },
+  ];
+
+  // 날짜 가져오기, 요일 별 날짜 업데이트
+  const getDate = () => {
+    const thisDate = new Date();
+    setD(thisDate);
+
+    // 요일별 날짜 업데이트
+    let thisDay = thisDate.getDate(); // 날짜
+    let tempDay = thisDate.getDay(); // 요일
+    if (tempDay === 0) tempDay = tempDay + 7;
+
+    for (let i = 0; i < date.length; i++) {
+      if (date[i] < tempDay) {
+        date[i] = thisDay - (tempDay - date[i]);
+        console.log("과거: " + date[i]);
+      } else if (date[i] > tempDay) {
+        date[i] = thisDay + (tempDay - date[i]);
+      } else {
+        date[i] = thisDay;
+      }
+    }
+  };
+
+  const firstAction = () => {
+    myRepresentRoutine();
+    getDate();
+    setLoading(true);
+  };
+
+  useEffect(() => {
+    loading === false ? firstAction() : console.log("asdf");
+  });
+
   // 대표 루틴 받아오기
   const myRepresentRoutine = () => {
     const myRoutineId = props.user.userData.represent_routine.routine;
-
     if (myRoutineId == null) {
       // null 처리필요
       console.log("대표루틴이 존재하지 x");
@@ -35,7 +105,7 @@ const MyRoutineList = (props) => {
       myRoutineId = 1;
     } else {
       fetch(
-        `https://wicked-catfish-71.loca.lt/api/routines/${myRoutineId}/days`,
+        `https://pink-lionfish-91.loca.lt/api/routines/${myRoutineId}/days`,
         {
           headers: {
             method: "GET",
@@ -79,7 +149,7 @@ const MyRoutineList = (props) => {
         });
 
       fetch(
-        `${`https://wicked-catfish-71.loca.lt`}/api/routines/${myRoutineId}/exercises`,
+        `${`https://pink-lionfish-91.loca.lt`}/api/routines/${myRoutineId}/exercises`,
         {
           headers: {
             method: "GET",
@@ -88,20 +158,36 @@ const MyRoutineList = (props) => {
       )
         .then((response) => response.json())
         .then((responseJson) => {
+          console.log("responseJson: " + JSON.stringify(responseJson));
+
           // 오늘 운동 불러오기
           const tempArray = [];
 
-          responseJson[0].exercise.filter((exercise) => {
-            // 어깨로 해놨는데 오늘 운동 부위로 바꿔줘야 함, today_bodypart.include(exercise.body_part)
-            // 요일을 찾아서 today_body_part가 뭔지 찾아야 함
-            // 운동 자료구조를 이름만 넣는게 아니라 성공 횟수 목표 횟수 운동 시간을 넣는 걸로 업데이트 필요
+          // responseJson[0].exercise.filter((exercise) => {
+          //   // 어깨로 해놨는데 오늘 운동 부위로 바꿔줘야 함, today_bodypart.include(exercise.body_part)
+          //   // 요일을 찾아서 today_body_part가 뭔지 찾아야 함
+          //   // 운동 자료구조를 이름만 넣는게 아니라 성공 횟수 목표 횟수 운동 시간을 넣는 걸로 업데이트 필요
+          //   if (exercise.body_part === "어깨") {
+          //     const thisExercise =
+          //       "[" + exercise.body_part + "] " + exercise.name;
+          //     tempArray.push(thisExercise);
+          //   }
+          // });
+
+          dummy.map((exercise) => {
             if (exercise.body_part === "어깨") {
-              const thisExercise =
-                "[" + exercise.body_part + "] " + exercise.name;
+              const thisExercise = {};
+              thisExercise.key = exercise.key;
+              thisExercise.body_part = "[" + exercise.body_part + "]";
+              thisExercise.name = exercise.name;
+              thisExercise.set = exercise.set;
+              thisExercise.runningTime = exercise.runningTime;
+              thisExercise.restTime = exercise.restTime;
+              thisExercise.reps = exercise.reps;
+              thisExercise.done = exercise.done;
               tempArray.push(thisExercise);
             }
           });
-          console.log("TempArray: " + tempArray);
           setTodayExercise(tempArray);
         })
         .catch((error) => {
@@ -109,22 +195,6 @@ const MyRoutineList = (props) => {
         });
     }
   };
-
-  // 날짜 처리 아직 안 됨
-  const getDate = () => {
-    const date = new Date();
-    setDate(date);
-  };
-
-  const firstAction = () => {
-    myRepresentRoutine();
-    getDate();
-    setLoading(true);
-  };
-
-  useEffect(() => {
-    loading === false ? firstAction() : console.log("asdf");
-  });
 
   const goHome = () => {
     props.navigation.replace("Home");
@@ -139,11 +209,16 @@ const MyRoutineList = (props) => {
       <TouchableOpacity
         activeOpacity={0.5}
         onPress={() => {
-          props.navigation.replace("Exercise", { item });
+          if (!item.done) {
+            props.navigation.replace("Exercise", { item });
+          }
         }}
       >
         <View style={styles.todayExerciseCard}>
-          <Text style={styles.todayExerciseCard_text}>{item}</Text>
+          <Text style={styles.todayExerciseCard_text_grey}>
+            {item.body_part}
+          </Text>
+          <Text style={styles.todayExerciseCard_text}>{item.name}</Text>
         </View>
       </TouchableOpacity>
     );
@@ -154,9 +229,27 @@ const MyRoutineList = (props) => {
       <FlatList
         data={todayExercise}
         renderItem={renderItem}
-        keyExtractor={(item) => item}
+        keyExtractor={(item) => item.id}
       />
     );
+  };
+
+  // 날짜 렌더링
+  const updateDate = () => {
+    const year = d.getFullYear();
+    const month = d.getMonth() + 1;
+    const date = d.getDate();
+
+    return (
+      <Text>
+        {year}.{month}.{date}
+      </Text>
+    );
+  };
+
+  // 요일 별 날짜 렌더링
+  const updateDay = (thisDay) => {
+    return date[thisDay];
   };
 
   // 부위 배열을 text로 하나씩 리턴
@@ -182,6 +275,9 @@ const MyRoutineList = (props) => {
     );
   };
 
+  // 달력 반복문
+  const calanderRoop = () => {};
+
   return loading ? (
     <View style={styles.container}>
       <View style={styles.topbar}>
@@ -200,9 +296,7 @@ const MyRoutineList = (props) => {
       </View>
       <View style={styles.body}>
         <View style={styles.status}>
-          <Text>
-            {date.getFullYear()}.{date.getMonth()}.{date.getDay()}
-          </Text>
+          {updateDate()}
           <Text>
             완료 {props.user.userData.exercise_success_number} 루틴{" "}
             {props.user.userData.exercise_goal_number}
@@ -213,39 +307,45 @@ const MyRoutineList = (props) => {
             <Text>{arrToText(mon)}</Text>
             <View style={styles.calader_day_bar}></View>
             <Text>월</Text>
+            <Text>{updateDay(0)}</Text>
           </View>
           <View style={styles.calader_day}>
             <Text>{arrToText(tue)}</Text>
             <View style={styles.calader_day_bar}></View>
             <Text>화</Text>
+            <Text>{date[1]}</Text>
           </View>
           <View style={styles.calader_day}>
             <Text>{arrToText(wed)}</Text>
             <View style={styles.calader_day_bar}></View>
             <Text>수</Text>
+            <Text>{date[2]}</Text>
           </View>
           <View style={styles.calader_day}>
             <Text>{arrToText(thu)}</Text>
             <View style={styles.calader_day_bar}></View>
             <Text>목</Text>
+            <Text>{date[3]}</Text>
           </View>
           <View style={styles.calader_day}>
             <Text>{arrToText(fri)}</Text>
             <View style={styles.calader_day_bar}></View>
             <Text>금</Text>
+            <Text>{date[4]}</Text>
           </View>
           <View style={styles.calader_day}>
             <Text>{arrToText(sat)}</Text>
             <View style={styles.calader_day_bar}></View>
             <Text>토</Text>
+            <Text>{date[5]}</Text>
           </View>
           <View style={styles.calader_day}>
             <Text>{arrToText(sun)}</Text>
             <View style={styles.calader_day_bar}></View>
             <Text>일</Text>
+            <Text>{date[6]}</Text>
           </View>
         </View>
-
         <View style={styles.progress}>
           <Progress.Bar
             progress={goalProgress()}
@@ -284,7 +384,6 @@ const MyRoutineList = (props) => {
             </TouchableOpacity>
           </View>
         </View>
-
         <View style={styles.doinList}>{renderFeed()}</View>
       </View>
     </View>
@@ -401,6 +500,7 @@ const styles = StyleSheet.create({
     height: 25,
   },
   todayExerciseCard: {
+    flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     height: 70,
@@ -408,10 +508,17 @@ const styles = StyleSheet.create({
     color: "#2A3042",
     margin: 10,
   },
-  todayExerciseCard_text: {
+  todayExerciseCard_text_grey: {
+    marginRight: 5,
     fontSize: 16,
     fontWeight: "600",
-    color: "#2A3042",
+    color: "#7F7F80",
+  },
+  todayExerciseCard_text: {
+    marginRight: 5,
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#242A3D",
   },
 });
 
