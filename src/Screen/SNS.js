@@ -30,7 +30,7 @@ const SNS = (props) => {
     } else {
       AsyncStorage.getItem("token")
         .then((token) => {
-          fetch(`https://pink-lionfish-91.loca.lt/api/users/follow/`, {
+          fetch(`https://average-elephant-5.loca.lt/api/users/follow/`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -56,7 +56,7 @@ const SNS = (props) => {
   const getUserData = () => {
     // 유저 정보 호출
     fetch(
-      `https://pink-lionfish-91.loca.lt/api/users/${props.route.params.id}`,
+      `https://average-elephant-5.loca.lt/api/users/${props.route.params.id}`,
       {
         headers: {
           method: "GET",
@@ -118,7 +118,7 @@ const SNS = (props) => {
           <Image
             style={styles.feeds_card}
             source={{
-              uri: `https://pink-lionfish-91.loca.lt` + item.photo,
+              uri: `https://average-elephant-5.loca.lt` + item.photo,
             }}
           />
         </TouchableOpacity>

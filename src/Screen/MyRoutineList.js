@@ -105,7 +105,7 @@ const MyRoutineList = (props) => {
       myRoutineId = 1;
     } else {
       fetch(
-        `https://pink-lionfish-91.loca.lt/api/routines/${myRoutineId}/days`,
+        `https://average-elephant-5.loca.lt/api/routines/${myRoutineId}/days`,
         {
           headers: {
             method: "GET",
@@ -149,7 +149,7 @@ const MyRoutineList = (props) => {
         });
 
       fetch(
-        `${`https://pink-lionfish-91.loca.lt`}/api/routines/${myRoutineId}/exercises`,
+        `${`https://average-elephant-5.loca.lt`}/api/routines/${myRoutineId}/exercises`,
         {
           headers: {
             method: "GET",

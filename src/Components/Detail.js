@@ -27,7 +27,7 @@ const Detail = (props) => {
   const getPostData = () => {
     // 게시글 정보 호출
     fetch(
-      `https://pink-lionfish-91.loca.lt/api/posts/${props.route.params.id}/`,
+      `https://average-elephant-5.loca.lt/api/posts/${props.route.params.id}/`,
       {
         headers: {
           method: "GET",
@@ -66,7 +66,7 @@ const Detail = (props) => {
         <Image
           style={{ height: "50%", width: "50%" }}
           source={{
-            uri: `https://pink-lionfish-91.loca.lt` + postData.photo,
+            uri: `https://average-elephant-5.loca.lt` + postData.photo,
           }}
         />
         <Text> username: {postData.poster.username} </Text>

@@ -22,7 +22,7 @@ const RoutineList = (props) => {
   });
 
   const getUserProfile = (id) => {
-    fetch(`https://pink-lionfish-91.loca.lt/api/users/${id}`, {
+    fetch(`https://average-elephant-5.loca.lt/api/users/${id}`, {
       headers: {
         method: "GET",
       },
@@ -98,7 +98,7 @@ const RoutineList = (props) => {
   };
 
   const goMakeRoutine = () => {
-    console.log("MakeRoutine");
+    props.navigation.replace("MakeRoutine");
   };
 
   return loading ? (

@@ -60,7 +60,7 @@ const Upload = (props) => {
       console.log(token);
       console.log(image);
       // 업로드 요청
-      fetch(`https://pink-lionfish-91.loca.lt/api/posts/upload/`, {
+      fetch(`https://average-elephant-5.loca.lt/api/posts/upload/`, {
         method: "POST",
         body: formData,
         headers: {
