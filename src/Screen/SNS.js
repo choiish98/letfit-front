@@ -30,14 +30,17 @@ const SNS = (props) => {
     } else {
       AsyncStorage.getItem("token")
         .then((token) => {
-          fetch(`https://average-elephant-5.loca.lt/api/users/follow/`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `X-JWT ${token}`,
-            },
-            body: JSON.stringify({ id: props.route.params.id }),
-          })
+          fetch(
+            `https://tender-words-shop-121-146-124-174.loca.lt/api/users/follow/`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `X-JWT ${token}`,
+              },
+              body: JSON.stringify({ id: props.route.params.id }),
+            }
+          )
             .then((response) => response.json())
             .then((responseJson) => {
               console.log(JSON.stringify(responseJson));
@@ -56,7 +59,7 @@ const SNS = (props) => {
   const getUserData = () => {
     // 유저 정보 호출
     fetch(
-      `https://average-elephant-5.loca.lt/api/users/${props.route.params.id}`,
+      `https://tender-words-shop-121-146-124-174.loca.lt/api/users/${props.route.params.id}`,
       {
         headers: {
           method: "GET",
@@ -118,7 +121,9 @@ const SNS = (props) => {
           <Image
             style={styles.feeds_card}
             source={{
-              uri: `https://average-elephant-5.loca.lt` + item.photo,
+              uri:
+                `https://tender-words-shop-121-146-124-174.loca.lt` +
+                item.photo,
             }}
           />
         </TouchableOpacity>

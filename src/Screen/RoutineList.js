@@ -22,7 +22,7 @@ const RoutineList = (props) => {
   });
 
   const getUserProfile = (id) => {
-    fetch(`https://average-elephant-5.loca.lt/api/users/${id}`, {
+    fetch(`https://tender-words-shop-121-146-124-174.loca.lt/api/users/${id}`, {
       headers: {
         method: "GET",
       },
@@ -48,7 +48,7 @@ const RoutineList = (props) => {
       // item.id로 이동
       <TouchableOpacity
         activeOpacity={0.5}
-        onPress={() => console.log(item.id)}
+        onPress={() => goDetail(item.id)}
         style={styles.list_card}
       >
         <View style={styles.list_top}>
@@ -95,6 +95,10 @@ const RoutineList = (props) => {
 
   const goSearch = () => {
     console.log("listSearch");
+  };
+
+  const goDetail = (id) => {
+    props.navigation.replace("RoutineDetail", id);
   };
 
   const goMakeRoutine = () => {

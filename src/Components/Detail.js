@@ -27,7 +27,7 @@ const Detail = (props) => {
   const getPostData = () => {
     // 게시글 정보 호출
     fetch(
-      `https://average-elephant-5.loca.lt/api/posts/${props.route.params.id}/`,
+      `https://tender-words-shop-121-146-124-174.loca.lt/api/posts/${props.route.params.id}/`,
       {
         headers: {
           method: "GET",
@@ -66,7 +66,9 @@ const Detail = (props) => {
         <Image
           style={{ height: "50%", width: "50%" }}
           source={{
-            uri: `https://average-elephant-5.loca.lt` + postData.photo,
+            uri:
+              `https://tender-words-shop-121-146-124-174.loca.lt` +
+              postData.photo,
           }}
         />
         <Text> username: {postData.poster.username} </Text>

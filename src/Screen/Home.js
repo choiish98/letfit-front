@@ -17,12 +17,15 @@ const Home = (props) => {
     AsyncStorage.getItem("token")
       .then((token) => {
         // 유저 정보 호출
-        fetch(`https://average-elephant-5.loca.lt/api/users/me/`, {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-            Authorization: `X-JWT ${token}`,
-          },
-        })
+        fetch(
+          `https://tender-words-shop-121-146-124-174.loca.lt/api/users/me/`,
+          {
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+              Authorization: `X-JWT ${token}`,
+            },
+          }
+        )
           .then((response) => response.json())
           .then((responseJson) => {
             // 유저 정보 리덕스 저장
@@ -41,7 +44,7 @@ const Home = (props) => {
   };
 
   const getRoutineData = () => {
-    fetch(`https://average-elephant-5.loca.lt/api/routines/`, {
+    fetch(`https://tender-words-shop-121-146-124-174.loca.lt/api/routines/`, {
       method: "GET",
     })
       .then((response) => response.json())
@@ -56,12 +59,15 @@ const Home = (props) => {
   };
 
   const loadingFeed = () => {
-    fetch(`https://average-elephant-5.loca.lt/api/posts/trending/`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    fetch(
+      `https://tender-words-shop-121-146-124-174.loca.lt/api/posts/trending/`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
       .then((response) => response.json())
       .then((responseJson) => {
         setTrending(responseJson);
@@ -88,7 +94,8 @@ const Home = (props) => {
   });
 
   const renderItem = ({ item }) => {
-    const imageUrl = `https://average-elephant-5.loca.lt` + item.photo;
+    const imageUrl =
+      `https://tender-words-shop-121-146-124-174.loca.lt` + item.photo;
 
     return (
       <TouchableOpacity
@@ -112,7 +119,7 @@ const Home = (props) => {
     // 아이디가 같은지 검사 필요
     // AsyncStorage.getItem("token")
     //   .then((token) => {
-    //     fetch(`${`https://average-elephant-5.loca.lt`}/api/users/`, {
+    //     fetch(`${`https://tender-words-shop-121-146-124-174.loca.lt`}/api/users/`, {
     //       method: "DELETE",
     //       headers: {
     //         Authorization: `X-JWT ${token}`,

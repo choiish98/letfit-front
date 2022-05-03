@@ -60,15 +60,18 @@ const Upload = (props) => {
       console.log(token);
       console.log(image);
       // 업로드 요청
-      fetch(`https://average-elephant-5.loca.lt/api/posts/upload/`, {
-        method: "POST",
-        body: formData,
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `X-JWT ${token}`,
-          Accept: "application/json",
-        },
-      })
+      fetch(
+        `https://tender-words-shop-121-146-124-174.loca.lt/api/posts/upload/`,
+        {
+          method: "POST",
+          body: formData,
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `X-JWT ${token}`,
+            Accept: "application/json",
+          },
+        }
+      )
         .then((response) => response.text())
         .then((responseJson) => {
           console.log(responseJson);
