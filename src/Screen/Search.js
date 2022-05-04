@@ -3,15 +3,15 @@ import { View, Text, Image, TextInput, StyleSheet } from "react-native";
 import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 import { connect } from "react-redux";
 import { actionCreators } from "../store";
+import Modal from "react-native-modal";
 import { API_URL } from "@env";
 import Loader from "../Components/Loader";
 
-// 추천순 등 리스트 정렬 기능
-
 const RoutineList = (props) => {
   const [loading, setLoading] = useState(false);
-  const [entireRoutine, setEntireRoutine] = useState([]); // 렌더링 할 루틴
-  const [renderRoutine, setRenderRoutine] = useState([]); // 전체 운동 저장
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [entireRoutine, setEntireRoutine] = useState([]); // 전체 운동 루틴
+  const [renderRoutine, setRenderRoutine] = useState([]); // 렌더링 운동 저장
   const [context, setContext] = useState(""); // 검색어
 
   const firstAction = () => {
@@ -137,6 +137,33 @@ const RoutineList = (props) => {
     console.log("render: " + JSON.stringify(renderRoutine));
   };
 
+  // 정렬 기능 - 팔로우
+  const followSort = () => {
+    let thisRoutine = renderRoutine;
+    thisRoutine.sort((a, b) => {
+      return a.followers - b.followers;
+    });
+
+    setRenderRoutine(thisRoutine);
+    toggleModal();
+  };
+
+  // 정렬 기능 - 티어
+  const tierSort = () => {
+    let thisRoutine = renderRoutine;
+    thisRoutine.sort((a, b) => {
+      return b.followers - a.followers;
+    });
+
+    setRenderRoutine(thisRoutine);
+    toggleModal();
+  };
+
+  // 모달 on/off
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+
   return loading ? (
     <View style={styles.container}>
       <View style={styles.topbar}>
@@ -157,7 +184,9 @@ const RoutineList = (props) => {
         <View style={styles.body_topBox}>
           <Text style={styles.body_topBox_Text}>루틴리스트</Text>
           <View style={styles.body_topBox_sort}>
-            <Text style={styles.body_topBox_sort_text}>추천순</Text>
+            <TouchableOpacity activeOpacity={0.5} onPress={toggleModal}>
+              <Text style={styles.body_topBox_sort_text}>추천순</Text>
+            </TouchableOpacity>
             <Image
               source={require("../Image/sort_bnt.png")}
               style={styles.body_topBox_btn}
@@ -181,6 +210,21 @@ const RoutineList = (props) => {
             />
           </TouchableOpacity>
         </View>
+        <Modal isVisible={isModalVisible} backdropColor="white">
+          <View style={styles.modal}>
+            <View>
+              <TouchableOpacity activeOpacity={0.5} onPress={followSort}>
+                <Text style={styles.modal_text}>팔로우순</Text>
+              </TouchableOpacity>
+              <TouchableOpacity activeOpacity={0.5} onPress={tierSort}>
+                <Text style={styles.modal_text}>티어순</Text>
+              </TouchableOpacity>
+            </View>
+            <TouchableOpacity activeOpacity={0.5} onPress={toggleModal}>
+              <Image source={require("../Image/routine_del_work_bnt.png")} />
+            </TouchableOpacity>
+          </View>
+        </Modal>
         <View>{renderFeed()}</View>
       </View>
     </View>
@@ -332,6 +376,16 @@ const styles = StyleSheet.create({
     height: 25,
     marginLeft: 10,
     marginBottom: 3,
+  },
+  modal: {
+    justifyContent: "space-between",
+    alignItems: "center",
+    height: "30%",
+  },
+  modal_text: {
+    marginTop: 10,
+    fontSize: 20,
+    fontWeight: "600",
   },
 });
 
