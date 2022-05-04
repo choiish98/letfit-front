@@ -31,7 +31,7 @@ const SNS = (props) => {
       AsyncStorage.getItem("token")
         .then((token) => {
           fetch(
-            `https://tender-words-shop-121-146-124-174.loca.lt/api/users/follow/`,
+            `https://quiet-papers-repeat-121-146-124-174.loca.lt/api/users/follow/`,
             {
               method: "POST",
               headers: {
@@ -59,7 +59,7 @@ const SNS = (props) => {
   const getUserData = () => {
     // 유저 정보 호출
     fetch(
-      `https://tender-words-shop-121-146-124-174.loca.lt/api/users/${props.route.params.id}`,
+      `https://quiet-papers-repeat-121-146-124-174.loca.lt/api/users/${props.route.params.id}`,
       {
         headers: {
           method: "GET",
@@ -122,7 +122,7 @@ const SNS = (props) => {
             style={styles.feeds_card}
             source={{
               uri:
-                `https://tender-words-shop-121-146-124-174.loca.lt` +
+                `https://quiet-papers-repeat-121-146-124-174.loca.lt` +
                 item.photo,
             }}
           />

@@ -61,7 +61,7 @@ const Upload = (props) => {
       console.log(image);
       // 업로드 요청
       fetch(
-        `https://tender-words-shop-121-146-124-174.loca.lt/api/posts/upload/`,
+        `https://quiet-papers-repeat-121-146-124-174.loca.lt/api/posts/upload/`,
         {
           method: "POST",
           body: formData,

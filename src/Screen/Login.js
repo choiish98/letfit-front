@@ -43,7 +43,7 @@ const Login = (props) => {
 
     // 로그인 요청
     fetch(
-      `https://tender-words-shop-121-146-124-174.loca.lt/api/users/token/`,
+      `https://quiet-papers-repeat-121-146-124-174.loca.lt/api/users/token/`,
       {
         method: "POST",
         body: formBody,

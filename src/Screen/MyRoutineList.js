@@ -106,7 +106,7 @@ const MyRoutineList = (props) => {
     } else {
       // 요일 별 부위 저장
       fetch(
-        `https://tender-words-shop-121-146-124-174.loca.lt/api/routines/${myRoutineId}/days`,
+        `https://quiet-papers-repeat-121-146-124-174.loca.lt/api/routines/${myRoutineId}/days`,
         {
           headers: {
             method: "GET",
@@ -150,7 +150,7 @@ const MyRoutineList = (props) => {
         });
 
       fetch(
-        `${`https://tender-words-shop-121-146-124-174.loca.lt`}/api/routines/${myRoutineId}/exercises`,
+        `${`https://quiet-papers-repeat-121-146-124-174.loca.lt`}/api/routines/${myRoutineId}/exercises`,
         {
           headers: {
             method: "GET",

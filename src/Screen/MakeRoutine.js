@@ -6,8 +6,7 @@ import { actionCreators } from "../store";
 import { API_URL } from "@env";
 import Loader from "../Components/Loader";
 
-// + 버튼 눌렀을 때
-// 해시 태그 추가
+// + 버튼 눌렀을 때 해시 태그 추가
 // 요일 별 클릭 시 전환
 // 요일 별 부위 지정
 

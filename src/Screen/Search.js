@@ -7,13 +7,16 @@ import { API_URL } from "@env";
 import Loader from "../Components/Loader";
 
 // 추천순 등 리스트 정렬 기능
-// 순위 1, 2, 3 기능
-// user profile image api
 
 const RoutineList = (props) => {
   const [loading, setLoading] = useState(false);
+  const [entireRoutine, setEntireRoutine] = useState([]); // 렌더링 할 루틴
+  const [renderRoutine, setRenderRoutine] = useState([]); // 전체 운동 저장
+  const [context, setContext] = useState(""); // 검색어
 
   const firstAction = () => {
+    setEntireRoutine(props.user.routineData);
+    setRenderRoutine(entireRoutine);
     setLoading(true);
   };
 
@@ -21,6 +24,7 @@ const RoutineList = (props) => {
     loading === false ? firstAction() : console.log("전체 루틴 리스트 페이지");
   });
 
+  // 리스트 내 각 운동의 유저 정보 받아오기
   const getUserProfile = (id) => {
     fetch(
       `https://quiet-papers-repeat-121-146-124-174.loca.lt/api/users/${id}`,
@@ -85,7 +89,7 @@ const RoutineList = (props) => {
   const renderFeed = () => {
     return (
       <FlatList
-        data={props.user.routineData}
+        data={renderRoutine}
         renderItem={renderItem}
         keyExtractor={(item) => item.toString()}
       />
@@ -93,19 +97,44 @@ const RoutineList = (props) => {
   };
 
   const goHome = () => {
-    props.navigation.replace("Home");
-  };
-
-  const goSearch = () => {
-    props.navigation.replace("Search", { routineData: props.user.routineData });
+    props.navigation.replace("RoutineList");
   };
 
   const goDetail = (id) => {
     props.navigation.replace("RoutineDetail", id);
   };
 
-  const goMakeRoutine = () => {
-    props.navigation.replace("MakeRoutine");
+  // 서치 버튼 클릭 시
+  const goSearch = () => {
+    if (context === "") {
+      setRenderRoutine(entireRoutine);
+      return;
+    }
+    const thisContext = context.split(",");
+
+    const tempList = [];
+    // 루틴 loop
+    entireRoutine.map((exercise) => {
+      let isPush = false;
+
+      // 운동 hashtag array loop
+      exercise.hashtags.map((hashtag) => {
+        if (isPush) return;
+
+        // 검색어 array loop
+        thisContext.map((item) => {
+          if (isPush) return;
+
+          if (hashtag.name === item) {
+            tempList.push(exercise);
+            isPush = true;
+          }
+        });
+      });
+    });
+
+    setRenderRoutine(tempList);
+    console.log("render: " + JSON.stringify(renderRoutine));
   };
 
   return loading ? (
@@ -137,13 +166,13 @@ const RoutineList = (props) => {
         </View>
         <View style={styles.body_toolBox}>
           <View style={styles.body_toolBox_left}>
-            <TouchableOpacity activeOpacity={0.5} onPress={goMakeRoutine}>
-              <Image
-                source={require("../Image/routine_add_bnt.png")}
-                style={styles.body_toolBox_add}
-              />
-            </TouchableOpacity>
-            <Text>내 루틴 만들기</Text>
+            <TextInput
+              value={context}
+              onChangeText={(text) => setContext(text)}
+              autoCapitalize="sentences"
+              autoCorrect
+              placeholder="검색어를 입력하세요."
+            />
           </View>
           <TouchableOpacity activeOpacity={0.5} onPress={goSearch}>
             <Image
@@ -223,19 +252,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    marginTop: 10,
     paddingBottom: 3,
     borderBottomWidth: 1,
-    marginBottom: 10,
+    marginBottom: 30,
   },
   body_toolBox_left: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "flex-end",
-  },
-  body_toolBox_add: {
-    width: 17,
-    height: 17,
-    marginRight: 5,
   },
   body_toolBox_search: {
     width: 23,

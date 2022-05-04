@@ -54,7 +54,7 @@ const Register = ({ navigation }) => {
 
     if (userPassword == userPasswordConfirm) {
       fetch(
-        `${`https://tender-words-shop-121-146-124-174.loca.lt`}/api/users/`,
+        `${`https://quiet-papers-repeat-121-146-124-174.loca.lt`}/api/users/`,
         {
           method: "POST",
           body: formBody,
