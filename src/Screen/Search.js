@@ -28,7 +28,7 @@ const RoutineList = (props) => {
   // 리스트 내 각 운동의 유저 정보 받아오기
   const getUserProfile = (id) => {
     fetch(
-      `https://quiet-papers-repeat-121-146-124-174.loca.lt/api/users/${id}`,
+      `https://fifty-carrots-trade-121-146-124-174.loca.lt/api/users/${id}`,
       {
         headers: {
           method: "GET",

@@ -7,20 +7,11 @@ import { actionCreators } from "../store";
 import { API_URL } from "@env";
 import TopBar from "../Components/TopBar";
 
+// 피드 가로로 넘치는거 정렬 필요
+
 const SNS = (props) => {
-  const [userInfo, setUserInfo] = useState({
-    username: "",
-    tier: "",
-    profile_message: "",
-    accumulated_exercise_day: 0,
-    posts: [
-      {
-        id: "",
-        photo: "",
-      },
-    ],
-  });
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [userInfo, setUserInfo] = useState({ posts: [] });
 
   const follow = () => {
     // 언팔로우 구현 필요
@@ -32,7 +23,7 @@ const SNS = (props) => {
       AsyncStorage.getItem("token")
         .then((token) => {
           fetch(
-            `https://quiet-papers-repeat-121-146-124-174.loca.lt/api/users/follow/`,
+            `https://fifty-carrots-trade-121-146-124-174.loca.lt/api/users/follow/`,
             {
               method: "POST",
               headers: {
@@ -60,7 +51,7 @@ const SNS = (props) => {
   const getUserData = () => {
     // 유저 정보 호출
     fetch(
-      `https://quiet-papers-repeat-121-146-124-174.loca.lt/api/users/${props.route.params.id}`,
+      `https://fifty-carrots-trade-121-146-124-174.loca.lt/api/users/${props.route.params.id}`,
       {
         headers: {
           method: "GET",
@@ -73,17 +64,18 @@ const SNS = (props) => {
         setUserInfo(responseJson);
       })
       .catch((error) => {
-        console.log(error);
+        console.log("error: " + error);
       });
   };
 
   const firstAction = () => {
+    console.log("로딩 중");
     getUserData();
-    setLoading(true);
+    setLoading(false);
   };
 
   useEffect(() => {
-    loading === false ? firstAction() : console.log("유저 정보 업데이트 완료");
+    loading ? firstAction() : console.log("로딩 완료");
   });
 
   const goUpload = () => {
@@ -93,7 +85,7 @@ const SNS = (props) => {
   const renderFeeds = () => {
     let photos = [];
 
-    if (true) {
+    if (userInfo.username === props.user.userData.username) {
       photos.push(
         <View>
           <TouchableOpacity
@@ -119,7 +111,7 @@ const SNS = (props) => {
             style={styles.feeds_card}
             source={{
               uri:
-                `https://quiet-papers-repeat-121-146-124-174.loca.lt` +
+                `https://fifty-carrots-trade-121-146-124-174.loca.lt` +
                 item.photo,
             }}
           />
@@ -137,6 +129,8 @@ const SNS = (props) => {
   };
 
   return loading ? (
+    <Loader />
+  ) : (
     <View style={styles.container}>
       <TopBar navigation={props.navigation} SNS />
       <View style={styles.body}>
@@ -146,8 +140,8 @@ const SNS = (props) => {
               <Image
                 style={styles.userInfo_tier_goal_staff}
                 source={require("../Image/gold.png")}
-                width={30}
-                height={30}
+                width={50}
+                height={50}
               />
               <Text style={{ fontSize: 13 }}> {userInfo.tier} </Text>
             </View>
@@ -156,13 +150,29 @@ const SNS = (props) => {
               <Text style={{ fontSize: 13 }}> Days </Text>
             </View>
             <View style={styles.userInfo_upperInfo_each}>
-              <Text style={{ fontSize: 25 }}>{userInfo.follower_count}</Text>
+              <Text style={{ fontSize: 35 }}>{userInfo.follower_count}</Text>
               <Text style={{ fontSize: 13 }}> FAN </Text>
             </View>
           </View>
           <View style={styles.userInfo_underInfo}>
-            <View>
-              <Text style={{ fontSize: 25 }}>{userInfo.username}</Text>
+            <View style={{ flexDirection: "row" }}>
+              <Text style={{ fontSize: 25, marginRight: 5 }}>
+                {userInfo.username}
+              </Text>
+              <TouchableOpacity
+                activeOpacity={0.5}
+                onPress={follow}
+                style={styles.userInfo_underInfo_edit(
+                  userInfo.username === props.user.userData.username
+                )}
+              >
+                <Image
+                  source={require("../Image/edit_bnt.png")}
+                  style={styles.userInfo_underInfo_edit(
+                    userInfo.username === props.user.userData.username
+                  )}
+                />
+              </TouchableOpacity>
             </View>
             <TouchableOpacity
               activeOpacity={0.5}
@@ -174,7 +184,18 @@ const SNS = (props) => {
           </View>
         </View>
         <View style={styles.feed}>
-          <View style={styles.profile}></View>
+          <View style={styles.profile}>
+            <Image
+              style={styles.userInfo_tier_goal_staff}
+              source={{
+                uri:
+                  `https://fifty-carrots-trade-121-146-124-174.loca.lt` +
+                  props.user.avatar,
+              }}
+              width={30}
+              height={30}
+            />
+          </View>
           <View style={styles.feed_profile_message}>
             <Text style={styles.feed_profile_message_text}>
               {userInfo.profile_message}
@@ -184,8 +205,6 @@ const SNS = (props) => {
         </View>
       </View>
     </View>
-  ) : (
-    Loader
   );
 };
 
@@ -220,6 +239,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     margin: 50,
   },
+  userInfo_underInfo_edit: (isTrue) => {
+    let thisWidth = 15;
+    let thisHeight = 15;
+
+    if (!isTrue) {
+      thisWidth = 0;
+      thisHeight = 0;
+    }
+
+    return { width: thisWidth, height: thisHeight };
+  },
   userInfo_underInfo_follow: {
     justifyContent: "center",
     alignItems: "center",
@@ -243,7 +273,7 @@ const styles = StyleSheet.create({
     borderRadius: 150,
   },
   feed: {
-    flex: 2,
+    flex: 3,
     backgroundColor: "#2A3042",
   },
   feed_profile_message: {

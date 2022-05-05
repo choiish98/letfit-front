@@ -10,7 +10,7 @@ import * as Progress from "react-native-progress";
 import TopBar from "../Components/TopBar";
 
 const Home = (props) => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [trending, setTrending] = useState([]);
 
   const getUserData = () => {
@@ -19,7 +19,7 @@ const Home = (props) => {
       .then((token) => {
         // 유저 정보 호출
         fetch(
-          `https://quiet-papers-repeat-121-146-124-174.loca.lt/api/users/me/`,
+          `https://fifty-carrots-trade-121-146-124-174.loca.lt/api/users/me/`,
           {
             headers: {
               "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
@@ -45,7 +45,7 @@ const Home = (props) => {
   };
 
   const getRoutineData = () => {
-    fetch(`https://quiet-papers-repeat-121-146-124-174.loca.lt/api/routines/`, {
+    fetch(`https://fifty-carrots-trade-121-146-124-174.loca.lt/api/routines/`, {
       method: "GET",
     })
       .then((response) => response.json())
@@ -61,7 +61,7 @@ const Home = (props) => {
 
   const loadingFeed = () => {
     fetch(
-      `https://quiet-papers-repeat-121-146-124-174.loca.lt/api/posts/trending/`,
+      `https://fifty-carrots-trade-121-146-124-174.loca.lt/api/posts/trending/`,
       {
         method: "GET",
         headers: {
@@ -77,26 +77,20 @@ const Home = (props) => {
   };
 
   const homeAction = () => {
+    console.log("로딩 중");
     getUserData();
     getRoutineData();
     loadingFeed();
-    setLoading(true);
+    setLoading(false);
   };
 
   useEffect(() => {
-    loading === false
-      ? homeAction()
-      : console.log(
-          "user: " +
-            JSON.stringify(props.user) +
-            "\nroutine: " +
-            JSON.stringify(props.routine)
-        );
+    loading ? homeAction() : console.log("로딩 완료");
   });
 
   const renderItem = ({ item }) => {
     const imageUrl =
-      `https://quiet-papers-repeat-121-146-124-174.loca.lt` + item.photo;
+      `https://fifty-carrots-trade-121-146-124-174.loca.lt` + item.photo;
 
     return (
       <TouchableOpacity
@@ -120,7 +114,7 @@ const Home = (props) => {
     // 아이디가 같은지 검사 필요
     // AsyncStorage.getItem("token")
     //   .then((token) => {
-    //     fetch(`${`https://quiet-papers-repeat-121-146-124-174.loca.lt`}/api/users/`, {
+    //     fetch(`${`https://fifty-carrots-trade-121-146-124-174.loca.lt`}/api/users/`, {
     //       method: "DELETE",
     //       headers: {
     //         Authorization: `X-JWT ${token}`,
@@ -179,6 +173,8 @@ const Home = (props) => {
   };
 
   return loading ? (
+    <Loader />
+  ) : (
     <View style={styles.container}>
       <View style={styles.userInfo}>
         <TopBar navigation={props.navigation} Home />
@@ -246,8 +242,6 @@ const Home = (props) => {
       </View>
       <View style={styles.feed}>{renderFeed()}</View>
     </View>
-  ) : (
-    Loader
   );
 };
 
@@ -268,11 +262,11 @@ const styles = StyleSheet.create({
   },
   userInfo_days_upperText: {
     fontSize: 90,
-    color: "white",
+    color: "#fff",
   },
   userInfo_days_underText: {
     fontSize: 20,
-    color: "white",
+    color: "#fff",
   },
   userInfo_tier_goal: {
     flex: 1,
@@ -289,7 +283,7 @@ const styles = StyleSheet.create({
   userInfo_tier_goal_text: {
     marginTop: 10,
     fontSize: 15,
-    color: "white",
+    color: "#fff",
   },
   icons: {
     flex: 0.5,

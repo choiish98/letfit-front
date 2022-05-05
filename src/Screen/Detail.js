@@ -28,7 +28,7 @@ const Detail = (props) => {
   const getPostData = () => {
     // 게시글 정보 호출
     fetch(
-      `https://quiet-papers-repeat-121-146-124-174.loca.lt/api/posts/${props.route.params.id}/`,
+      `https://fifty-carrots-trade-121-146-124-174.loca.lt/api/posts/${props.route.params.id}/`,
       {
         headers: {
           method: "GET",
@@ -66,7 +66,7 @@ const Detail = (props) => {
           style={{ height: "50%", width: "50%" }}
           source={{
             uri:
-              `https://quiet-papers-repeat-121-146-124-174.loca.lt` +
+              `https://fifty-carrots-trade-121-146-124-174.loca.lt` +
               postData.photo,
           }}
         />
