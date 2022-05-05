@@ -3,7 +3,8 @@ import { View, Text, Image, StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 const TopBar = (props) => {
-  const imgLink = props.SNS
+  const isSNS = props.SNS ? true : false;
+  const imgLink = isSNS
     ? require("../Image/back_bnt.png")
     : require("../Image/back_white_bnt.png");
 
@@ -12,13 +13,13 @@ const TopBar = (props) => {
   };
 
   return (
-    <View style={styles.topbar(props.SNS)}>
+    <View style={styles.topbar(isSNS)}>
       {!props.Home && (
         <TouchableOpacity activeOpacity={0.5} onPress={goPre}>
           <Image source={imgLink} style={styles.topbar_back_img} />
         </TouchableOpacity>
       )}
-      <Text style={styles.topbar_text(props.SNS)}>LETFIT</Text>
+      <Text style={styles.topbar_text(isSNS)}>LETFIT</Text>
     </View>
   );
 };
@@ -42,7 +43,7 @@ const styles = StyleSheet.create({
     height: 23,
   },
   topbar_text: (SNS) => {
-    const color = SNS ? "#2A3042" : "#white";
+    const color = SNS ? "#2A3042" : "white";
 
     return {
       width: "30%",

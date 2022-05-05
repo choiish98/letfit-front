@@ -190,7 +190,7 @@ const SNS = (props) => {
               source={{
                 uri:
                   `https://fifty-carrots-trade-121-146-124-174.loca.lt` +
-                  props.user.avatar,
+                  userInfo.avatar,
               }}
               width={30}
               height={30}

@@ -95,7 +95,7 @@ const Home = (props) => {
     return (
       <TouchableOpacity
         onPress={() => {
-          props.navigation.replace("Detail", { id: item.id });
+          props.navigation.navigate("Detail", { id: item.id });
         }}
       >
         <View>

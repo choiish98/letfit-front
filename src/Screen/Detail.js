@@ -1,29 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, AsyncStorage, StyleSheet } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { View, Image, StyleSheet } from "react-native";
 import { API_URL } from "@env";
 import Loader from "../Components/Loader";
 import TopBar from "../Components/TopBar";
 
 const Detail = (props) => {
-  const [loading, setLoading] = useState(false);
-  const [postData, setPostData] = useState({
-    id: "",
-    photo: "",
-    like: [
-      {
-        username: "",
-      },
-    ],
-    poster: {
-      username: "",
-      id: "",
-      avatar: "",
-    },
-    title: "",
-    description: "",
-    created_at: "",
-  });
+  const [loading, setLoading] = useState(true);
+  const [postData, setPostData] = useState({});
 
   const getPostData = () => {
     // 게시글 정보 호출
@@ -46,51 +29,75 @@ const Detail = (props) => {
   };
 
   const firstAction = () => {
+    console.log("로딩 중");
     getPostData();
-    setLoading(true);
+    setLoading(false);
   };
 
   useEffect(() => {
-    loading === false ? firstAction() : console.log(postData.id);
+    loading ? firstAction() : console.log("로딩 완료");
   });
 
-  const goHome = () => {
-    props.navigation.navigate("Home");
-  };
-
   return loading ? (
-    <View style={styles.container}>
-      <TopBar navigation={props.navigation} SNS />
-      <View style={styles.imagePicker}>
-        <Image
-          style={{ height: "50%", width: "50%" }}
-          source={{
-            uri:
-              `https://fifty-carrots-trade-121-146-124-174.loca.lt` +
-              postData.photo,
-          }}
-        />
-        <Text> username: {postData.poster.username} </Text>
-        <Text> title: {postData.title} </Text>
-        <Text> description: {postData.description} </Text>
-        <Text> created at: {postData.created_at} </Text>
-      </View>
-      <View style={styles.description}></View>
-    </View>
+    <Loader />
   ) : (
-    Loader
+    <View style={styles.container}>
+      <TopBar navigation={props.navigation} />
+      <View style={styles.body}>
+        <View style={[styles.photo, styles.photo4]} />
+        <View style={[styles.photo, styles.photo3]} />
+        <View style={[styles.photo, styles.photo2]} />
+        <View style={styles.photo}>
+          <Image
+            style={{
+              width: "100%",
+              height: "100%",
+              resizeMode: "contain",
+            }}
+            source={{
+              uri:
+                `https://fifty-carrots-trade-121-146-124-174.loca.lt` +
+                postData.photo,
+            }}
+          />
+        </View>
+      </View>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#2A3042",
   },
-  imagePicker: {
-    flex: 2,
+  body: {
+    flex: 7.5,
+    alignItems: "center",
   },
-  description: {
-    flex: 5,
+  photo: {
+    width: "90%",
+    height: 300,
+    marginTop: 70,
+    backgroundColor: "white",
+  },
+  photo2: {
+    position: "absolute",
+    top: -15,
+    width: "85%",
+    backgroundColor: "#DEDEDE",
+  },
+  photo3: {
+    position: "absolute",
+    top: -30,
+    width: "80%",
+    backgroundColor: "#7F7F80",
+  },
+  photo4: {
+    position: "absolute",
+    top: -45,
+    width: "75%",
+    backgroundColor: "#313232",
   },
 });
 
