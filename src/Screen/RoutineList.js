@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { actionCreators } from "../store";
 import Modal from "react-native-modal";
 import { API_URL } from "@env";
+import TopBar from "../Components/TopBar";
 import Loader from "../Components/Loader";
 
 // 순위 1, 2, 3 기능
@@ -95,20 +96,18 @@ const RoutineList = (props) => {
     );
   };
 
-  const goHome = () => {
-    props.navigation.replace("Home");
-  };
-
   const goSearch = () => {
-    props.navigation.replace("Search", { routineData: props.user.routineData });
+    props.navigation.navigate("Search", {
+      routineData: props.user.routineData,
+    });
   };
 
   const goDetail = (id) => {
-    props.navigation.replace("RoutineDetail", id);
+    props.navigation.navigate("RoutineDetail", id);
   };
 
   const goMakeRoutine = () => {
-    props.navigation.replace("MakeRoutine");
+    props.navigation.navigate("MakeRoutine");
   };
 
   // 정렬 기능 - 팔로우
@@ -140,20 +139,7 @@ const RoutineList = (props) => {
 
   return loading ? (
     <View style={styles.container}>
-      <View style={styles.topbar}>
-        <TouchableOpacity
-          activeOpacity={0.5}
-          onPress={goHome}
-          style={styles.topbar_box}
-        >
-          <Image
-            source={require("../Image/back_white_bnt.png")}
-            style={styles.topbar_back_img}
-          />
-        </TouchableOpacity>
-        <Text style={styles.topbar_text}>LETFIT</Text>
-        <Text style={styles.topbar_box}> </Text>
-      </View>
+      <TopBar navigation={props.navigation} />
       <View style={styles.body}>
         <View style={styles.body_topBox}>
           <Text style={styles.body_topBox_Text}>루틴리스트</Text>
@@ -211,31 +197,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white",
-  },
-  topbar: {
-    flex: 0.8,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-end",
-    width: "100%",
-    backgroundColor: "#2A3042",
-    paddingBottom: 15,
-  },
-  topbar_box: {
-    paddingLeft: 10,
-    width: 33,
-  },
-  topbar_back_img: {
-    width: 13,
-    height: 23,
-  },
-  topbar_text: {
-    width: "33%",
-    textAlign: "center",
-    fontSize: 25,
-    color: "#2A3042",
-    fontWeight: "600",
-    color: "white",
   },
   body: {
     flex: 7.5,

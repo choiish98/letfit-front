@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { View, Text, Image, AsyncStorage, StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { API_URL } from "@env";
-import Loader from "./Loader";
+import Loader from "../Components/Loader";
+import TopBar from "../Components/TopBar";
 
 const Detail = (props) => {
   const [loading, setLoading] = useState(false);
@@ -59,9 +60,7 @@ const Detail = (props) => {
 
   return loading ? (
     <View style={styles.container}>
-      <View style={styles.topbar}>
-        <Text style={styles.topbar_text}>LETFIT</Text>
-      </View>
+      <TopBar navigation={props.navigation} SNS />
       <View style={styles.imagePicker}>
         <Image
           style={{ height: "50%", width: "50%" }}
@@ -77,9 +76,6 @@ const Detail = (props) => {
         <Text> created at: {postData.created_at} </Text>
       </View>
       <View style={styles.description}></View>
-      <TouchableOpacity activeOpacity={0.5} onPress={goHome}>
-        <Text>go Home</Text>
-      </TouchableOpacity>
     </View>
   ) : (
     Loader
@@ -89,16 +85,6 @@ const Detail = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  topbar: {
-    flex: 0.8,
-    justifyContent: "flex-end",
-    alignItems: "center",
-  },
-  topbar_text: {
-    fontSize: 25,
-    color: "#2A3042",
-    fontWeight: "600",
   },
   imagePicker: {
     flex: 2,

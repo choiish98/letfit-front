@@ -8,6 +8,7 @@ import * as Progress from "react-native-progress";
 import Loader from "../Components/Loader";
 import { stringify } from "flatted";
 import { color } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
+import TopBar from "../Components/TopBar";
 
 // 요일 별 부위 밑에 날짜 업데이트 필요
 // 날짜로 요일 찾아서 오늘 운동 업데이트 필요
@@ -197,12 +198,8 @@ const MyRoutineList = (props) => {
     }
   };
 
-  const goHome = () => {
-    props.navigation.replace("Home");
-  };
-
   const goRoutineLIst = () => {
-    props.navigation.replace("RoutineList");
+    props.navigation.navigate("RoutineList");
   };
 
   const renderItem = ({ item }) => {
@@ -281,20 +278,7 @@ const MyRoutineList = (props) => {
 
   return loading ? (
     <View style={styles.container}>
-      <View style={styles.topbar}>
-        <TouchableOpacity
-          activeOpacity={0.5}
-          onPress={goHome}
-          style={styles.topbar_box}
-        >
-          <Image
-            source={require("../Image/back_white_bnt.png")}
-            style={styles.topbar_back_img}
-          />
-        </TouchableOpacity>
-        <Text style={styles.topbar_text}>LETFIT</Text>
-        <Text style={styles.topbar_box}> </Text>
-      </View>
+      <TopBar navigation={props.navigation} />
       <View style={styles.body}>
         <View style={styles.status}>
           {updateDate()}

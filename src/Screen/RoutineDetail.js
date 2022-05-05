@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { actionCreators } from "../store";
 import { API_URL } from "@env";
 import Loader from "../Components/Loader";
+import TopBar from "../Components/TopBar";
 
 // 클릭했을 때 빨간 선 표시
 // 루틴 정보 담는 api
@@ -184,7 +185,7 @@ const RoutineDetail = (props) => {
   }, [clickedDay]);
 
   const goPre = () => {
-    props.navigation.replace("RoutineList");
+    props.navigation.goBack();
   };
 
   const renderItem = ({ item }) => {
@@ -234,20 +235,7 @@ const RoutineDetail = (props) => {
 
   return loading ? (
     <View style={styles.container}>
-      <View style={styles.topbar}>
-        <TouchableOpacity
-          activeOpacity={0.5}
-          onPress={goPre}
-          style={styles.topbar_box}
-        >
-          <Image
-            source={require("../Image/back_white_bnt.png")}
-            style={styles.topbar_back_img}
-          />
-        </TouchableOpacity>
-        <Text style={styles.topbar_text}>LETFIT</Text>
-        <Text style={styles.topbar_box}> </Text>
-      </View>
+      <TopBar navigation={props.navigation} />
       <View style={styles.body}>
         <View style={styles.userInfo}></View>
         <View style={styles.calander}>
@@ -341,31 +329,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white",
-  },
-  topbar: {
-    flex: 0.8,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-end",
-    width: "100%",
-    backgroundColor: "#2A3042",
-    paddingBottom: 15,
-  },
-  topbar_box: {
-    paddingLeft: 10,
-    width: 33,
-  },
-  topbar_back_img: {
-    width: 13,
-    height: 23,
-  },
-  topbar_text: {
-    width: "33%",
-    textAlign: "center",
-    fontSize: 25,
-    color: "#2A3042",
-    fontWeight: "600",
-    color: "white",
   },
   body: {
     flex: 6,

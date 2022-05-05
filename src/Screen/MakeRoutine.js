@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { actionCreators } from "../store";
 import { API_URL } from "@env";
 import Loader from "../Components/Loader";
+import TopBar from "../Components/TopBar";
 
 // + 버튼 눌렀을 때 해시 태그 추가
 // 요일 별 클릭 시 전환
@@ -72,26 +73,9 @@ const RoutineList = (props) => {
     );
   };
 
-  const goPre = () => {
-    props.navigation.replace("RoutineList");
-  };
-
   return loading ? (
     <View style={styles.container}>
-      <View style={styles.topbar}>
-        <TouchableOpacity
-          activeOpacity={0.5}
-          onPress={goPre}
-          style={styles.topbar_box}
-        >
-          <Image
-            source={require("../Image/back_white_bnt.png")}
-            style={styles.topbar_back_img}
-          />
-        </TouchableOpacity>
-        <Text style={styles.topbar_text}>LETFIT</Text>
-        <Text style={styles.topbar_box}> </Text>
-      </View>
+      <TopBar navigation={props.navigation} />
       <View style={styles.body}>
         <View style={styles.titleBox}>
           <TextInput
@@ -149,7 +133,10 @@ const RoutineList = (props) => {
             <Text style={styles.calader_day_Text}>일</Text>
           </View>
         </View>
-        <View style={styles.doinList}>{renderFeed()}</View>
+        <View>{renderFeed()}</View>
+        <TouchableOpacity activeOpacity={0.5} style={styles.exercise_plus}>
+          <Image source={require("../Image/routine_add_bnt.png")} />
+        </TouchableOpacity>
       </View>
     </View>
   ) : (
@@ -161,31 +148,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white",
-  },
-  topbar: {
-    flex: 0.8,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-end",
-    width: "100%",
-    backgroundColor: "#2A3042",
-    paddingBottom: 15,
-  },
-  topbar_box: {
-    paddingLeft: 10,
-    width: 33,
-  },
-  topbar_back_img: {
-    width: 13,
-    height: 23,
-  },
-  topbar_text: {
-    width: "33%",
-    textAlign: "center",
-    fontSize: 25,
-    color: "#2A3042",
-    fontWeight: "600",
-    color: "white",
   },
   body: {
     flex: 7.5,
@@ -245,6 +207,12 @@ const styles = StyleSheet.create({
   calader_day_reText: {
     color: "#DEDEDE",
     fontWeight: "600",
+  },
+  exercise_plus: {
+    justifyContent: "center",
+    alignItems: "center",
+    height: 75,
+    backgroundColor: "#DEDEDE",
   },
 });
 

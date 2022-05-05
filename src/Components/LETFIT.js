@@ -3,7 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Home from "../Screen/Home";
 import SNS from "../Screen/SNS";
 import Upload from "../Screen/Upload";
-import Detail from "./Detail";
+import Detail from "../Screen/Detail";
 import MyRoutineList from "../Screen/MyRoutineList";
 import RoutineList from "../Screen/RoutineList";
 import Exercise from "../Screen/Exercise";

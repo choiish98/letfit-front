@@ -7,6 +7,7 @@ import { routineActionCreators } from "../Actions/routineIndex";
 import { API_URL } from "@env";
 import Loader from "../Components/Loader";
 import * as Progress from "react-native-progress";
+import TopBar from "../Components/TopBar";
 
 const Home = (props) => {
   const [loading, setLoading] = useState(false);
@@ -141,15 +142,15 @@ const Home = (props) => {
   };
 
   const goSNS = () => {
-    props.navigation.replace("SNS", { id: props.user.id });
+    props.navigation.navigate("SNS", { id: props.user.id });
   };
 
   const goExercise = () => {
-    props.navigation.replace("MyRoutineList");
+    props.navigation.navigate("MyRoutineList");
   };
 
   const goList = () => {
-    props.navigation.replace("RoutineList");
+    props.navigation.navigate("RoutineList");
   };
 
   const renderFeed = () => {
@@ -180,9 +181,7 @@ const Home = (props) => {
   return loading ? (
     <View style={styles.container}>
       <View style={styles.userInfo}>
-        <View style={styles.topbar}>
-          <Text style={styles.topbar_text}>LETFIT</Text>
-        </View>
+        <TopBar navigation={props.navigation} Home />
         <View style={styles.userInfo_days}>
           <Text style={styles.userInfo_days_upperText}>{daysComma()}</Text>
           <Text style={styles.userInfo_days_underText}> Days </Text>
@@ -261,16 +260,6 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     marginBottom: 20,
     backgroundColor: "#2A3042",
-  },
-  topbar: {
-    flex: 0.8,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  topbar_text: {
-    fontSize: 25,
-    color: "white",
-    fontWeight: "600",
   },
   userInfo_days: {
     flex: 1,

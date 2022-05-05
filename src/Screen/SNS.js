@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import Loader from "../Components/Loader";
 import { actionCreators } from "../store";
 import { API_URL } from "@env";
+import TopBar from "../Components/TopBar";
 
 const SNS = (props) => {
   const [userInfo, setUserInfo] = useState({
@@ -85,12 +86,8 @@ const SNS = (props) => {
     loading === false ? firstAction() : console.log("유저 정보 업데이트 완료");
   });
 
-  const goHome = () => {
-    props.navigation.replace("Home");
-  };
-
   const goUpload = () => {
-    props.navigation.replace("Upload");
+    props.navigation.navigate("Upload");
   };
 
   const renderFeeds = () => {
@@ -114,7 +111,7 @@ const SNS = (props) => {
       photos.push(
         <TouchableOpacity
           onPress={() => {
-            props.navigation.replace("Detail", { id: item.id });
+            props.navigation.navigate("Detail", { id: item.id });
           }}
           key={item.id}
         >
@@ -141,53 +138,50 @@ const SNS = (props) => {
 
   return loading ? (
     <View style={styles.container}>
-      <View style={styles.userInfo}>
-        <View style={styles.topbar}>
-          <Text style={styles.topbar_text}>LETFIT</Text>
-        </View>
-        <View style={styles.userInfo_upperInfo}>
-          <View style={styles.userInfo_upperInfo_each}>
-            <Image
-              style={styles.userInfo_tier_goal_staff}
-              source={require("../Image/gold.png")}
-              width={30}
-              height={30}
-            />
-            <Text style={{ fontSize: 13 }}> {userInfo.tier} </Text>
+      <TopBar navigation={props.navigation} SNS />
+      <View style={styles.body}>
+        <View style={styles.userInfo}>
+          <View style={styles.userInfo_upperInfo}>
+            <View style={styles.userInfo_upperInfo_each}>
+              <Image
+                style={styles.userInfo_tier_goal_staff}
+                source={require("../Image/gold.png")}
+                width={30}
+                height={30}
+              />
+              <Text style={{ fontSize: 13 }}> {userInfo.tier} </Text>
+            </View>
+            <View style={styles.userInfo_upperInfo_each}>
+              <Text style={styles.userInfo_upperInfo_days}>{daysComma()}</Text>
+              <Text style={{ fontSize: 13 }}> Days </Text>
+            </View>
+            <View style={styles.userInfo_upperInfo_each}>
+              <Text style={{ fontSize: 25 }}>{userInfo.follower_count}</Text>
+              <Text style={{ fontSize: 13 }}> FAN </Text>
+            </View>
           </View>
-          <View style={styles.userInfo_upperInfo_each}>
-            <Text style={styles.userInfo_upperInfo_days}>{daysComma()}</Text>
-            <Text style={{ fontSize: 13 }}> Days </Text>
-          </View>
-          <View style={styles.userInfo_upperInfo_each}>
-            <Text style={{ fontSize: 25 }}>{userInfo.follower_count}</Text>
-            <Text style={{ fontSize: 13 }}> FAN </Text>
+          <View style={styles.userInfo_underInfo}>
+            <View>
+              <Text style={{ fontSize: 25 }}>{userInfo.username}</Text>
+            </View>
+            <TouchableOpacity
+              activeOpacity={0.5}
+              onPress={follow}
+              style={styles.userInfo_underInfo_follow}
+            >
+              <Text style={styles.userInfo_underInfo_follow_text}>구독</Text>
+            </TouchableOpacity>
           </View>
         </View>
-        <View style={styles.userInfo_underInfo}>
-          <View>
-            <Text style={{ fontSize: 25 }}>{userInfo.username}</Text>
+        <View style={styles.feed}>
+          <View style={styles.profile}></View>
+          <View style={styles.feed_profile_message}>
+            <Text style={styles.feed_profile_message_text}>
+              {userInfo.profile_message}
+            </Text>
           </View>
-          <TouchableOpacity
-            activeOpacity={0.5}
-            onPress={follow}
-            style={styles.userInfo_underInfo_follow}
-          >
-            <Text style={styles.userInfo_underInfo_follow_text}>구독</Text>
-          </TouchableOpacity>
+          {renderFeeds()}
         </View>
-      </View>
-      <View style={styles.feed}>
-        <View style={styles.profile}></View>
-        <View style={styles.feed_profile_message}>
-          <Text style={styles.feed_profile_message_text}>
-            {userInfo.profile_message}
-          </Text>
-        </View>
-        {renderFeeds()}
-        <TouchableOpacity activeOpacity={0.5} onPress={goHome}>
-          <Text>go home</Text>
-        </TouchableOpacity>
       </View>
     </View>
   ) : (
@@ -199,19 +193,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  body: {
+    flex: 7.5,
+  },
   userInfo: {
     flex: 1,
     backgroundColor: "#DEDEDE",
-  },
-  topbar: {
-    flex: 1,
-    justifyContent: "flex-end",
-    alignItems: "center",
-  },
-  topbar_text: {
-    fontSize: 25,
-    color: "#2A3042",
-    fontWeight: "600",
   },
   userInfo_upperInfo: {
     flexDirection: "row",
