@@ -66,7 +66,7 @@ const RoutineDetail = (props) => {
 
     // 요일 별 부위
     fetch(
-      `https://fifty-carrots-trade-121-146-124-174.loca.lt/api/routines/${routineId}/days`,
+      `https://silver-spoons-punch-121-146-124-174.loca.lt/api/routines/${routineId}/days`,
       {
         headers: {
           method: "GET",
@@ -108,7 +108,7 @@ const RoutineDetail = (props) => {
 
     // 전체 운동 저장
     fetch(
-      `${`https://fifty-carrots-trade-121-146-124-174.loca.lt`}/api/routines/${routineId}/exercises`,
+      `${`https://silver-spoons-punch-121-146-124-174.loca.lt`}/api/routines/${routineId}/exercises`,
       {
         headers: {
           method: "GET",

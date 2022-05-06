@@ -11,7 +11,7 @@ const Detail = (props) => {
   const getPostData = () => {
     // 게시글 정보 호출
     fetch(
-      `https://fifty-carrots-trade-121-146-124-174.loca.lt/api/posts/${props.route.params.id}/`,
+      `https://silver-spoons-punch-121-146-124-174.loca.lt/api/posts/${props.route.params.id}/`,
       {
         headers: {
           method: "GET",
@@ -56,7 +56,7 @@ const Detail = (props) => {
             }}
             source={{
               uri:
-                `https://fifty-carrots-trade-121-146-124-174.loca.lt` +
+                `https://silver-spoons-punch-121-146-124-174.loca.lt` +
                 postData.photo,
             }}
           />

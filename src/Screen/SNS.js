@@ -23,7 +23,7 @@ const SNS = (props) => {
       AsyncStorage.getItem("token")
         .then((token) => {
           fetch(
-            `https://fifty-carrots-trade-121-146-124-174.loca.lt/api/users/follow/`,
+            `https://silver-spoons-punch-121-146-124-174.loca.lt/api/users/follow/`,
             {
               method: "POST",
               headers: {
@@ -51,7 +51,7 @@ const SNS = (props) => {
   const getUserData = () => {
     // 유저 정보 호출
     fetch(
-      `https://fifty-carrots-trade-121-146-124-174.loca.lt/api/users/${props.route.params.id}`,
+      `https://silver-spoons-punch-121-146-124-174.loca.lt/api/users/${props.route.params.id}`,
       {
         headers: {
           method: "GET",
@@ -80,6 +80,10 @@ const SNS = (props) => {
 
   const goUpload = () => {
     props.navigation.navigate("Upload");
+  };
+
+  const goEdit = () => {
+    props.navigation.navigate("ProfileEdit", { userInfo });
   };
 
   const renderFeeds = () => {
@@ -111,7 +115,7 @@ const SNS = (props) => {
             style={styles.feeds_card}
             source={{
               uri:
-                `https://fifty-carrots-trade-121-146-124-174.loca.lt` +
+                `https://silver-spoons-punch-121-146-124-174.loca.lt` +
                 item.photo,
             }}
           />
@@ -161,7 +165,7 @@ const SNS = (props) => {
               </Text>
               <TouchableOpacity
                 activeOpacity={0.5}
-                onPress={follow}
+                onPress={goEdit}
                 style={styles.userInfo_underInfo_edit(
                   userInfo.username === props.user.userData.username
                 )}
@@ -189,7 +193,7 @@ const SNS = (props) => {
               style={styles.userInfo_tier_goal_staff}
               source={{
                 uri:
-                  `https://fifty-carrots-trade-121-146-124-174.loca.lt` +
+                  `https://silver-spoons-punch-121-146-124-174.loca.lt` +
                   userInfo.avatar,
               }}
               width={30}

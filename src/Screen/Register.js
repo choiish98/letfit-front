@@ -54,7 +54,7 @@ const Register = ({ navigation }) => {
 
     if (userPassword == userPasswordConfirm) {
       fetch(
-        `${`https://fifty-carrots-trade-121-146-124-174.loca.lt`}/api/users/`,
+        `${`https://silver-spoons-punch-121-146-124-174.loca.lt`}/api/users/`,
         {
           method: "POST",
           body: formBody,

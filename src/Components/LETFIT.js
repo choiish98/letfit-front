@@ -11,6 +11,7 @@ import Exercise_done from "../Screen/Exercise_done";
 import MakeRoutine from "../Screen/MakeRoutine";
 import RoutineDetail from "../Screen/RoutineDetail";
 import Search from "../Screen/Search";
+import ProfileEdit from "../Screen/ProfileEdit";
 
 const Stack = createStackNavigator();
 
@@ -90,6 +91,13 @@ const LETFIT = (props) => {
       <Stack.Screen
         name="Search"
         component={Search}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="ProfileEdit"
+        component={ProfileEdit}
         options={{
           headerShown: false,
         }}

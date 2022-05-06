@@ -1,12 +1,5 @@
-import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  Image,
-  AsyncStorage,
-  StyleSheet,
-  Button,
-} from "react-native";
+import React, { useState } from "react";
+import { View, Text, Image, AsyncStorage, StyleSheet } from "react-native";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import * as ImagePicker from "expo-image-picker";
 import { API_URL } from "@env";
@@ -33,12 +26,8 @@ const Upload = (props) => {
     }
   };
 
-  const goSNS = () => {
-    props.navigation.replace("SNS");
-  };
-
-  const goHome = () => {
-    props.navigation.navigate("Home");
+  const goBack = () => {
+    props.navigation.goBack();
   };
 
   const requestUpload = () => {
@@ -61,7 +50,7 @@ const Upload = (props) => {
       console.log(image);
       // 업로드 요청
       fetch(
-        `https://fifty-carrots-trade-121-146-124-174.loca.lt/api/posts/upload/`,
+        `https://silver-spoons-punch-121-146-124-174.loca.lt/api/posts/upload/`,
         {
           method: "POST",
           body: formData,
@@ -76,7 +65,7 @@ const Upload = (props) => {
         .then((responseJson) => {
           console.log(responseJson);
           console.log("upload success");
-          goSNS();
+          goBack();
         })
         .catch((error) => {
           console.log(error);
@@ -87,7 +76,7 @@ const Upload = (props) => {
   return (
     <View style={styles.container}>
       <View style={styles.topbar}>
-        <TouchableOpacity activeOpacity={0.5} onPress={goHome}>
+        <TouchableOpacity activeOpacity={0.5} onPress={goBack}>
           <Image source={require("../Image/back.png")} width={30} height={30} />
         </TouchableOpacity>
         <Text style={styles.topbar_text}>게시글 작성</Text>
