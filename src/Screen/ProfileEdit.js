@@ -11,7 +11,7 @@ const ProfileEdit = (props) => {
   const userInfo = props.route.params.userInfo;
   const [prfMsg, setPrfMsg] = useState(userInfo.profile_message);
   const [image, setImage] = useState(
-    `https://silver-spoons-punch-121-146-124-174.loca.lt` + userInfo.avatar
+    `https://forty-cooks-sin-121-146-124-174.loca.lt` + userInfo.avatar
   );
   const [photo, setPhoto] = useState("");
 
@@ -33,28 +33,33 @@ const ProfileEdit = (props) => {
     if (!result.cancelled) {
       setImage(result.uri);
       setPhoto(result);
+      console.log("photo: " + photo);
     }
+  };
+
+  const getPhoto = () => {
+    let localUri = photo.uri;
+    let filename = localUri.split("/").pop();
+
+    let match = /\.(\w+)$/.exec(filename);
+    let type = match ? `image/${match[1]}` : `image`;
+
+    return { uri: localUri, name: filename, type };
   };
 
   // 적용 버튼 클릭 시
   const done = async () => {
     const token = await AsyncStorage.getItem("token");
-    let localUri = photo.uri;
-    let filename = localUri.split("/").pop();
-
-    // Infer the type of the image
-    let match = /\.(\w+)$/.exec(filename);
-    let type = match ? `image/${match[1]}` : `image`;
-
-    // Upload the image using the fetch and FormData APIs
     let formData = new FormData();
-    // Assume "photo" is the name of the form field the server expects
+
     formData.append("profile_message", prfMsg);
-    formData.append("avatar", { uri: localUri, name: filename, type });
+    photo === ""
+      ? console.log("photo가 비었네요.")
+      : formData.append("avatar", getPhoto());
 
     try {
       await fetch(
-        `https://silver-spoons-punch-121-146-124-174.loca.lt/api/users/me/`,
+        `https://forty-cooks-sin-121-146-124-174.loca.lt/api/users/me/`,
         {
           method: "PUT",
           headers: {

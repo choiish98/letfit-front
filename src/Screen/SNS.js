@@ -23,7 +23,7 @@ const SNS = (props) => {
       AsyncStorage.getItem("token")
         .then((token) => {
           fetch(
-            `https://silver-spoons-punch-121-146-124-174.loca.lt/api/users/follow/`,
+            `https://forty-cooks-sin-121-146-124-174.loca.lt/api/users/follow/`,
             {
               method: "POST",
               headers: {
@@ -51,7 +51,7 @@ const SNS = (props) => {
   const getUserData = () => {
     // 유저 정보 호출
     fetch(
-      `https://silver-spoons-punch-121-146-124-174.loca.lt/api/users/${props.route.params.id}`,
+      `https://forty-cooks-sin-121-146-124-174.loca.lt/api/users/${props.route.params.id}`,
       {
         headers: {
           method: "GET",
@@ -115,8 +115,7 @@ const SNS = (props) => {
             style={styles.feeds_card}
             source={{
               uri:
-                `https://silver-spoons-punch-121-146-124-174.loca.lt` +
-                item.photo,
+                `https://forty-cooks-sin-121-146-124-174.loca.lt` + item.photo,
             }}
           />
         </TouchableOpacity>
@@ -193,11 +192,12 @@ const SNS = (props) => {
               style={styles.userInfo_tier_goal_staff}
               source={{
                 uri:
-                  `https://silver-spoons-punch-121-146-124-174.loca.lt` +
-                  userInfo.avatar,
+                  `https://forty-cooks-sin-121-146-124-174.loca.lt` +
+                  `/media/81051548428941cb8d27828557a3f06b..jpg`,
               }}
-              width={30}
-              height={30}
+              width={180}
+              height={180}
+              borderRadius={100}
             />
           </View>
           <View style={styles.feed_profile_message}>

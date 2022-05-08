@@ -26,14 +26,11 @@ const RoutineList = (props) => {
   });
 
   const getUserProfile = (id) => {
-    fetch(
-      `https://silver-spoons-punch-121-146-124-174.loca.lt/api/users/${id}`,
-      {
-        headers: {
-          method: "GET",
-        },
-      }
-    )
+    fetch(`https://forty-cooks-sin-121-146-124-174.loca.lt/api/users/${id}`, {
+      headers: {
+        method: "GET",
+      },
+    })
       .then((response) => response.json())
       .then((responseJson) => {
         return responseJson.avatar;

@@ -50,7 +50,7 @@ const Upload = (props) => {
       console.log(image);
       // 업로드 요청
       fetch(
-        `https://silver-spoons-punch-121-146-124-174.loca.lt/api/posts/upload/`,
+        `https://forty-cooks-sin-121-146-124-174.loca.lt/api/posts/upload/`,
         {
           method: "POST",
           body: formData,
