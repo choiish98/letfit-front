@@ -382,31 +382,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
   },
-  topbar: {
-    flex: 0.8,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-end",
-    width: "100%",
-    backgroundColor: "#2A3042",
-    paddingBottom: 15,
-  },
-  topbar_box: {
-    paddingLeft: 10,
-    width: 33,
-  },
-  topbar_back_img: {
-    width: 13,
-    height: 23,
-  },
-  topbar_text: {
-    width: "33%",
-    textAlign: "center",
-    fontSize: 25,
-    color: "#2A3042",
-    fontWeight: "600",
-    color: "white",
-  },
   body: {
     flex: 6,
     width: "90%",
