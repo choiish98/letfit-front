@@ -7,7 +7,7 @@ import {
   StyleSheet,
   ScrollView,
 } from "react-native";
-import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { connect } from "react-redux";
 import { actionCreators } from "../Actions/userIndex";
 import { routineActionCreators } from "../Actions/routineIndex";
@@ -16,7 +16,8 @@ import Loader from "../Components/Loader";
 import * as Progress from "react-native-progress";
 import TopBar from "../Components/TopBar";
 import FeedCard from "../Components/FeedCard";
-import { SafeAreaView } from "react-native-web";
+
+// topbar 깨지는거 고칠 필요
 
 const Home = (props) => {
   const [loading, setLoading] = useState(true);

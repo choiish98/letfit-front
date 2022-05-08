@@ -1,25 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
-import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { connect } from "react-redux";
 import { actionCreators } from "../store";
 import { API_URL } from "@env";
 import * as Progress from "react-native-progress";
 import Loader from "../Components/Loader";
-import { stringify } from "flatted";
-import { color } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
 import TopBar from "../Components/TopBar";
+import ExerciseCard from "../Components/ExerciseCard";
+import Calander from "../Components/Calander";
 
 // 요일 별 부위 밑에 날짜 업데이트 필요
-// 날짜로 요일 찾아서 오늘 운동 업데이트 필요
 
 const MyRoutineList = (props) => {
-  const [loading, setLoading] = useState(false);
-  const [todayExercise, setTodayExercise] = useState([]);
-  const [d, setD] = useState(0);
-
-  // 이번 주 운동 저장
-  const [mon, setMon] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [todayExercise, setTodayExercise] = useState([]); // 보여줄 운동 리스트
+  const [clickedDay, setClickedDay] = useState(""); // 클릭 요일 저장
+  const [entireExercise, setEntireExercise] = useState([]); // 전체 운동 저장
+  const [mon, setMon] = useState(""); // 이번 주 운동 저장
   const [tue, setTue] = useState("");
   const [wed, setWed] = useState("");
   const [thu, setThu] = useState("");
@@ -27,208 +25,156 @@ const MyRoutineList = (props) => {
   const [sat, setSat] = useState("");
   const [sun, setSun] = useState("");
 
-  // 요일 별 날짜 저장
-  let date = [1, 2, 3, 4, 5, 6, 7];
+  const d = new Date();
+  const myRoutineId = props.user.userData.represent_routine.routine;
 
-  // dummy
-  const dummy = [
-    {
-      id: 1,
-      name: "사레레",
-      body_part: "어깨",
-      set: 2,
-      runningTime: 6,
-      restTime: 6,
-      reps: 2,
-      done: false,
-    },
-    {
-      id: 2,
-      name: "프레",
-      body_part: "어깨",
-      set: 2,
-      runningTime: 6,
-      restTime: 6,
-      reps: 2,
-      done: true,
-    },
-    {
-      id: 3,
-      name: "밀프",
-      body_part: "어깨",
-      set: 2,
-      runningTime: 6,
-      restTime: 6,
-      reps: 2,
-      done: true,
-    },
-  ];
-
-  // 날짜 가져오기, 요일 별 날짜 업데이트
-  const getDate = () => {
-    const thisDate = new Date();
-    setD(thisDate);
-
-    // 요일별 날짜 업데이트
-    let thisDay = thisDate.getDate(); // 날짜
-    let tempDay = thisDate.getDay(); // 요일
-    if (tempDay === 0) tempDay = tempDay + 7;
-
-    for (let i = 0; i < date.length; i++) {
-      if (date[i] < tempDay) {
-        date[i] = thisDay - (tempDay - date[i]);
-        console.log("과거: " + date[i]);
-      } else if (date[i] > tempDay) {
-        date[i] = thisDay + (tempDay - date[i]);
-      } else {
-        date[i] = thisDay;
+  // 대표 루틴 받아오기
+  const myRepresentRoutine = async () => {
+    if (myRoutineId == "") {
+      props.navigate.goBack();
+    } else {
+      // 요일 별 부위 저장
+      try {
+        const response = await fetch(
+          `https://forty-cooks-sin-121-146-124-174.loca.lt/api/routines/${myRoutineId}/days`,
+          {
+            headers: {
+              method: "GET",
+            },
+          }
+        );
+        const r_routineData = await response.json();
+        console.log("대표루틴(월): " + JSON.stringify(r_routineData[0]));
+        putBodyParts(r_routineData);
+      } catch (error) {
+        console.log("error in get myR_Routine: " + error);
       }
     }
   };
 
-  const firstAction = () => {
-    myRepresentRoutine();
-    getDate();
-    setLoading(true);
+  // 요일 별 부위 삽입
+  const putBodyParts = (r_routine) => {
+    console.log("r_routine: " + r_routine);
+    r_routine.map((routine) => {
+      switch (routine.day) {
+        case "월":
+          setMon(mon + routine.body_part);
+          break;
+        case "화":
+          setTue(tue + routine.body_part);
+          break;
+        case "수":
+          setWed(wed + routine.body_part);
+          break;
+        case "목":
+          setThu(thu + routine.body_part);
+          break;
+        case "금":
+          setFri(fri + routine.body_part);
+          break;
+        case "토":
+          setSat(sat + routine.body_part);
+          break;
+        case "일":
+          setSun(sun + routine.body_part);
+          break;
+      }
+    });
   };
 
-  useEffect(() => {
-    loading === false ? firstAction() : console.log("asdf");
-  });
-
-  // 대표 루틴 받아오기
-  const myRepresentRoutine = () => {
-    const myRoutineId = props.user.userData.represent_routine.routine;
-    if (myRoutineId == null) {
-      // null 처리필요
-      console.log("대표루틴이 존재하지 x");
-      goHome();
-      myRoutineId = 1;
-    } else {
-      // 요일 별 부위 저장
-      fetch(
-        `https://forty-cooks-sin-121-146-124-174.loca.lt/api/routines/${myRoutineId}/days`,
-        {
-          headers: {
-            method: "GET",
-          },
-        }
-      )
-        .then((response) => response.json())
-        .then((responseJson) => {
-          // 대표 루틴 저장
-          console.log("대표루틴: " + JSON.stringify(responseJson[0]));
-
-          //요일 별 부위 삽입
-          responseJson.map((routine) => {
-            switch (routine.day) {
-              case "월":
-                setMon(mon + routine.body_part);
-                break;
-              case "화":
-                setTue(tue + routine.body_part);
-                break;
-              case "수":
-                setWed(wed + routine.body_part);
-                break;
-              case "목":
-                setThu(thu + routine.body_part);
-                break;
-              case "금":
-                setFri(fri + routine.body_part);
-                break;
-              case "토":
-                setSat(sat + routine.body_part);
-                break;
-              case "일":
-                setSun(sun + routine.body_part);
-                break;
-            }
-          });
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-
-      fetch(
+  // 전체 운동 저장
+  const getEntireEx = async () => {
+    try {
+      const response = await fetch(
         `${`https://forty-cooks-sin-121-146-124-174.loca.lt`}/api/routines/${myRoutineId}/exercises`,
         {
           headers: {
             method: "GET",
           },
         }
-      )
-        .then((response) => response.json())
-        .then((responseJson) => {
-          console.log("responseJson: " + JSON.stringify(responseJson));
-
-          // 오늘 운동 불러오기
-          const tempArray = [];
-
-          // responseJson[0].exercise.filter((exercise) => {
-          //   // 어깨로 해놨는데 오늘 운동 부위로 바꿔줘야 함, today_bodypart.include(exercise.body_part)
-          //   // 요일을 찾아서 today_body_part가 뭔지 찾아야 함
-          //   // 운동 자료구조를 이름만 넣는게 아니라 성공 횟수 목표 횟수 운동 시간을 넣는 걸로 업데이트 필요
-          //   if (exercise.body_part === "어깨") {
-          //     const thisExercise =
-          //       "[" + exercise.body_part + "] " + exercise.name;
-          //     tempArray.push(thisExercise);
-          //   }
-          // });
-
-          dummy.map((exercise) => {
-            if (exercise.body_part === "어깨") {
-              const thisExercise = {};
-              thisExercise.key = exercise.key;
-              thisExercise.body_part = "[" + exercise.body_part + "]";
-              thisExercise.name = exercise.name;
-              thisExercise.set = exercise.set;
-              thisExercise.runningTime = exercise.runningTime;
-              thisExercise.restTime = exercise.restTime;
-              thisExercise.reps = exercise.reps;
-              thisExercise.done = exercise.done;
-              tempArray.push(thisExercise);
-            }
-          });
-          setTodayExercise(tempArray);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      );
+      const thisEntireEx = await response.json();
+      setEntireExercise(thisEntireEx[0].exercise);
+    } catch (error) {
+      console.log("error in getEntireEx: " + error);
     }
   };
 
-  const goRoutineLIst = () => {
-    props.navigation.navigate("RoutineList");
+  const firstAction = () => {
+    console.log("로딩 중");
+    myRepresentRoutine();
+    setClickedDay("mon");
+    getEntireEx();
+    getDate();
+    setLoading(false);
   };
 
-  const renderItem = ({ item }) => {
+  useEffect(() => {
+    loading ? firstAction() : console.log("로딩 완료");
+  });
+
+  // 요일 별 부위 검사 후 부위에 맞는 운동 삽입
+  const updateExercise = (today) => {
+    const tempArray = []; // 운동 리스트 저장 배열
+    const tempBody = today.split(","); // 오늘 운동 부위
+
+    entireExercise.map((exercise) => {
+      if (tempBody.includes(exercise.body_part)) {
+        const thisExercise = {};
+        thisExercise.key = exercise.key;
+        thisExercise.body_part = "[" + exercise.body_part + "]";
+        thisExercise.name = exercise.name;
+        thisExercise.set = exercise.set;
+        thisExercise.runningTime = exercise.runningTime;
+        thisExercise.restTime = exercise.restTime;
+        thisExercise.reps = exercise.reps;
+        thisExercise.done = exercise.done;
+        tempArray.push(thisExercise);
+      }
+    });
+
+    setTodayExercise(tempArray);
+  };
+
+  // 요일 클릭할 때마다
+  useEffect(() => {
+    switch (clickedDay) {
+      case "mon":
+        updateExercise(mon);
+        break;
+      case "tue":
+        updateExercise(tue);
+        break;
+      case "wed":
+        updateExercise(wed);
+        break;
+      case "thu":
+        updateExercise(thu);
+        break;
+      case "fri":
+        updateExercise(fri);
+        break;
+      case "sat":
+        updateExercise(sat);
+        break;
+      case "sun":
+        updateExercise(sun);
+        break;
+    }
+  }, [clickedDay]);
+
+  const ItemView = (item, key) => {
     return (
       <TouchableOpacity
-        activeOpacity={0.5}
+        key={key}
         onPress={() => {
           if (!item.done) {
             props.navigation.replace("Exercise", { item });
           }
         }}
       >
-        <View style={styles.todayExerciseCard}>
-          <Text style={styles.todayExerciseCard_text_grey}>
-            {item.body_part}
-          </Text>
-          <Text style={styles.todayExerciseCard_text}>{item.name}</Text>
-        </View>
+        <ExerciseCard item={item} />
       </TouchableOpacity>
-    );
-  };
-
-  const renderFeed = () => {
-    return (
-      <FlatList
-        data={todayExercise}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-      />
     );
   };
 
@@ -236,33 +182,13 @@ const MyRoutineList = (props) => {
   const updateDate = () => {
     const year = d.getFullYear();
     const month = d.getMonth() + 1;
-    const date = d.getDate();
+    const thisDate = d.getDate();
 
     return (
-      <Text>
-        {year}.{month}.{date}
+      <Text style={styles.statusFont}>
+        {year}.{month}.{thisDate}
       </Text>
     );
-  };
-
-  // 요일 별 날짜 렌더링
-  const updateDay = (thisDay) => {
-    return date[thisDay];
-  };
-
-  // 부위 배열을 text로 하나씩 리턴
-  const arrToText = (item) => {
-    let result = [];
-
-    item.split(",").map((thisItem) => {
-      if (thisItem === "") {
-        result.push(<Text style={styles.calader_day_reText}>휴식</Text>);
-      } else {
-        result.push(<Text style={styles.calader_day_exText}>{thisItem}</Text>);
-      }
-    });
-
-    return <View>{result}</View>;
   };
 
   // progress bar 게이지 계산
@@ -273,84 +199,128 @@ const MyRoutineList = (props) => {
     );
   };
 
-  // 달력 반복문
-  const calanderRoop = () => {};
-
   return loading ? (
+    <Loader />
+  ) : (
     <View style={styles.container}>
       <TopBar navigation={props.navigation} />
       <View style={styles.body}>
-        <View style={styles.status}>
+        <View
+          style={[styles.flexRow, styles.contentSpaceBetween, styles.status]}
+        >
           {updateDate()}
-          <Text>
+          <Text style={styles.statusFont}>
             완료 {props.user.userData.exercise_success_number} 루틴{" "}
             {props.user.userData.exercise_goal_number}
           </Text>
         </View>
-        <View style={styles.calander}>
-          <View style={styles.calader_day}>
-            <Text>{arrToText(mon)}</Text>
-            <View style={styles.calader_day_bar}></View>
-            <Text>월</Text>
-            <Text>{updateDay(0)}</Text>
-          </View>
-          <View style={styles.calader_day}>
-            <Text>{arrToText(tue)}</Text>
-            <View style={styles.calader_day_bar}></View>
-            <Text>화</Text>
-            <Text>{date[1]}</Text>
-          </View>
-          <View style={styles.calader_day}>
-            <Text>{arrToText(wed)}</Text>
-            <View style={styles.calader_day_bar}></View>
-            <Text>수</Text>
-            <Text>{date[2]}</Text>
-          </View>
-          <View style={styles.calader_day}>
-            <Text>{arrToText(thu)}</Text>
-            <View style={styles.calader_day_bar}></View>
-            <Text>목</Text>
-            <Text>{date[3]}</Text>
-          </View>
-          <View style={styles.calader_day}>
-            <Text>{arrToText(fri)}</Text>
-            <View style={styles.calader_day_bar}></View>
-            <Text>금</Text>
-            <Text>{date[4]}</Text>
-          </View>
-          <View style={styles.calader_day}>
-            <Text>{arrToText(sat)}</Text>
-            <View style={styles.calader_day_bar}></View>
-            <Text>토</Text>
-            <Text>{date[5]}</Text>
-          </View>
-          <View style={styles.calader_day}>
-            <Text>{arrToText(sun)}</Text>
-            <View style={styles.calader_day_bar}></View>
-            <Text>일</Text>
-            <Text>{date[6]}</Text>
-          </View>
+        <View
+          style={[styles.flexRow, styles.contentSpaceBetween, styles.calander]}
+        >
+          <TouchableOpacity
+            onPress={() => {
+              setClickedDay("mon");
+            }}
+          >
+            <Calander
+              bodyParts={mon}
+              dayNum={0}
+              isClicked={clickedDay === "mon"}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              setClickedDay("tue");
+            }}
+          >
+            <Calander
+              bodyParts={tue}
+              dayNum={1}
+              isClicked={clickedDay === "tue"}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              setClickedDay("wed");
+            }}
+          >
+            <Calander
+              bodyParts={wed}
+              dayNum={2}
+              isClicked={clickedDay === "wed"}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              setClickedDay("thu");
+            }}
+          >
+            <Calander
+              bodyParts={thu}
+              dayNum={3}
+              isClicked={clickedDay === "thu"}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              setClickedDay("fri");
+            }}
+          >
+            <Calander
+              bodyParts={fri}
+              dayNum={4}
+              isClicked={clickedDay === "fri"}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              setClickedDay("sat");
+            }}
+          >
+            <Calander
+              bodyParts={sat}
+              dayNum={5}
+              isClicked={clickedDay === "sat"}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              setClickedDay("sun");
+            }}
+          >
+            <Calander
+              bodyParts={sun}
+              dayNum={6}
+              isClicked={clickedDay === "sun"}
+            />
+          </TouchableOpacity>
         </View>
-        <View style={styles.progress}>
+        <View style={[styles.contentCenter, styles.progress]}>
           <Progress.Bar
             progress={goalProgress()}
             color="#2A3042"
             unfilledColor="#DEDEDE"
             borderColor="#DEDEDE"
-            borderRadius="0"
+            borderRadius={0}
             width={330}
             height={15}
           />
 
-          <View style={styles.progress_status}>
+          <View
+            style={[
+              styles.flexRow,
+              styles.contentSpaceBetween,
+              styles.progress_status,
+            ]}
+          >
             <Text progress_status_center_value>오늘</Text>
 
-            <View style={styles.progress_status_middle}>
-              <View style={styles.progress_status_center}>
+            <View style={[styles.progress_status_middle, styles.contentCenter]}>
+              <View style={styles.flexRow}>
                 <Text style={styles.progress_status_center_text}>성공 </Text>
                 <Text style={styles.progress_status_center_text}>목표</Text>
               </View>
-              <View style={styles.progress_status_center}>
+              <View style={[styles.flexRow, styles.progress_status_center]}>
                 <Text style={styles.progress_status_center_value}>
                   {props.user.userData.exercise_success_number}
                 </Text>
@@ -361,19 +331,14 @@ const MyRoutineList = (props) => {
               </View>
             </View>
 
-            <TouchableOpacity activeOpacity={0.5} onPress={goRoutineLIst}>
-              <Image
-                source={require("../Image/setting.png")}
-                style={styles.settingIcon}
-              />
-            </TouchableOpacity>
+            <View></View>
           </View>
         </View>
-        <View style={styles.doinList}>{renderFeed()}</View>
+        <ScrollView style={styles.doinList}>
+          {todayExercise.map(ItemView)}
+        </ScrollView>
       </View>
     </View>
-  ) : (
-    Loader
   );
 };
 
@@ -383,67 +348,37 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   body: {
-    flex: 6,
+    flex: 7.5,
     width: "90%",
     marginLeft: "5%",
   },
   status: {
-    flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
     padding: 10,
   },
-  calander: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  calader_day: {
-    justifyContent: "flex-end",
-    alignItems: "center",
-    width: 50,
-    height: 100,
-    padding: 3,
-    paddingBottom: 10,
-  },
-  calader_day_bar: {
-    justifyContent: "center",
-    width: 30,
-    backgroundColor: "#DEDEDE",
-    paddingBottom: 5,
-    paddingTop: 5,
-    marginTop: 10,
-    marginBottom: 10,
-  },
-  calader_day_exText: {
-    color: "#2A3042",
+  statusFont: {
+    marginRight: 5,
+    fontSize: 16,
     fontWeight: "600",
+    color: "#242A3D",
   },
-  calader_day_reText: {
-    color: "#DEDEDE",
+  calander: {
+    alignItems: "center",
+    width: "90%",
+    marginLeft: "5%",
   },
   progress: {
-    justifyContent: "center",
     marginTop: 20,
     marginBottom: 20,
     marginLeft: 10,
     marginRight: 10,
   },
   progress_status: {
-    flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "flex-end",
     paddingTop: 10,
     paddingBottom: 10,
     borderBottomWidth: 0.5,
     borderBottomColor: "#2A3042",
-  },
-  progress_status_middle: {
-    justifyContent: "center",
-  },
-  progress_status_center: {
-    flexDirection: "row",
-    justifyContent: "center",
   },
   progress_status_center_text: {
     fontSize: 10,
@@ -459,26 +394,14 @@ const styles = StyleSheet.create({
     width: 25,
     height: 25,
   },
-  todayExerciseCard: {
+  flexRow: {
     flexDirection: "row",
+  },
+  contentCenter: {
     justifyContent: "center",
-    alignItems: "center",
-    height: 70,
-    backgroundColor: "#DEDEDE",
-    color: "#2A3042",
-    margin: 10,
   },
-  todayExerciseCard_text_grey: {
-    marginRight: 5,
-    fontSize: 16,
-    fontWeight: "600",
-    color: "#7F7F80",
-  },
-  todayExerciseCard_text: {
-    marginRight: 5,
-    fontSize: 16,
-    fontWeight: "600",
-    color: "#242A3D",
+  contentSpaceBetween: {
+    justifyContent: "space-between",
   },
 });
 

@@ -131,6 +131,29 @@ const SNS = (props) => {
     return days > 1000 ? parseInt(days / 1000) + "," + (days % 1000) : days;
   };
 
+  // 팔로우 or 수정
+  const followOrEdit = () => {
+    if (checkIsOwn()) {
+      goEdit();
+    } else {
+      follow();
+    }
+  };
+
+  // 구독 Or 수정
+  const subscribeOrEdit = () => {
+    if (checkIsOwn()) {
+      return "수정";
+    } else {
+      return "구독";
+    }
+  };
+
+  // 주인인지 검사
+  const checkIsOwn = () => {
+    return userInfo.username === props.user.userData.username;
+  };
+
   return loading ? (
     <Loader />
   ) : (
@@ -162,27 +185,15 @@ const SNS = (props) => {
               <Text style={{ fontSize: 25, marginRight: 5 }}>
                 {userInfo.username}
               </Text>
-              <TouchableOpacity
-                activeOpacity={0.5}
-                onPress={goEdit}
-                style={styles.userInfo_underInfo_edit(
-                  userInfo.username === props.user.userData.username
-                )}
-              >
-                <Image
-                  source={require("../Image/edit_bnt.png")}
-                  style={styles.userInfo_underInfo_edit(
-                    userInfo.username === props.user.userData.username
-                  )}
-                />
-              </TouchableOpacity>
             </View>
             <TouchableOpacity
               activeOpacity={0.5}
-              onPress={follow}
+              onPress={followOrEdit}
               style={styles.userInfo_underInfo_follow}
             >
-              <Text style={styles.userInfo_underInfo_follow_text}>구독</Text>
+              <Text style={styles.userInfo_underInfo_follow_text}>
+                {subscribeOrEdit()}
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -242,17 +253,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     margin: 50,
-  },
-  userInfo_underInfo_edit: (isTrue) => {
-    let thisWidth = 15;
-    let thisHeight = 15;
-
-    if (!isTrue) {
-      thisWidth = 0;
-      thisHeight = 0;
-    }
-
-    return { width: thisWidth, height: thisHeight };
   },
   userInfo_underInfo_follow: {
     justifyContent: "center",
