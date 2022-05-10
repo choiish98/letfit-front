@@ -156,7 +156,7 @@ const SNS = (props) => {
             <View style={styles.userInfo_upperInfo_each}>
               <Image
                 style={styles.userInfo_tier_goal_staff}
-                source={require("../Image/gold.png")}
+                source={require("../Image/tier/Gold1.png")}
                 width={50}
                 height={50}
               />

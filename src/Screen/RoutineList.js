@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, TextInput, StyleSheet } from "react-native";
-import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
+import { View, Text, Image } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { connect } from "react-redux";
 import { actionCreators } from "../store";
 import Modal from "react-native-modal";
@@ -8,100 +8,22 @@ import { API_URL } from "@env";
 import { styles } from "../Styles/routineList";
 import TopBar from "../Components/TopBar";
 import Loader from "../Components/Loader";
+import RoutineCard from "../Components/RoutineCard";
 
 // 순위 1, 2, 3 기능
-// user profile image api
 
 const RoutineList = (props) => {
-  const [loading, setLoading] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
   const [renderRoutine, setRenderRoutine] = useState([]); // 전체 운동 저장
 
-  const firstAction = () => {
-    setRenderRoutine(props.user.routineData);
-    setLoading(true);
-  };
-
   useEffect(() => {
-    loading === false ? firstAction() : console.log("전체 루틴 리스트 페이지");
+    setRenderRoutine(props.user.routineData);
   });
-
-  const getUserProfile = (id) => {
-    fetch(`https://sour-papers-grab-121-146-124-174.loca.lt/api/users/${id}`, {
-      headers: {
-        method: "GET",
-      },
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        return responseJson.avatar;
-      });
-    return "../Image/like_profile_base.png";
-  };
-
-  const renderItem = ({ item }) => {
-    // hashTag thisTags에 저장
-    var thisTags = [];
-    item.hashtags.map((thisTag) => {
-      thisTags.push("#" + thisTag.name + "  ");
-    });
-
-    // user profile 가져오기
-    const userProfile = getUserProfile(item.creator.id);
-
-    return (
-      // item.id로 이동
-      <TouchableOpacity
-        activeOpacity={0.5}
-        onPress={() => goDetail(item.id)}
-        style={styles.list_card}
-      >
-        <View style={styles.list_top}>
-          <View style={styles.list_top_rank}>
-            <Text style={styles.list_top_rank_text}>1</Text>
-            <Text style={styles.list_top_rank_underLine}> </Text>
-          </View>
-          <View style={styles.list_top_rank_info}>
-            <Text style={styles.list_top_rank_info_name}>{item.name}</Text>
-            <Text style={styles.list_top_rank_info_follow}>
-              {item.followers}명이 팔로우 중
-            </Text>
-          </View>
-        </View>
-        <View style={styles.list_bottom}>
-          <Text style={styles.list_hashtags}>{thisTags}</Text>
-          <View style={styles.list_bottom_creator}>
-            <Text style={styles.list_bottom_creator_username}>
-              {item.creator.username}
-            </Text>
-            <Image
-              source={require("../Image/like_profile_base.png")}
-              style={styles.list_bottom_creator_img}
-            />
-          </View>
-        </View>
-      </TouchableOpacity>
-    );
-  };
-
-  const renderFeed = () => {
-    return (
-      <FlatList
-        data={renderRoutine}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.toString()}
-      />
-    );
-  };
 
   const goSearch = () => {
     props.navigation.navigate("Search", {
       routineData: props.user.routineData,
     });
-  };
-
-  const goDetail = (id) => {
-    props.navigation.navigate("RoutineDetail", id);
   };
 
   const goMakeRoutine = () => {
@@ -135,7 +57,20 @@ const RoutineList = (props) => {
     setModalVisible(!isModalVisible);
   };
 
-  return loading ? (
+  // routine render
+  const itemView = (item, key) => {
+    return (
+      <TouchableOpacity
+        key={key}
+        onPress={() => props.navigation.navigate("RoutineDetail", item.id)}
+        style={styles.list_card}
+      >
+        <RoutineCard item={item} />
+      </TouchableOpacity>
+    );
+  };
+
+  return (
     <View style={styles.container}>
       <TopBar navigation={props.navigation} />
       <View style={styles.body}>
@@ -183,11 +118,9 @@ const RoutineList = (props) => {
             </TouchableOpacity>
           </View>
         </Modal>
-        <View>{renderFeed()}</View>
+        <View>{renderRoutine.map(itemView)}</View>
       </View>
     </View>
-  ) : (
-    Loader
   );
 };
 
