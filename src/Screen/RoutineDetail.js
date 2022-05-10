@@ -4,6 +4,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { connect } from "react-redux";
 import { actionCreators } from "../store";
 import { API_URL } from "@env";
+import { styles } from "../Styles/routineDetail";
 import Loader from "../Components/Loader";
 import TopBar from "../Components/TopBar";
 import ExerciseCard from "../Components/ExerciseCard";
@@ -256,26 +257,6 @@ const RoutineDetail = (props) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "white",
-  },
-  body: {
-    flex: 6,
-    width: "90%",
-    marginLeft: "5%",
-  },
-  calander: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingBottom: 15,
-    marginBottom: 15,
-    borderBottomWidth: 1,
-  },
-});
 
 function mapStateToProps(state) {
   return { user: state };
