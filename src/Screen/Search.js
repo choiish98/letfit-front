@@ -27,7 +27,7 @@ const RoutineList = (props) => {
 
   // 리스트 내 각 운동의 유저 정보 받아오기
   const getUserProfile = (id) => {
-    fetch(`https://forty-cooks-sin-121-146-124-174.loca.lt/api/users/${id}`, {
+    fetch(`https://sour-papers-grab-121-146-124-174.loca.lt/api/users/${id}`, {
       headers: {
         method: "GET",
       },
@@ -198,7 +198,9 @@ const RoutineList = (props) => {
                 <Text style={styles.modal_text}>팔로우순</Text>
               </TouchableOpacity>
               <TouchableOpacity activeOpacity={0.5} onPress={tierSort}>
-                <Text style={styles.modal_text}>티어순</Text>
+                <Text style={[styles.modal_text, { textAlign: "center" }]}>
+                  티어순
+                </Text>
               </TouchableOpacity>
             </View>
             <TouchableOpacity activeOpacity={0.5} onPress={toggleModal}>

@@ -36,7 +36,7 @@ const MyRoutineList = (props) => {
       // 요일 별 부위 저장
       try {
         const response = await fetch(
-          `https://forty-cooks-sin-121-146-124-174.loca.lt/api/routines/${myRoutineId}/days`,
+          `https://sour-papers-grab-121-146-124-174.loca.lt/api/routines/${myRoutineId}/days`,
           {
             headers: {
               method: "GET",
@@ -86,7 +86,7 @@ const MyRoutineList = (props) => {
   const getEntireEx = async () => {
     try {
       const response = await fetch(
-        `${`https://forty-cooks-sin-121-146-124-174.loca.lt`}/api/routines/${myRoutineId}/exercises`,
+        `${`https://sour-papers-grab-121-146-124-174.loca.lt`}/api/routines/${myRoutineId}/exercises`,
         {
           headers: {
             method: "GET",
@@ -105,7 +105,6 @@ const MyRoutineList = (props) => {
     myRepresentRoutine();
     setClickedDay("mon");
     getEntireEx();
-    getDate();
     setLoading(false);
   };
 

@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, StyleSheet, AsyncStorage } from "react-native";
+import { View, Text, Image, AsyncStorage } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { connect } from "react-redux";
-import Loader from "../Components/Loader";
 import { actionCreators } from "../store";
 import { API_URL } from "@env";
+import Loader from "../Components/Loader";
 import TopBar from "../Components/TopBar";
+import { styles } from "../Styles/snsStyle";
 
 // 피드 가로로 넘치는거 정렬 필요
 
@@ -13,59 +14,48 @@ const SNS = (props) => {
   const [loading, setLoading] = useState(true);
   const [userInfo, setUserInfo] = useState({ posts: [] });
 
-  const follow = () => {
-    // 언팔로우 구현 필요
+  const follow = async () => {
     if (props.user.userData.id === props.route.params.id) {
       console.log("자기 자신을 팔로우 할 수 없습니다.");
       //} else if () {
       //  console.log("언팔로우");
     } else {
-      AsyncStorage.getItem("token")
-        .then((token) => {
-          fetch(
-            `https://forty-cooks-sin-121-146-124-174.loca.lt/api/users/follow/`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `X-JWT ${token}`,
-              },
-              body: JSON.stringify({ id: props.route.params.id }),
-            }
-          )
-            .then((response) => response.json())
-            .then((responseJson) => {
-              console.log(JSON.stringify(responseJson));
-            })
-            .catch((error) => {
-              console.error(error);
-            });
-        })
-        .catch((error) => {
-          console.log("error occurred at async storage");
-          console.log("error: " + error);
-        });
+      try {
+        const token = await AsyncStorage.getItem("token");
+        await fetch(
+          `https://sour-papers-grab-121-146-124-174.loca.lt/api/users/follow/`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `X-JWT ${token}`,
+            },
+            body: JSON.stringify({ id: props.route.params.id }),
+          }
+        );
+        console.log("구독 성공");
+      } catch (error) {
+        console.log("error in follow: " + error);
+      }
     }
   };
 
-  const getUserData = () => {
-    // 유저 정보 호출
-    fetch(
-      `https://forty-cooks-sin-121-146-124-174.loca.lt/api/users/${props.route.params.id}`,
-      {
-        headers: {
-          method: "GET",
-        },
-      }
-    )
-      .then((response) => response.json())
-      .then((responseJson) => {
-        // 유저 정보 저장
-        setUserInfo(responseJson);
-      })
-      .catch((error) => {
-        console.log("error: " + error);
-      });
+  const getUserData = async () => {
+    try {
+      // 유저 정보 호출
+      const response = await fetch(
+        `https://sour-papers-grab-121-146-124-174.loca.lt/api/users/${props.route.params.id}`,
+        {
+          headers: {
+            method: "GET",
+          },
+        }
+      );
+      const userInfoData = await response.json();
+      setUserInfo(userInfoData);
+    } catch (error) {
+      console.log("error in getUserData: " + error);
+    }
   };
 
   const firstAction = () => {
@@ -86,12 +76,11 @@ const SNS = (props) => {
     props.navigation.navigate("ProfileEdit", { userInfo });
   };
 
-  const renderFeeds = () => {
-    let photos = [];
-
-    if (userInfo.username === props.user.userData.username) {
-      photos.push(
-        <View>
+  // sns 주인이면 upload 버튼 생성
+  const uploadBtn = () => {
+    if (userInfo.username === props.user.userData.username)
+      return (
+        <View style={styles.feeds}>
           <TouchableOpacity
             activeOpacity={0.5}
             onPress={goUpload}
@@ -101,28 +90,27 @@ const SNS = (props) => {
           </TouchableOpacity>
         </View>
       );
-    }
+  };
 
-    userInfo.posts.map((item) => {
-      photos.push(
+  // feed rendering
+  const itemView = (item, key) => {
+    return (
+      <View style={styles.feeds} key={key}>
         <TouchableOpacity
           onPress={() => {
             props.navigation.navigate("Detail", { id: item.id });
           }}
-          key={item.id}
         >
           <Image
             style={styles.feeds_card}
             source={{
               uri:
-                `https://forty-cooks-sin-121-146-124-174.loca.lt` + item.photo,
+                `https://sour-papers-grab-121-146-124-174.loca.lt` + item.photo,
             }}
           />
         </TouchableOpacity>
-      );
-    });
-
-    return <View style={styles.feeds}>{photos}</View>;
+      </View>
+    );
   };
 
   // day 천 자리 넘을 경우 콤마 찍어서 리턴
@@ -203,7 +191,7 @@ const SNS = (props) => {
               style={styles.userInfo_tier_goal_staff}
               source={{
                 uri:
-                  `https://forty-cooks-sin-121-146-124-174.loca.lt` +
+                  `https://sour-papers-grab-121-146-124-174.loca.lt` +
                   `/media/81051548428941cb8d27828557a3f06b..jpg`,
               }}
               width={180}
@@ -216,104 +204,15 @@ const SNS = (props) => {
               {userInfo.profile_message}
             </Text>
           </View>
-          {renderFeeds()}
+          <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+            {uploadBtn()}
+            {userInfo.posts.map(itemView)}
+          </View>
         </View>
       </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  body: {
-    flex: 7.5,
-  },
-  userInfo: {
-    flex: 1,
-    backgroundColor: "#DEDEDE",
-  },
-  userInfo_upperInfo: {
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-  },
-  userInfo_upperInfo_each: {
-    width: 100,
-    height: 80,
-    justifyContent: "flex-end",
-    alignItems: "center",
-  },
-  userInfo_upperInfo_days: {
-    fontSize: 44,
-    fontWeight: "600",
-  },
-  userInfo_underInfo: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    margin: 50,
-  },
-  userInfo_underInfo_follow: {
-    justifyContent: "center",
-    alignItems: "center",
-    width: 48,
-    height: 28,
-    backgroundColor: "#2A3042",
-  },
-  userInfo_underInfo_follow_text: {
-    fontSize: 20,
-    color: "white",
-  },
-  profile: {
-    position: "absolute",
-    bottom: "85%",
-    justifyContent: "center",
-    alignItems: "center",
-    alignSelf: "center",
-    backgroundColor: "#F9F5EE",
-    width: 180,
-    height: 180,
-    borderRadius: 150,
-  },
-  feed: {
-    flex: 3,
-    backgroundColor: "#2A3042",
-  },
-  feed_profile_message: {
-    paddingTop: 100,
-    margin: 10,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  feed_profile_message_text: {
-    fontSize: 18,
-    color: "white",
-  },
-  feeds: {
-    flex: 5,
-    flexDirection: "row",
-    width: "100%",
-  },
-  feed_uploadBtn: {
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#DEDEDE",
-    margin: 5,
-    width: 120,
-    height: 120,
-  },
-  feed_uploadBtn_text: {
-    fontSize: 80,
-    fontWeight: "600",
-    color: "grey",
-  },
-  feeds_card: {
-    margin: 5,
-    width: 120,
-    height: 120,
-  },
-});
 
 function mapStateToProps(state) {
   return { user: state };

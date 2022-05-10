@@ -11,7 +11,7 @@ const ProfileEdit = (props) => {
   const userInfo = props.route.params.userInfo;
   const [prfMsg, setPrfMsg] = useState(userInfo.profile_message);
   const [image, setImage] = useState(
-    `https://forty-cooks-sin-121-146-124-174.loca.lt` + userInfo.avatar
+    `https://sour-papers-grab-121-146-124-174.loca.lt` + userInfo.avatar
   );
   const [photo, setPhoto] = useState("");
 
@@ -59,7 +59,7 @@ const ProfileEdit = (props) => {
 
     try {
       await fetch(
-        `https://forty-cooks-sin-121-146-124-174.loca.lt/api/users/me/`,
+        `https://sour-papers-grab-121-146-124-174.loca.lt/api/users/me/`,
         {
           method: "PUT",
           headers: {

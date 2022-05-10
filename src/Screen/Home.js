@@ -28,7 +28,7 @@ const Home = (props) => {
       // token 받아오기
       const token = await AsyncStorage.getItem("token");
       const response = await fetch(
-        `https://forty-cooks-sin-121-146-124-174.loca.lt/api/users/me/`,
+        `https://sour-papers-grab-121-146-124-174.loca.lt/api/users/me/`,
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
@@ -47,7 +47,7 @@ const Home = (props) => {
   const getRoutineData = async () => {
     try {
       const response = await fetch(
-        `https://forty-cooks-sin-121-146-124-174.loca.lt/api/routines/`,
+        `https://sour-papers-grab-121-146-124-174.loca.lt/api/routines/`,
         {
           method: "GET",
         }
@@ -63,7 +63,7 @@ const Home = (props) => {
   const loadingFeed = async () => {
     try {
       const response = await fetch(
-        `https://forty-cooks-sin-121-146-124-174.loca.lt/api/posts/trending/`,
+        `https://sour-papers-grab-121-146-124-174.loca.lt/api/posts/trending/`,
         {
           method: "GET",
           headers: {
@@ -98,7 +98,7 @@ const Home = (props) => {
     try {
       const token = await AsyncStorage.getItem("token");
       await fetch(
-        `${`https://forty-cooks-sin-121-146-124-174.loca.lt`}/api/users/`,
+        `${`https://sour-papers-grab-121-146-124-174.loca.lt`}/api/users/`,
         {
           method: "DELETE",
           headers: {
@@ -162,7 +162,11 @@ const Home = (props) => {
       >
         <View style={styles.userInfo}>
           <View style={styles.alignCenter}>
-            <Text style={styles.userInfo_days_upperText}>{daysComma()}</Text>
+            <Text
+              style={[styles.userInfo_days_upperText, { fontStyle: "italic" }]}
+            >
+              {daysComma()}
+            </Text>
             <Text style={styles.userInfo_days_underText}> Days </Text>
           </View>
           <View style={styles.userInfo_tier_goal}>

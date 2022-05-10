@@ -22,7 +22,7 @@ const Detail = (props) => {
   // 게시글 정보 호출
   const getPostData = async () => {
     const response = await fetch(
-      `https://forty-cooks-sin-121-146-124-174.loca.lt/api/posts/${props.route.params.id}/`,
+      `https://sour-papers-grab-121-146-124-174.loca.lt/api/posts/${props.route.params.id}/`,
       {
         headers: {
           method: "GET",
@@ -94,7 +94,7 @@ const Detail = (props) => {
             }}
             source={{
               uri:
-                `https://forty-cooks-sin-121-146-124-174.loca.lt` +
+                `https://sour-papers-grab-121-146-124-174.loca.lt` +
                 postData.photo,
             }}
           />
@@ -112,7 +112,7 @@ const Detail = (props) => {
                 }}
                 source={{
                   uri:
-                    `https://forty-cooks-sin-121-146-124-174.loca.lt` +
+                    `https://sour-papers-grab-121-146-124-174.loca.lt` +
                     postData.poster.avatar,
                 }}
               />

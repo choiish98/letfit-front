@@ -26,7 +26,7 @@ const RoutineList = (props) => {
   });
 
   const getUserProfile = (id) => {
-    fetch(`https://forty-cooks-sin-121-146-124-174.loca.lt/api/users/${id}`, {
+    fetch(`https://sour-papers-grab-121-146-124-174.loca.lt/api/users/${id}`, {
       headers: {
         method: "GET",
       },

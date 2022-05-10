@@ -42,7 +42,7 @@ const Login = (props) => {
     formBody = formBody.join("&");
 
     // 로그인 요청
-    fetch(`https://forty-cooks-sin-121-146-124-174.loca.lt/api/users/token/`, {
+    fetch(`https://sour-papers-grab-121-146-124-174.loca.lt/api/users/token/`, {
       method: "POST",
       body: formBody,
       headers: {
