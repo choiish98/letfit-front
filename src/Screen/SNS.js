@@ -3,16 +3,18 @@ import { View, Text, Image, AsyncStorage } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { connect } from "react-redux";
 import { actionCreators } from "../store";
+import { styles } from "../Styles/snsStyle";
+import { useIsFocused } from "@react-navigation/native";
 import { API_URL } from "@env";
 import Loader from "../Components/Loader";
 import TopBar from "../Components/TopBar";
-import { styles } from "../Styles/snsStyle";
 
 // 피드 가로로 넘치는거 정렬 필요
 
 const SNS = (props) => {
   const [loading, setLoading] = useState(true);
   const [userInfo, setUserInfo] = useState({ posts: [] });
+  const isFocused = useIsFocused;
 
   const follow = async () => {
     if (props.user.userData.id === props.route.params.id) {
@@ -62,11 +64,12 @@ const SNS = (props) => {
     console.log("로딩 중");
     getUserData();
     setLoading(false);
+    console.log("로딩 완료");
   };
 
   useEffect(() => {
-    loading ? firstAction() : console.log("로딩 완료");
-  });
+    firstAction();
+  }, [isFocused]);
 
   const goUpload = () => {
     props.navigation.navigate("Upload");

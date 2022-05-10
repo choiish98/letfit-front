@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { View, Image, StyleSheet, Text } from "react-native";
+import { View, Image, Text, AsyncStorage } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { API_URL } from "@env";
 import Loader from "../Components/Loader";
 import TopBar from "../Components/TopBar";
+import { styles } from "../Styles/detailStyle";
 
 const Detail = (props) => {
   const [loading, setLoading] = useState(true);
@@ -42,6 +44,48 @@ const Detail = (props) => {
   useEffect(() => {
     loading ? firstAction() : console.log("로딩 완료");
   });
+
+  // 게시글 삭제
+  const deleteFeed = async () => {
+    try {
+      const token = await AsyncStorage.getItem("token");
+      await fetch(
+        `https://sour-papers-grab-121-146-124-174.loca.lt/api/posts/${props.route.params.id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `X-JWT ${token}`,
+          },
+        }
+      );
+      props.navigation.goBack();
+    } catch (error) {
+      console.log("error in delete: " + error);
+    }
+  };
+
+  // 본인 게시글이면 수정, 삭제 기능 추가
+  const isOwnDetail = () => {
+    if (props.route.params.isOwn)
+      return (
+        <View style={styles.btn}>
+          <TouchableOpacity
+            activeOpacity={0.5}
+            style={styles.btn_box}
+            onPress={() => console.log("pressed")}
+          >
+            <Text style={styles.btn_text}>수정</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={0.5}
+            style={styles.btn_box}
+            onPress={deleteFeed}
+          >
+            <Text style={styles.btn_text}>삭제</Text>
+          </TouchableOpacity>
+        </View>
+      );
+  };
 
   // 포스팅 날짜 추출
   const getPostDate = () => {
@@ -133,79 +177,19 @@ const Detail = (props) => {
               <Text style={styles.text}>{getLikes()}</Text>
             </View>
           </View>
-          <Text style={[styles.text, styles.content_text]}>
-            {postData.title}
-          </Text>
-          <Text style={[styles.subText, styles.content_text]}>
-            {postData.description}
-          </Text>
+          <View style={{ height: 200, marginBottom: 50 }}>
+            <Text style={[styles.text, styles.content_text]}>
+              {postData.title}
+            </Text>
+            <Text style={[styles.subText, styles.content_text]}>
+              {postData.description}
+            </Text>
+          </View>
+          {isOwnDetail()}
         </View>
       </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#2A3042",
-  },
-  body: {
-    flex: 7.5,
-    alignItems: "center",
-  },
-  photo: {
-    width: "90%",
-    height: 300,
-    marginTop: 70,
-    marginBottom: 20,
-    backgroundColor: "white",
-  },
-  photo2: {
-    position: "absolute",
-    top: -15,
-    width: "85%",
-    backgroundColor: "#DEDEDE",
-  },
-  photo3: {
-    position: "absolute",
-    top: -30,
-    width: "80%",
-    backgroundColor: "#7F7F80",
-  },
-  photo4: {
-    position: "absolute",
-    top: -45,
-    width: "75%",
-    backgroundColor: "#313232",
-  },
-  content: {
-    width: "90%",
-  },
-  postInfo: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    width: "100%",
-    marginBottom: 15,
-  },
-  posterInfo: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  content_text: {
-    marginLeft: 5,
-    marginBottom: 5,
-  },
-  text: {
-    fontSize: 16,
-    color: "white",
-  },
-  subText: {
-    fontSize: 12,
-    color: "white",
-  },
-});
 
 export default Detail;

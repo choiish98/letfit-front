@@ -12,6 +12,7 @@ import { connect } from "react-redux";
 import { actionCreators } from "../Actions/userIndex";
 import { routineActionCreators } from "../Actions/routineIndex";
 import { API_URL } from "@env";
+import { useIsFocused } from "@react-navigation/native";
 import Loader from "../Components/Loader";
 import * as Progress from "react-native-progress";
 import TopBar from "../Components/TopBar";
@@ -22,6 +23,7 @@ import FeedCard from "../Components/FeedCard";
 const Home = (props) => {
   const [loading, setLoading] = useState(true);
   const [trending, setTrending] = useState([]);
+  const isFocused = useIsFocused;
 
   const getUserData = async () => {
     try {
@@ -89,7 +91,7 @@ const Home = (props) => {
 
   useEffect(() => {
     loading ? firstAction() : console.log("로딩 완료");
-  });
+  }, [isFocused]);
 
   // 회원 탈퇴
   const secession = async () => {
@@ -130,10 +132,15 @@ const Home = (props) => {
     props.navigation.navigate("RoutineList");
   };
 
+  // feed item
   const ItemView = (item, key) => {
     return (
       <View key={key} style={styles.eachItemView}>
-        <FeedCard navigation={props.navigation} item={item} />
+        <FeedCard
+          navigation={props.navigation}
+          item={item}
+          id={props.user.id}
+        />
       </View>
     );
   };

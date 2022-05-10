@@ -6,6 +6,7 @@ const FeedCard = (props) => {
   const item = props.item;
   const imageUrl =
     `https://sour-papers-grab-121-146-124-174.loca.lt` + item.photo;
+  const isOwn = props.id === item.poster.id;
 
   // 포스팅 날짜 추출
   const getPostDate = () => {
@@ -87,7 +88,7 @@ const FeedCard = (props) => {
       <View style={{ padding: 10 }}>
         <TouchableOpacity
           onPress={() => {
-            props.navigation.navigate("Detail", { id: item.id });
+            props.navigation.navigate("Detail", { id: item.id, isOwn: isOwn });
           }}
         >
           <Image style={styles.feed_box} source={{ uri: imageUrl }} />
