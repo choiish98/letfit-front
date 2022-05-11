@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, ActivityIndicator, AsyncStorage } from "react-native";
+import { View, ActivityIndicator } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SplashScreen = ({ navigation }) => {
   const [animating, setAnimating] = useState(true);

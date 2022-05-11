@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { View, Text, Image, StyleSheet, AsyncStorage } from "react-native";
+import { View, Text, Image } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import { connect } from "react-redux";
 import { actionCreators } from "../store";
 import * as ImagePicker from "expo-image-picker";
-import { API_URL } from "@env";
 import { styles } from "../Styles/profileEdit";
 import TopBar from "../Components/TopBar";
 
@@ -12,7 +12,7 @@ const ProfileEdit = (props) => {
   const userInfo = props.route.params.userInfo;
   const [prfMsg, setPrfMsg] = useState(userInfo.profile_message);
   const [image, setImage] = useState(
-    `https://sour-papers-grab-121-146-124-174.loca.lt` + userInfo.avatar
+    `https://new-bobcats-spend-121-146-124-174.loca.lt` + userInfo.avatar
   );
   const [photo, setPhoto] = useState("");
 
@@ -60,7 +60,7 @@ const ProfileEdit = (props) => {
 
     try {
       await fetch(
-        `https://sour-papers-grab-121-146-124-174.loca.lt/api/users/me/`,
+        `https://new-bobcats-spend-121-146-124-174.loca.lt/api/users/me/`,
         {
           method: "PUT",
           headers: {

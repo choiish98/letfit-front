@@ -5,7 +5,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 const FeedCard = (props) => {
   const item = props.item;
   const imageUrl =
-    `https://sour-papers-grab-121-146-124-174.loca.lt` + item.photo;
+    `https://new-bobcats-spend-121-146-124-174.loca.lt` + item.photo;
   const isOwn = props.id === item.poster.id;
 
   // 포스팅 날짜 추출
@@ -63,7 +63,7 @@ const FeedCard = (props) => {
               }}
               source={{
                 uri:
-                  `https://sour-papers-grab-121-146-124-174.loca.lt` +
+                  `https://new-bobcats-spend-121-146-124-174.loca.lt` +
                   item.poster.avatar,
               }}
             />

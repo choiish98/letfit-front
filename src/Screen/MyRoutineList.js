@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { connect } from "react-redux";
 import { actionCreators } from "../store";
-import { API_URL } from "@env";
 import * as Progress from "react-native-progress";
 import { styles } from "../Styles/myRoutineList";
 import Loader from "../Components/Loader";
@@ -37,7 +36,7 @@ const MyRoutineList = (props) => {
       // 요일 별 부위 저장
       try {
         const response = await fetch(
-          `https://sour-papers-grab-121-146-124-174.loca.lt/api/routines/${myRoutineId}/days`,
+          `https://whole-sides-kneel-121-146-124-174.loca.lt/api/routines/${myRoutineId}/days`,
           {
             headers: {
               method: "GET",
@@ -87,7 +86,7 @@ const MyRoutineList = (props) => {
   const getEntireEx = async () => {
     try {
       const response = await fetch(
-        `${`https://sour-papers-grab-121-146-124-174.loca.lt`}/api/routines/${myRoutineId}/exercises`,
+        `${`https://whole-sides-kneel-121-146-124-174.loca.lt`}/api/routines/${myRoutineId}/exercises`,
         {
           headers: {
             method: "GET",

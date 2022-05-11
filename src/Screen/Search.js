@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, TextInput, StyleSheet } from "react-native";
+import { View, Text, Image, TextInput } from "react-native";
 import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 import { connect } from "react-redux";
 import { actionCreators } from "../store";
 import Modal from "react-native-modal";
-import { API_URL } from "@env";
 import { styles } from "../Styles/search";
 import Loader from "../Components/Loader";
 import TopBar from "../Components/TopBar";
@@ -28,7 +27,7 @@ const RoutineList = (props) => {
 
   // 리스트 내 각 운동의 유저 정보 받아오기
   const getUserProfile = (id) => {
-    fetch(`https://sour-papers-grab-121-146-124-174.loca.lt/api/users/${id}`, {
+    fetch(`https://new-bobcats-spend-121-146-124-174.loca.lt/api/users/${id}`, {
       headers: {
         method: "GET",
       },

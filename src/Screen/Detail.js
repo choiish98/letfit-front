@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { View, Image, Text, AsyncStorage } from "react-native";
+import { View, Image, Text } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { API_URL } from "@env";
 import Loader from "../Components/Loader";
 import TopBar from "../Components/TopBar";
 import { styles } from "../Styles/detailStyle";
@@ -24,7 +24,7 @@ const Detail = (props) => {
   // 게시글 정보 호출
   const getPostData = async () => {
     const response = await fetch(
-      `https://sour-papers-grab-121-146-124-174.loca.lt/api/posts/${props.route.params.id}/`,
+      `https://new-bobcats-spend-121-146-124-174.loca.lt/api/posts/${props.route.params.id}/`,
       {
         headers: {
           method: "GET",
@@ -50,7 +50,7 @@ const Detail = (props) => {
     try {
       const token = await AsyncStorage.getItem("token");
       await fetch(
-        `https://sour-papers-grab-121-146-124-174.loca.lt/api/posts/${props.route.params.id}`,
+        `https://new-bobcats-spend-121-146-124-174.loca.lt/api/posts/${props.route.params.id}`,
         {
           method: "DELETE",
           headers: {
@@ -138,7 +138,7 @@ const Detail = (props) => {
             }}
             source={{
               uri:
-                `https://sour-papers-grab-121-146-124-174.loca.lt` +
+                `https://new-bobcats-spend-121-146-124-174.loca.lt` +
                 postData.photo,
             }}
           />
@@ -156,7 +156,7 @@ const Detail = (props) => {
                 }}
                 source={{
                   uri:
-                    `https://sour-papers-grab-121-146-124-174.loca.lt` +
+                    `https://new-bobcats-spend-121-146-124-174.loca.lt` +
                     postData.poster.avatar,
                 }}
               />

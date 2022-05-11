@@ -4,10 +4,8 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { connect } from "react-redux";
 import { actionCreators } from "../store";
 import Modal from "react-native-modal";
-import { API_URL } from "@env";
 import { styles } from "../Styles/routineList";
 import TopBar from "../Components/TopBar";
-import Loader from "../Components/Loader";
 import RoutineCard from "../Components/RoutineCard";
 
 // 순위 1, 2, 3 기능

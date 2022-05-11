@@ -5,7 +5,6 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native-gesture-handler";
-import { API_URL } from "@env";
 import Loader from "../Components/Loader";
 
 const Register = ({ navigation }) => {
@@ -54,7 +53,7 @@ const Register = ({ navigation }) => {
 
     if (userPassword == userPasswordConfirm) {
       fetch(
-        `${`https://sour-papers-grab-121-146-124-174.loca.lt`}/api/users/`,
+        `${`https://new-bobcats-spend-121-146-124-174.loca.lt`}/api/users/`,
         {
           method: "POST",
           body: formBody,

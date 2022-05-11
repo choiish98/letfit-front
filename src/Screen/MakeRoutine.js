@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, TextInput, StyleSheet } from "react-native";
+import { View, Text, Image, TextInput } from "react-native";
 import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 import { connect } from "react-redux";
 import { actionCreators } from "../store";
-import { API_URL } from "@env";
 import { styles } from "../Styles/makeRoutine";
 import Loader from "../Components/Loader";
 import TopBar from "../Components/TopBar";

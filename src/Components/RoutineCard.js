@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Image, AsyncStorage } from "react-native";
+import { View, Text, Image } from "react-native";
 import { styles } from "../Styles/routineCard";
 
 const RoutineCard = (props) => {

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { View, Text, Image, AsyncStorage, StyleSheet } from "react-native";
+import { View, Text, Image } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import * as ImagePicker from "expo-image-picker";
-import { API_URL } from "@env";
 import { styles } from "../Styles/uploadStyle";
 
 const Upload = (props) => {
@@ -51,7 +51,7 @@ const Upload = (props) => {
       console.log(image);
       // 업로드 요청
       fetch(
-        `https://sour-papers-grab-121-146-124-174.loca.lt/api/posts/upload/`,
+        `https://new-bobcats-spend-121-146-124-174.loca.lt/api/posts/upload/`,
         {
           method: "POST",
           body: formData,

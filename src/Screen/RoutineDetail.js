@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, ScrollView } from "react-native";
+import { View, ScrollView } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { connect } from "react-redux";
 import { actionCreators } from "../store";
-import { API_URL } from "@env";
 import { styles } from "../Styles/routineDetail";
 import Loader from "../Components/Loader";
 import TopBar from "../Components/TopBar";
@@ -33,7 +32,7 @@ const RoutineDetail = (props) => {
     // 요일 별 부위
     try {
       const response = await fetch(
-        `https://sour-papers-grab-121-146-124-174.loca.lt/api/routines/${routineId}/days`,
+        `https://new-bobcats-spend-121-146-124-174.loca.lt/api/routines/${routineId}/days`,
         {
           headers: {
             method: "GET",
@@ -80,7 +79,7 @@ const RoutineDetail = (props) => {
   const getEntireEx = async () => {
     try {
       const response = await fetch(
-        `${`https://sour-papers-grab-121-146-124-174.loca.lt`}/api/routines/${routineId}/exercises`,
+        `${`https://new-bobcats-spend-121-146-124-174.loca.lt`}/api/routines/${routineId}/exercises`,
         {
           headers: {
             method: "GET",

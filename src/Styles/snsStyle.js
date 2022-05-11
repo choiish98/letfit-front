@@ -42,6 +42,17 @@ export const styles = StyleSheet.create({
     fontSize: 20,
     color: "white",
   },
+  tier_img_box: {
+    width: 60,
+    height: 30,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  tier_img: {
+    resizeMode: "contain",
+    width: 60,
+    marginBottom: 15,
+  },
   profile: {
     position: "absolute",
     bottom: "85%",
@@ -52,6 +63,11 @@ export const styles = StyleSheet.create({
     width: 180,
     height: 180,
     borderRadius: 150,
+  },
+  profile_img: {
+    width: 180,
+    height: 180,
+    borderRadius: 100,
   },
   feed: {
     flex: 3,

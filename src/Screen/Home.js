@@ -1,37 +1,29 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  Image,
-  AsyncStorage,
-  StyleSheet,
-  ScrollView,
-} from "react-native";
+import { View, Text, Image, ScrollView } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { connect } from "react-redux";
 import { actionCreators } from "../Actions/userIndex";
 import { routineActionCreators } from "../Actions/routineIndex";
-import { API_URL } from "@env";
-import { useIsFocused } from "@react-navigation/native";
 import { styles } from "../Styles/homeStyle";
 import Loader from "../Components/Loader";
 import * as Progress from "react-native-progress";
 import TopBar from "../Components/TopBar";
 import FeedCard from "../Components/FeedCard";
+import { imgSrc } from "../Components/ImgSrc";
 
 // topbar 깨지는거 고칠 필요
 
 const Home = (props) => {
   const [loading, setLoading] = useState(true);
   const [trending, setTrending] = useState([]);
-  const isFocused = useIsFocused;
 
   const getUserData = async () => {
     try {
       // token 받아오기
       const token = await AsyncStorage.getItem("token");
       const response = await fetch(
-        `https://sour-papers-grab-121-146-124-174.loca.lt/api/users/me/`,
+        `https://new-bobcats-spend-121-146-124-174.loca.lt/api/users/me/`,
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
@@ -41,6 +33,7 @@ const Home = (props) => {
       );
       const userData = await response.json();
 
+      console.log("userData: " + userData);
       props.defineUser(userData);
     } catch (error) {
       console.log("error in getUserData: " + error);
@@ -50,7 +43,7 @@ const Home = (props) => {
   const getRoutineData = async () => {
     try {
       const response = await fetch(
-        `https://sour-papers-grab-121-146-124-174.loca.lt/api/routines/`,
+        `https://new-bobcats-spend-121-146-124-174.loca.lt/api/routines/`,
         {
           method: "GET",
         }
@@ -66,7 +59,7 @@ const Home = (props) => {
   const loadingFeed = async () => {
     try {
       const response = await fetch(
-        `https://sour-papers-grab-121-146-124-174.loca.lt/api/posts/trending/`,
+        `https://new-bobcats-spend-121-146-124-174.loca.lt/api/posts/trending/`,
         {
           method: "GET",
           headers: {
@@ -92,7 +85,7 @@ const Home = (props) => {
 
   useEffect(() => {
     loading ? firstAction() : console.log("로딩 완료");
-  }, [isFocused]);
+  });
 
   // 회원 탈퇴
   const secession = async () => {
@@ -101,7 +94,7 @@ const Home = (props) => {
     try {
       const token = await AsyncStorage.getItem("token");
       await fetch(
-        `${`https://sour-papers-grab-121-146-124-174.loca.lt`}/api/users/`,
+        `${`https://new-bobcats-spend-121-146-124-174.loca.lt`}/api/users/`,
         {
           method: "DELETE",
           headers: {
@@ -179,10 +172,12 @@ const Home = (props) => {
           </View>
           <View style={styles.userInfo_tier_goal}>
             <View style={{ justifyContent: "center", alignItems: "center" }}>
-              <Image
-                style={styles.userInfo_tier_goal_staff}
-                source={require("../Image/gold.png")}
-              />
+              <View style={styles.tier_img_box}>
+                <Image
+                  style={styles.userInfo_tier_goal_staff}
+                  source={imgSrc(props.user.tier)}
+                />
+              </View>
               <Text style={styles.userInfo_tier_goal_text}>
                 {props.user.tier}
               </Text>

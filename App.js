@@ -9,7 +9,6 @@ import Register from "./src/Screen/Register";
 import LETFIT from "./src/Components/LETFIT";
 import { Provider } from "react-redux";
 import store from "./src/store";
-import { borderColor } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
 
 const Stack = createStackNavigator();
 

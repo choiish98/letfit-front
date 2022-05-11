@@ -18,9 +18,15 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
   },
+  tier_img_box: {
+    width: 60,
+    height: 30,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   userInfo_tier_goal_staff: {
-    width: 50,
-    height: 50,
+    resizeMode: "contain",
+    maxWidth: 60,
   },
   userInfo_tier_goal_text: {
     marginTop: 10,

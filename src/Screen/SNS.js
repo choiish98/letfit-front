@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, AsyncStorage } from "react-native";
+import { View, Text, Image } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { connect } from "react-redux";
 import { actionCreators } from "../store";
 import { styles } from "../Styles/snsStyle";
 import { useIsFocused } from "@react-navigation/native";
-import { API_URL } from "@env";
 import Loader from "../Components/Loader";
 import TopBar from "../Components/TopBar";
+import { imgSrc } from "../Components/ImgSrc";
 
-// 피드 가로로 넘치는거 정렬 필요
+// 팔로우/언팔로우 구분 구현 필요
 
 const SNS = (props) => {
   const [loading, setLoading] = useState(true);
@@ -25,7 +26,7 @@ const SNS = (props) => {
       try {
         const token = await AsyncStorage.getItem("token");
         await fetch(
-          `https://sour-papers-grab-121-146-124-174.loca.lt/api/users/follow/`,
+          `https://new-bobcats-spend-121-146-124-174.loca.lt/api/users/follow/`,
           {
             method: "POST",
             headers: {
@@ -46,7 +47,7 @@ const SNS = (props) => {
     try {
       // 유저 정보 호출
       const response = await fetch(
-        `https://sour-papers-grab-121-146-124-174.loca.lt/api/users/${props.route.params.id}`,
+        `https://new-bobcats-spend-121-146-124-174.loca.lt/api/users/${props.route.params.id}`,
         {
           headers: {
             method: "GET",
@@ -71,10 +72,6 @@ const SNS = (props) => {
     firstAction();
   }, [isFocused]);
 
-  const goUpload = () => {
-    props.navigation.navigate("Upload");
-  };
-
   const goEdit = () => {
     props.navigation.navigate("ProfileEdit", { userInfo });
   };
@@ -86,7 +83,7 @@ const SNS = (props) => {
         <View style={styles.feeds}>
           <TouchableOpacity
             activeOpacity={0.5}
-            onPress={goUpload}
+            onPress={() => props.navigation.navigate("Upload")}
             style={styles.feed_uploadBtn}
           >
             <Text style={styles.feed_uploadBtn_text}>+</Text>
@@ -101,14 +98,18 @@ const SNS = (props) => {
       <View style={styles.feeds} key={key}>
         <TouchableOpacity
           onPress={() => {
-            props.navigation.navigate("Detail", { id: item.id });
+            props.navigation.navigate("Detail", {
+              id: item.id,
+              isOwn: checkIsOwn(),
+            });
           }}
         >
           <Image
             style={styles.feeds_card}
             source={{
               uri:
-                `https://sour-papers-grab-121-146-124-174.loca.lt` + item.photo,
+                `https://new-bobcats-spend-121-146-124-174.loca.lt` +
+                item.photo,
             }}
           />
         </TouchableOpacity>
@@ -154,12 +155,9 @@ const SNS = (props) => {
         <View style={styles.userInfo}>
           <View style={styles.userInfo_upperInfo}>
             <View style={styles.userInfo_upperInfo_each}>
-              <Image
-                style={styles.userInfo_tier_goal_staff}
-                source={require("../Image/tier/Gold1.png")}
-                width={50}
-                height={50}
-              />
+              <View style={styles.tier_img_box}>
+                <Image style={styles.tier_img} source={imgSrc(userInfo.tier)} />
+              </View>
               <Text style={{ fontSize: 13 }}> {userInfo.tier} </Text>
             </View>
             <View style={styles.userInfo_upperInfo_each}>
@@ -178,7 +176,6 @@ const SNS = (props) => {
               </Text>
             </View>
             <TouchableOpacity
-              activeOpacity={0.5}
               onPress={followOrEdit}
               style={styles.userInfo_underInfo_follow}
             >
@@ -191,15 +188,12 @@ const SNS = (props) => {
         <View style={styles.feed}>
           <View style={styles.profile}>
             <Image
-              style={styles.userInfo_tier_goal_staff}
+              style={styles.profile_img}
               source={{
                 uri:
-                  `https://sour-papers-grab-121-146-124-174.loca.lt` +
+                  `https://new-bobcats-spend-121-146-124-174.loca.lt` +
                   `/media/81051548428941cb8d27828557a3f06b..jpg`,
               }}
-              width={180}
-              height={180}
-              borderRadius={100}
             />
           </View>
           <View style={styles.feed_profile_message}>
