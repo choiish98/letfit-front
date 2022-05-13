@@ -8,6 +8,7 @@ export const styles = StyleSheet.create({
   userInfo_days_upperText: {
     fontSize: 90,
     color: "#fff",
+    fontStyle: "italic",
   },
   userInfo_days_underText: {
     fontSize: 20,

@@ -32,7 +32,7 @@ const RoutineDetail = (props) => {
     // 요일 별 부위
     try {
       const response = await fetch(
-        `https://new-bobcats-spend-121-146-124-174.loca.lt/api/routines/${routineId}/days`,
+        `https://deep-owls-visit-121-146-124-174.loca.lt/api/routines/${routineId}/days`,
         {
           headers: {
             method: "GET",
@@ -79,7 +79,7 @@ const RoutineDetail = (props) => {
   const getEntireEx = async () => {
     try {
       const response = await fetch(
-        `${`https://new-bobcats-spend-121-146-124-174.loca.lt`}/api/routines/${routineId}/exercises`,
+        `${`https://deep-owls-visit-121-146-124-174.loca.lt`}/api/routines/${routineId}/exercises`,
         {
           headers: {
             method: "GET",

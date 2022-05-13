@@ -5,8 +5,8 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 const TopBar = (props) => {
   const isSNS = props.SNS ? true : false;
   const imgLink = isSNS
-    ? require("../Image/back_bnt.png")
-    : require("../Image/back_white_bnt.png");
+    ? require("../../assets/Icon/back_bnt.png")
+    : require("../../assets/Icon/back_white_bnt.png");
 
   const goPre = () => {
     props.navigation.goBack();

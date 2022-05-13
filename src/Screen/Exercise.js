@@ -155,7 +155,7 @@ const Exercise = (props) => {
           >
             <View style={styles.body_topBox_question_imgBox}>
               <Image
-                source={require("../Image/howdo_bnt.png")}
+                source={require("../../assets/Icon/howdo_bnt.png")}
                 style={styles.body_topBox_question_img}
               />
             </View>
@@ -208,7 +208,7 @@ const Exercise = (props) => {
           style={styles.body_play_box}
         >
           <Image
-            source={require("../Image/play_work_bnt.png")}
+            source={require("../../assets/Icon/play_work_bnt.png")}
             style={styles.body_play}
           />
         </TouchableOpacity>

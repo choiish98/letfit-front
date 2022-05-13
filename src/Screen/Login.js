@@ -42,16 +42,13 @@ const Login = (props) => {
     formBody = formBody.join("&");
 
     // 로그인 요청
-    fetch(
-      `https://new-bobcats-spend-121-146-124-174.loca.lt/api/users/token/`,
-      {
-        method: "POST",
-        body: formBody,
-        headers: {
-          Accept: "application/json",
-        },
-      }
-    )
+    fetch(`https://deep-owls-visit-121-146-124-174.loca.lt/api/users/token/`, {
+      method: "POST",
+      body: formBody,
+      headers: {
+        Accept: "application/json",
+      },
+    })
       .then((response) => {
         console.log(JSON.stringify(response, null, 4));
         return response.json();

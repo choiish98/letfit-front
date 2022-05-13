@@ -91,7 +91,7 @@ const RoutineList = (props) => {
         <View style={styles.hashtagBox}>
           <TouchableOpacity activeOpacity={0.5}>
             <Image
-              source={require("../Image/tag_add_bnt.png")}
+              source={require("../../assets/Icon/tag_add_bnt.png")}
               style={styles.hashtagBox_img}
             />
           </TouchableOpacity>
@@ -135,7 +135,7 @@ const RoutineList = (props) => {
         </View>
         <View>{renderFeed()}</View>
         <TouchableOpacity activeOpacity={0.5} style={styles.exercise_plus}>
-          <Image source={require("../Image/routine_add_bnt.png")} />
+          <Image source={require("../../assets/Icon/routine_add_bnt.png")} />
         </TouchableOpacity>
       </View>
     </View>

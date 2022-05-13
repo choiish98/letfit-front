@@ -24,7 +24,7 @@ const Detail = (props) => {
   // 게시글 정보 호출
   const getPostData = async () => {
     const response = await fetch(
-      `https://new-bobcats-spend-121-146-124-174.loca.lt/api/posts/${props.route.params.id}/`,
+      `https://deep-owls-visit-121-146-124-174.loca.lt/api/posts/${props.route.params.id}/`,
       {
         headers: {
           method: "GET",
@@ -50,7 +50,7 @@ const Detail = (props) => {
     try {
       const token = await AsyncStorage.getItem("token");
       await fetch(
-        `https://new-bobcats-spend-121-146-124-174.loca.lt/api/posts/${props.route.params.id}`,
+        `https://deep-owls-visit-121-146-124-174.loca.lt/api/posts/${props.route.params.id}`,
         {
           method: "DELETE",
           headers: {
@@ -138,7 +138,7 @@ const Detail = (props) => {
             }}
             source={{
               uri:
-                `https://new-bobcats-spend-121-146-124-174.loca.lt` +
+                `https://deep-owls-visit-121-146-124-174.loca.lt` +
                 postData.photo,
             }}
           />
@@ -156,7 +156,7 @@ const Detail = (props) => {
                 }}
                 source={{
                   uri:
-                    `https://new-bobcats-spend-121-146-124-174.loca.lt` +
+                    `https://deep-owls-visit-121-146-124-174.loca.lt` +
                     postData.poster.avatar,
                 }}
               />
@@ -172,7 +172,7 @@ const Detail = (props) => {
                   height: 20,
                   marginRight: 10,
                 }}
-                source={require("../Image/heart.png")}
+                source={require("../../assets/Icon/heart.png")}
               />
               <Text style={styles.text}>{getLikes()}</Text>
             </View>

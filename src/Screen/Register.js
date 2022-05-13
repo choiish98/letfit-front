@@ -52,17 +52,14 @@ const Register = ({ navigation }) => {
     formBody = formBody.join("&");
 
     if (userPassword == userPasswordConfirm) {
-      fetch(
-        `${`https://new-bobcats-spend-121-146-124-174.loca.lt`}/api/users/`,
-        {
-          method: "POST",
-          body: formBody,
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-            Accept: "application/json",
-          },
-        }
-      )
+      fetch(`${`https://deep-owls-visit-121-146-124-174.loca.lt`}/api/users/`, {
+        method: "POST",
+        body: formBody,
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+          Accept: "application/json",
+        },
+      })
         .then((response) => response.json())
         .then((responseJson) => {
           setLoading(false);

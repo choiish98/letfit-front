@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, ScrollView } from "react-native";
+import { View, Text, Image, ScrollView, RefreshControl } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { connect } from "react-redux";
@@ -12,8 +12,6 @@ import TopBar from "../Components/TopBar";
 import FeedCard from "../Components/FeedCard";
 import { imgSrc } from "../Components/ImgSrc";
 
-// topbar 깨지는거 고칠 필요
-
 const Home = (props) => {
   const [loading, setLoading] = useState(true);
   const [trending, setTrending] = useState([]);
@@ -23,7 +21,7 @@ const Home = (props) => {
       // token 받아오기
       const token = await AsyncStorage.getItem("token");
       const response = await fetch(
-        `https://new-bobcats-spend-121-146-124-174.loca.lt/api/users/me/`,
+        `https://deep-owls-visit-121-146-124-174.loca.lt/api/users/me/`,
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
@@ -32,8 +30,6 @@ const Home = (props) => {
         }
       );
       const userData = await response.json();
-
-      console.log("userData: " + userData);
       props.defineUser(userData);
     } catch (error) {
       console.log("error in getUserData: " + error);
@@ -43,7 +39,7 @@ const Home = (props) => {
   const getRoutineData = async () => {
     try {
       const response = await fetch(
-        `https://new-bobcats-spend-121-146-124-174.loca.lt/api/routines/`,
+        `https://deep-owls-visit-121-146-124-174.loca.lt/api/routines/`,
         {
           method: "GET",
         }
@@ -59,7 +55,7 @@ const Home = (props) => {
   const loadingFeed = async () => {
     try {
       const response = await fetch(
-        `https://new-bobcats-spend-121-146-124-174.loca.lt/api/posts/trending/`,
+        `https://deep-owls-visit-121-146-124-174.loca.lt/api/posts/trending/`,
         {
           method: "GET",
           headers: {
@@ -94,7 +90,7 @@ const Home = (props) => {
     try {
       const token = await AsyncStorage.getItem("token");
       await fetch(
-        `${`https://new-bobcats-spend-121-146-124-174.loca.lt`}/api/users/`,
+        `${`https://deep-owls-visit-121-146-124-174.loca.lt`}/api/users/`,
         {
           method: "DELETE",
           headers: {
@@ -150,88 +146,105 @@ const Home = (props) => {
     return props.user.exercise_success_number / props.user.exercise_goal_number;
   };
 
+  const onRefresh = () => {
+    setLoading(true);
+  };
+
   return loading ? (
     <Loader />
   ) : (
-    <View style={{ flex: 1 }}>
-      <View>
+    <View style={{ flex: 1, backgroundColor: "#2A3042" }}>
+      <View
+        style={{
+          flex: 0.8,
+          justifyContent: "flex-end",
+          backgroundColor: "#2A3042",
+        }}
+      >
         <TopBar navigation={props.navigation} Home />
       </View>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        style={{ backgroundColor: "#DEDEDE" }}
-      >
-        <View style={styles.userInfo}>
-          <View style={styles.alignCenter}>
-            <Text
-              style={[styles.userInfo_days_upperText, { fontStyle: "italic" }]}
-            >
-              {daysComma()}
-            </Text>
-            <Text style={styles.userInfo_days_underText}> Days </Text>
-          </View>
-          <View style={styles.userInfo_tier_goal}>
-            <View style={{ justifyContent: "center", alignItems: "center" }}>
-              <View style={styles.tier_img_box}>
-                <Image
-                  style={styles.userInfo_tier_goal_staff}
-                  source={imgSrc(props.user.tier)}
-                />
+      <View style={{ backgroundColor: "#DEDEDE", flex: 7.5 }}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={{ backgroundColor: "#DEDEDE" }}
+          refreshControl={
+            <RefreshControl refresh={!loading} onRefresh={onRefresh} />
+          }
+          stickyHeaderIndices={[1]}
+        >
+          <View style={styles.userInfo}>
+            <View style={styles.alignCenter}>
+              <Text style={[styles.userInfo_days_upperText]}>
+                {daysComma()}
+              </Text>
+              <Text style={styles.userInfo_days_underText}> Days </Text>
+            </View>
+            <View style={styles.userInfo_tier_goal}>
+              <View style={{ justifyContent: "center", alignItems: "center" }}>
+                <View style={styles.tier_img_box}>
+                  <Image
+                    style={styles.userInfo_tier_goal_staff}
+                    source={imgSrc(props.user.tier)}
+                  />
+                </View>
+                <Text style={styles.userInfo_tier_goal_text}>
+                  {props.user.tier}
+                </Text>
               </View>
-              <Text style={styles.userInfo_tier_goal_text}>
-                {props.user.tier}
-              </Text>
-            </View>
-            <View>
-              <Progress.Circle
-                progress={goalProgress()}
-                style={[styles.alignCenter, styles.userInfo_tier_goal_staff]}
-                color="white"
-                thickness={6}
-                strokeCap="square"
-                borderColor="#2A3042"
-              />
-              <Text style={styles.userInfo_tier_goal_text}>
-                Goal {props.user.exercise_success_number}/
-                {props.user.exercise_goal_number}
-              </Text>
+              <View>
+                <Progress.Circle
+                  progress={goalProgress()}
+                  style={[styles.alignCenter, styles.userInfo_tier_goal_staff]}
+                  animated={true}
+                  color="white"
+                  thickness={6}
+                  strokeCap="square"
+                  borderColor="#2A3042"
+                />
+                <Text style={styles.userInfo_tier_goal_text}>
+                  Goal {props.user.exercise_success_number}/
+                  {props.user.exercise_goal_number}
+                </Text>
+              </View>
             </View>
           </View>
-        </View>
-        <View style={styles.icons}>
-          <TouchableOpacity
-            activeOpacity={0.5}
-            onPress={goList}
-            style={[styles.shadow, styles.alignCenter, styles.icons_each]}
-          >
-            <Image
-              style={styles.icons_each_image}
-              source={require("../Image/SNS.png")}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            activeOpacity={0.5}
-            onPress={goExercise}
-            style={[styles.icons_center, styles.alignCenter, styles.shadow]}
-          >
-            <Image
-              style={styles.icons_center_image}
-              source={require("../Image/Home.png")}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            activeOpacity={0.5}
-            onPress={goSNS}
-            style={[styles.icons_each, styles.alignCenter, styles.shadow]}
-          >
-            <Image
-              style={styles.icons_each_image}
-              source={require("../Image/gold.png")}
-            />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.feed}>{trending.map(ItemView)}</View>
-      </ScrollView>
+          <View>
+            <View style={styles.icons}>
+              <TouchableOpacity
+                activeOpacity={0.5}
+                onPress={goList}
+                style={[styles.shadow, styles.alignCenter, styles.icons_each]}
+              >
+                <Image
+                  style={styles.icons_each_image}
+                  source={require("../../assets/Icon/SNS.png")}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                activeOpacity={0.5}
+                onPress={goExercise}
+                style={[styles.icons_center, styles.alignCenter, styles.shadow]}
+              >
+                <Image
+                  style={styles.icons_center_image}
+                  source={require("../../assets/Icon/Home.png")}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                activeOpacity={0.5}
+                onPress={goSNS}
+                style={[styles.icons_each, styles.alignCenter, styles.shadow]}
+              >
+                <Image
+                  style={styles.icons_each_image}
+                  source={require("../../assets/Icon/gold.png")}
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={styles.feed}>{trending.map(ItemView)}</View>
+        </ScrollView>
+      </View>
     </View>
   );
 };

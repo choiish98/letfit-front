@@ -36,7 +36,7 @@ const MyRoutineList = (props) => {
       // 요일 별 부위 저장
       try {
         const response = await fetch(
-          `https://whole-sides-kneel-121-146-124-174.loca.lt/api/routines/${myRoutineId}/days`,
+          `https://deep-owls-visit-121-146-124-174.loca.lt/api/routines/${myRoutineId}/days`,
           {
             headers: {
               method: "GET",
@@ -44,7 +44,6 @@ const MyRoutineList = (props) => {
           }
         );
         const r_routineData = await response.json();
-        console.log("대표루틴(월): " + JSON.stringify(r_routineData[0]));
         putBodyParts(r_routineData);
       } catch (error) {
         console.log("error in get myR_Routine: " + error);
@@ -54,29 +53,28 @@ const MyRoutineList = (props) => {
 
   // 요일 별 부위 삽입
   const putBodyParts = (r_routine) => {
-    console.log("r_routine: " + r_routine);
     r_routine.map((routine) => {
       switch (routine.day) {
         case "월":
-          setMon(mon + routine.body_part);
+          setMon(mon + routine.body_parts);
           break;
         case "화":
-          setTue(tue + routine.body_part);
+          setTue(tue + routine.body_parts);
           break;
         case "수":
-          setWed(wed + routine.body_part);
+          setWed(wed + routine.body_parts);
           break;
         case "목":
-          setThu(thu + routine.body_part);
+          setThu(thu + routine.body_parts);
           break;
         case "금":
-          setFri(fri + routine.body_part);
+          setFri(fri + routine.body_parts);
           break;
         case "토":
-          setSat(sat + routine.body_part);
+          setSat(sat + routine.body_parts);
           break;
         case "일":
-          setSun(sun + routine.body_part);
+          setSun(sun + routine.body_parts);
           break;
       }
     });
@@ -86,7 +84,7 @@ const MyRoutineList = (props) => {
   const getEntireEx = async () => {
     try {
       const response = await fetch(
-        `${`https://whole-sides-kneel-121-146-124-174.loca.lt`}/api/routines/${myRoutineId}/exercises`,
+        `https://deep-owls-visit-121-146-124-174.loca.lt/api/routines/${myRoutineId}/exercises`,
         {
           headers: {
             method: "GET",
@@ -94,7 +92,7 @@ const MyRoutineList = (props) => {
         }
       );
       const thisEntireEx = await response.json();
-      setEntireExercise(thisEntireEx[0].exercise);
+      setEntireExercise(thisEntireEx);
     } catch (error) {
       console.log("error in getEntireEx: " + error);
     }
@@ -117,20 +115,19 @@ const MyRoutineList = (props) => {
     const tempArray = []; // 운동 리스트 저장 배열
     const tempBody = today.split(","); // 오늘 운동 부위
 
-    entireExercise.map((exercise) => {
-      if (tempBody.includes(exercise.body_part)) {
-        const thisExercise = {};
-        thisExercise.key = exercise.key;
-        thisExercise.body_part = "[" + exercise.body_part + "]";
-        thisExercise.name = exercise.name;
-        thisExercise.set = exercise.set;
-        thisExercise.runningTime = exercise.runningTime;
-        thisExercise.restTime = exercise.restTime;
-        thisExercise.reps = exercise.reps;
-        thisExercise.done = exercise.done;
-        tempArray.push(thisExercise);
-      }
-    });
+    if (entireExercise !== null || entireExercise !== "undefined") {
+      entireExercise.map((item) => {
+        if (tempBody.includes(item.exercise.body_part)) {
+          const thisExercise = {};
+          thisExercise.body_part = "[" + item.exercise.body_part + "]";
+          thisExercise.name = item.exercise.name;
+          thisExercise.runningTime = item.seconds_per_set;
+          thisExercise.restTime = item.break_seconds_per_set;
+          thisExercise.reps = item.exercise_number_per_set;
+          tempArray.push(thisExercise);
+        }
+      });
+    }
 
     setTodayExercise(tempArray);
   };

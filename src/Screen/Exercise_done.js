@@ -82,7 +82,7 @@ const Exercise = (props) => {
           <View style={styles.body_setBox_small}>
             <View style={styles.body_setBox_imgBox}>
               <Image
-                source={require("../Image/total_time_icon.png")}
+                source={require("../../assets/Icon/total_time_icon.png")}
                 style={styles.body_setBox_img}
               />
             </View>
@@ -96,7 +96,7 @@ const Exercise = (props) => {
           <View style={styles.body_setBox_small}>
             <View style={styles.body_setBox_imgBox}>
               <Image
-                source={require("../Image/avg_time_icon.png")}
+                source={require("../../assets/Icon/avg_time_icon.png")}
                 style={styles.body_setBox_img}
               />
             </View>
@@ -112,7 +112,7 @@ const Exercise = (props) => {
           <View style={styles.body_setBox_small}>
             <View style={styles.body_setBox_imgBox}>
               <Image
-                source={require("../Image/rest_time_icon.png")}
+                source={require("../../assets/Icon/rest_time_icon.png")}
                 style={styles.body_setBox_img}
               />
             </View>
@@ -131,7 +131,7 @@ const Exercise = (props) => {
             style={styles.body_confirm_box}
           >
             <Image
-              source={require("../Image/work_complete(bigger).png")}
+              source={require("../../assets/Icon/work_complete(bigger).png")}
               style={styles.body_setBox_img}
             />
           </TouchableOpacity>

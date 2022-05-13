@@ -9,7 +9,7 @@ const Upload = (props) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [photo, setPhoto] = useState(null);
-  const [image, setImage] = useState(require("../Image/camera.png"));
+  const [image, setImage] = useState(require("../../assets/Icon/camera.png"));
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -51,7 +51,7 @@ const Upload = (props) => {
       console.log(image);
       // 업로드 요청
       fetch(
-        `https://new-bobcats-spend-121-146-124-174.loca.lt/api/posts/upload/`,
+        `https://deep-owls-visit-121-146-124-174.loca.lt/api/posts/upload/`,
         {
           method: "POST",
           body: formData,
@@ -78,12 +78,16 @@ const Upload = (props) => {
     <View style={styles.container}>
       <View style={styles.topbar}>
         <TouchableOpacity activeOpacity={0.5} onPress={goBack}>
-          <Image source={require("../Image/back.png")} width={30} height={30} />
+          <Image
+            source={require("../../assets/Icon/back.png")}
+            width={30}
+            height={30}
+          />
         </TouchableOpacity>
         <Text style={styles.topbar_text}>게시글 작성</Text>
         <TouchableOpacity activeOpacity={0.5} onPress={requestUpload}>
           <Image
-            source={require("../Image/Upload.png")}
+            source={require("../../assets/Icon/Upload.png")}
             width={30}
             height={30}
           />

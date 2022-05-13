@@ -79,7 +79,7 @@ const RoutineList = (props) => {
               <Text style={styles.body_topBox_sort_text}>추천순</Text>
             </TouchableOpacity>
             <Image
-              source={require("../Image/sort_bnt.png")}
+              source={require("../../assets/Icon/sort_bnt.png")}
               style={styles.body_topBox_btn}
             />
           </View>
@@ -88,7 +88,7 @@ const RoutineList = (props) => {
           <View style={styles.body_toolBox_left}>
             <TouchableOpacity activeOpacity={0.5} onPress={goMakeRoutine}>
               <Image
-                source={require("../Image/routine_add_bnt.png")}
+                source={require("../../assets/Icon/routine_add_bnt.png")}
                 style={styles.body_toolBox_add}
               />
             </TouchableOpacity>
@@ -96,7 +96,7 @@ const RoutineList = (props) => {
           </View>
           <TouchableOpacity activeOpacity={0.5} onPress={goSearch}>
             <Image
-              source={require("../Image/serach_bnt.png")}
+              source={require("../../assets/Icon/serach_bnt.png")}
               style={styles.body_toolBox_search}
             />
           </TouchableOpacity>
@@ -112,7 +112,9 @@ const RoutineList = (props) => {
               </TouchableOpacity>
             </View>
             <TouchableOpacity activeOpacity={0.5} onPress={toggleModal}>
-              <Image source={require("../Image/routine_del_work_bnt.png")} />
+              <Image
+                source={require("../../assets/Icon/routine_del_work_bnt.png")}
+              />
             </TouchableOpacity>
           </View>
         </Modal>

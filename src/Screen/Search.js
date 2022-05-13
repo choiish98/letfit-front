@@ -27,7 +27,7 @@ const RoutineList = (props) => {
 
   // 리스트 내 각 운동의 유저 정보 받아오기
   const getUserProfile = (id) => {
-    fetch(`https://new-bobcats-spend-121-146-124-174.loca.lt/api/users/${id}`, {
+    fetch(`https://deep-owls-visit-121-146-124-174.loca.lt/api/users/${id}`, {
       headers: {
         method: "GET",
       },
@@ -75,7 +75,7 @@ const RoutineList = (props) => {
               {item.creator.username}
             </Text>
             <Image
-              source={require("../Image/like_profile_base.png")}
+              source={require("../../assets/Icon/like_profile_base.png")}
               style={styles.list_bottom_creator_img}
             />
           </View>
@@ -169,7 +169,7 @@ const RoutineList = (props) => {
               <Text style={styles.body_topBox_sort_text}>추천순</Text>
             </TouchableOpacity>
             <Image
-              source={require("../Image/sort_bnt.png")}
+              source={require("../../assets/Icon/sort_bnt.png")}
               style={styles.body_topBox_btn}
             />
           </View>
@@ -186,7 +186,7 @@ const RoutineList = (props) => {
           </View>
           <TouchableOpacity activeOpacity={0.5} onPress={goSearch}>
             <Image
-              source={require("../Image/serach_bnt.png")}
+              source={require("../../assets/Icon/serach_bnt.png")}
               style={styles.body_toolBox_search}
             />
           </TouchableOpacity>
@@ -204,7 +204,9 @@ const RoutineList = (props) => {
               </TouchableOpacity>
             </View>
             <TouchableOpacity activeOpacity={0.5} onPress={toggleModal}>
-              <Image source={require("../Image/routine_del_work_bnt.png")} />
+              <Image
+                source={require("../../assets/Icon/routine_del_work_bnt.png")}
+              />
             </TouchableOpacity>
           </View>
         </Modal>
