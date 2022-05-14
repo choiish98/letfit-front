@@ -20,8 +20,8 @@ const Exercise = (props) => {
   const userRestTime = props.route.params.userRestTime;
   const item = props.route.params.item;
 
-  const firstAction = () => {
-    setLoading(true);
+  const firstAction = async () => {
+    await setLoading(true);
   };
 
   // loading

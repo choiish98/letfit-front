@@ -29,9 +29,9 @@ const Exercise = (props) => {
   const [timerTotal, setTimerTotal] = useState(0); // 총 운동 시간, 초마다 1씩 깍임
   const [intervalId, setIntervalId] = useState(0); // timer 저장
 
-  const firstAction = () => {
-    setItem(props.route.params.item);
-    setLoading(true);
+  const firstAction = async () => {
+    await setItem(props.route.params.item);
+    await setLoading(true);
   };
 
   // loading

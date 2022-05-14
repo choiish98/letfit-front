@@ -12,7 +12,7 @@ const ProfileEdit = (props) => {
   const userInfo = props.route.params.userInfo;
   const [prfMsg, setPrfMsg] = useState(userInfo.profile_message);
   const [image, setImage] = useState(
-    `https://deep-owls-visit-121-146-124-174.loca.lt` + userInfo.avatar
+    `https://shiny-turtles-jump-121-146-124-174.loca.lt` + userInfo.avatar
   );
   const [photo, setPhoto] = useState("");
 
@@ -60,7 +60,7 @@ const ProfileEdit = (props) => {
 
     try {
       await fetch(
-        `https://deep-owls-visit-121-146-124-174.loca.lt/api/users/me/`,
+        `https://shiny-turtles-jump-121-146-124-174.loca.lt/api/users/me/`,
         {
           method: "PUT",
           headers: {

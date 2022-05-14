@@ -21,7 +21,7 @@ const Home = (props) => {
       // token 받아오기
       const token = await AsyncStorage.getItem("token");
       const response = await fetch(
-        `https://deep-owls-visit-121-146-124-174.loca.lt/api/users/me/`,
+        `https://shiny-turtles-jump-121-146-124-174.loca.lt/api/users/me/`,
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
@@ -36,26 +36,10 @@ const Home = (props) => {
     }
   };
 
-  const getRoutineData = async () => {
-    try {
-      const response = await fetch(
-        `https://deep-owls-visit-121-146-124-174.loca.lt/api/routines/`,
-        {
-          method: "GET",
-        }
-      );
-      const routineData = await response.json();
-
-      props.defineRoutine(routineData);
-    } catch (error) {
-      console.log("error in getRoutinData: " + error);
-    }
-  };
-
   const loadingFeed = async () => {
     try {
       const response = await fetch(
-        `https://deep-owls-visit-121-146-124-174.loca.lt/api/posts/trending/`,
+        `https://shiny-turtles-jump-121-146-124-174.loca.lt/api/posts/trending/`,
         {
           method: "GET",
           headers: {
@@ -71,12 +55,11 @@ const Home = (props) => {
     }
   };
 
-  const firstAction = () => {
+  const firstAction = async () => {
     console.log("로딩 중");
-    getUserData();
-    getRoutineData();
-    loadingFeed();
-    setLoading(false);
+    await getUserData();
+    await loadingFeed();
+    await setLoading(false);
   };
 
   useEffect(() => {
@@ -90,7 +73,7 @@ const Home = (props) => {
     try {
       const token = await AsyncStorage.getItem("token");
       await fetch(
-        `${`https://deep-owls-visit-121-146-124-174.loca.lt`}/api/users/`,
+        `${`https://shiny-turtles-jump-121-146-124-174.loca.lt`}/api/users/`,
         {
           method: "DELETE",
           headers: {

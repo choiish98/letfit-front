@@ -1,21 +1,43 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, Image } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { connect } from "react-redux";
 import { actionCreators } from "../store";
-import Modal from "react-native-modal";
 import { styles } from "../Styles/routineList";
 import TopBar from "../Components/TopBar";
 import RoutineCard from "../Components/RoutineCard";
-
-// 순위 1, 2, 3 기능
+import CustomModal from "../Components/CustomModal";
+import Loader from "../Components/Loader";
 
 const RoutineList = (props) => {
+  const [loading, setLoading] = useState(true);
   const [isModalVisible, setModalVisible] = useState(false);
-  const [renderRoutine, setRenderRoutine] = useState([]); // 전체 운동 저장
+  const [renderRoutine, setRenderRoutine] = useState([]);
+
+  const getRoutineData = async () => {
+    try {
+      const response = await fetch(
+        `https://shiny-turtles-jump-121-146-124-174.loca.lt/api/routines/`,
+        {
+          method: "GET",
+        }
+      );
+      const routineData = await response.json();
+
+      setRenderRoutine(routineData);
+    } catch (error) {
+      console.log("error in getRoutinData: " + error);
+    }
+  };
+
+  const firstAction = async () => {
+    console.log("로딩 중");
+    await getRoutineData();
+    await setLoading(false);
+  };
 
   useEffect(() => {
-    setRenderRoutine(props.user.routineData);
+    loading ? firstAction() : console.log("로딩 완료");
   });
 
   const goSearch = () => {
@@ -28,33 +50,6 @@ const RoutineList = (props) => {
     props.navigation.navigate("MakeRoutine");
   };
 
-  // 정렬 기능 - 팔로우
-  const followSort = () => {
-    let thisRoutine = renderRoutine;
-    thisRoutine.sort((a, b) => {
-      return a.followers - b.followers;
-    });
-
-    setRenderRoutine(thisRoutine);
-    toggleModal();
-  };
-
-  // 정렬 기능 - 티어
-  const tierSort = () => {
-    let thisRoutine = renderRoutine;
-    thisRoutine.sort((a, b) => {
-      return b.followers - a.followers;
-    });
-
-    setRenderRoutine(thisRoutine);
-    toggleModal();
-  };
-
-  // 모달 on/off
-  const toggleModal = () => {
-    setModalVisible(!isModalVisible);
-  };
-
   // routine render
   const itemView = (item, key) => {
     return (
@@ -63,12 +58,19 @@ const RoutineList = (props) => {
         onPress={() => props.navigation.navigate("RoutineDetail", item.id)}
         style={styles.list_card}
       >
-        <RoutineCard item={item} />
+        <RoutineCard item={item} thisKey={key} />
       </TouchableOpacity>
     );
   };
 
-  return (
+  // 모달 on/off
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+
+  return loading ? (
+    <Loader />
+  ) : (
     <View style={styles.container}>
       <TopBar navigation={props.navigation} />
       <View style={styles.body}>
@@ -101,23 +103,11 @@ const RoutineList = (props) => {
             />
           </TouchableOpacity>
         </View>
-        <Modal isVisible={isModalVisible} backdropColor="white">
-          <View style={styles.modal}>
-            <View>
-              <TouchableOpacity activeOpacity={0.5} onPress={followSort}>
-                <Text style={styles.modal_text}>팔로우순</Text>
-              </TouchableOpacity>
-              <TouchableOpacity activeOpacity={0.5} onPress={tierSort}>
-                <Text style={styles.modal_text}>티어순</Text>
-              </TouchableOpacity>
-            </View>
-            <TouchableOpacity activeOpacity={0.5} onPress={toggleModal}>
-              <Image
-                source={require("../../assets/Icon/routine_del_work_bnt.png")}
-              />
-            </TouchableOpacity>
-          </View>
-        </Modal>
+        <CustomModal
+          isModalVisible={isModalVisible}
+          toggleModal={toggleModal}
+          renderRoutine={renderRoutine}
+        />
         <View>{renderRoutine.map(itemView)}</View>
       </View>
     </View>

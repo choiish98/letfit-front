@@ -60,14 +60,4 @@ export const styles = StyleSheet.create({
     borderBottomWidth: 1,
     marginBottom: 20,
   },
-  modal: {
-    justifyContent: "space-between",
-    alignItems: "center",
-    height: "30%",
-  },
-  modal_text: {
-    marginTop: 10,
-    fontSize: 20,
-    fontWeight: "600",
-  },
 });

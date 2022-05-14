@@ -24,7 +24,7 @@ const Detail = (props) => {
   // 게시글 정보 호출
   const getPostData = async () => {
     const response = await fetch(
-      `https://deep-owls-visit-121-146-124-174.loca.lt/api/posts/${props.route.params.id}/`,
+      `https://shiny-turtles-jump-121-146-124-174.loca.lt/api/posts/${props.route.params.id}/`,
       {
         headers: {
           method: "GET",
@@ -35,10 +35,10 @@ const Detail = (props) => {
     setPostData(thisPostData);
   };
 
-  const firstAction = () => {
+  const firstAction = async () => {
     console.log("로딩 중");
-    getPostData();
-    setLoading(false);
+    await getPostData();
+    await setLoading(false);
   };
 
   useEffect(() => {
@@ -50,7 +50,7 @@ const Detail = (props) => {
     try {
       const token = await AsyncStorage.getItem("token");
       await fetch(
-        `https://deep-owls-visit-121-146-124-174.loca.lt/api/posts/${props.route.params.id}`,
+        `https://shiny-turtles-jump-121-146-124-174.loca.lt/api/posts/${props.route.params.id}`,
         {
           method: "DELETE",
           headers: {
@@ -138,7 +138,7 @@ const Detail = (props) => {
             }}
             source={{
               uri:
-                `https://deep-owls-visit-121-146-124-174.loca.lt` +
+                `https://shiny-turtles-jump-121-146-124-174.loca.lt` +
                 postData.photo,
             }}
           />
@@ -156,7 +156,7 @@ const Detail = (props) => {
                 }}
                 source={{
                   uri:
-                    `https://deep-owls-visit-121-146-124-174.loca.lt` +
+                    `https://shiny-turtles-jump-121-146-124-174.loca.lt` +
                     postData.poster.avatar,
                 }}
               />

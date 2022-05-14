@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { View, Text, Image, TextInput } from "react-native";
 import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 import { connect } from "react-redux";
 import { actionCreators } from "../store";
 import { styles } from "../Styles/makeRoutine";
-import Loader from "../Components/Loader";
 import TopBar from "../Components/TopBar";
 
 // + 버튼 눌렀을 때 해시 태그 추가
@@ -12,7 +11,6 @@ import TopBar from "../Components/TopBar";
 // 요일 별 부위 지정
 
 const RoutineList = (props) => {
-  const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
 
   let makeExercise = [
@@ -46,14 +44,6 @@ const RoutineList = (props) => {
     },
   ];
 
-  const firstAction = () => {
-    setLoading(true);
-  };
-
-  useEffect(() => {
-    loading === false ? firstAction() : console.log("전체 루틴 리스트 페이지");
-  });
-
   const renderItem = ({ item }) => {
     return (
       <View style={styles.todayExerciseCard}>
@@ -73,7 +63,7 @@ const RoutineList = (props) => {
     );
   };
 
-  return loading ? (
+  return (
     <View style={styles.container}>
       <TopBar navigation={props.navigation} />
       <View style={styles.body}>
@@ -139,8 +129,6 @@ const RoutineList = (props) => {
         </TouchableOpacity>
       </View>
     </View>
-  ) : (
-    Loader
   );
 };
 

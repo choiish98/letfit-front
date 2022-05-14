@@ -4,6 +4,7 @@ import { styles } from "../Styles/routineCard";
 
 const RoutineCard = (props) => {
   const item = props.item;
+  const key = props.thisKey;
 
   // hashTag thisTags에 저장
   const getHashTags = () => {
@@ -16,9 +17,13 @@ const RoutineCard = (props) => {
   };
 
   // get user profile img
-  const avatarIsNull = async () => {
-    if (item.creator.avatar === "")
-      return `require("../Image/like_profile_base.png")`;
+  const avatarIsNull = () => {
+    if (
+      item.creator.avatar === "" ||
+      typeof item.creator.avatar == "undefined"
+    ) {
+      return require("../../assets/Icon/like_profile_base.png");
+    }
 
     return { uri: item.creator.avatar };
   };
@@ -26,10 +31,12 @@ const RoutineCard = (props) => {
   return (
     <View>
       <View style={styles.list_top}>
-        <View style={styles.list_top_rank}>
-          <Text style={styles.list_top_rank_text}>1</Text>
-          <Text style={styles.list_top_rank_underLine}> </Text>
-        </View>
+        {key < 3 && (
+          <View style={styles.list_top_rank}>
+            <Text style={styles.list_top_rank_text}>{key + 1}</Text>
+            <Text style={styles.list_top_rank_underLine}> </Text>
+          </View>
+        )}
         <View style={styles.list_top_rank_info}>
           <Text style={styles.list_top_rank_info_name}>{item.name}</Text>
           <Text style={styles.list_top_rank_info_follow}>

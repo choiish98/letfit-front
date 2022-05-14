@@ -26,7 +26,7 @@ const SNS = (props) => {
       try {
         const token = await AsyncStorage.getItem("token");
         await fetch(
-          `https://deep-owls-visit-121-146-124-174.loca.lt/api/users/follow/`,
+          `https://shiny-turtles-jump-121-146-124-174.loca.lt/api/users/follow/`,
           {
             method: "POST",
             headers: {
@@ -47,7 +47,7 @@ const SNS = (props) => {
     try {
       // 유저 정보 호출
       const response = await fetch(
-        `https://deep-owls-visit-121-146-124-174.loca.lt/api/users/${props.route.params.id}`,
+        `https://shiny-turtles-jump-121-146-124-174.loca.lt/api/users/${props.route.params.id}`,
         {
           headers: {
             method: "GET",
@@ -61,9 +61,9 @@ const SNS = (props) => {
     }
   };
 
-  const firstAction = () => {
+  const firstAction = async () => {
     console.log("로딩 중");
-    getUserData();
+    await getUserData();
     setLoading(false);
     console.log("로딩 완료");
   };
@@ -108,7 +108,8 @@ const SNS = (props) => {
             style={styles.feeds_card}
             source={{
               uri:
-                `https://deep-owls-visit-121-146-124-174.loca.lt` + item.photo,
+                `https://shiny-turtles-jump-121-146-124-174.loca.lt` +
+                item.photo,
             }}
           />
         </TouchableOpacity>
@@ -190,7 +191,7 @@ const SNS = (props) => {
               style={styles.profile_img}
               source={{
                 uri:
-                  `https://deep-owls-visit-121-146-124-174.loca.lt` +
+                  `https://shiny-turtles-jump-121-146-124-174.loca.lt` +
                   `/media/81051548428941cb8d27828557a3f06b..jpg`,
               }}
             />

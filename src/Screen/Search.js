@@ -15,9 +15,9 @@ const RoutineList = (props) => {
   const [renderRoutine, setRenderRoutine] = useState([]); // 렌더링 운동 저장
   const [context, setContext] = useState(""); // 검색어
 
-  const firstAction = () => {
-    setEntireRoutine(props.user.routineData);
-    setRenderRoutine(entireRoutine);
+  const firstAction = async () => {
+    await setEntireRoutine(props.user.routineData);
+    await setRenderRoutine(entireRoutine);
     setLoading(true);
   };
 
@@ -27,11 +27,14 @@ const RoutineList = (props) => {
 
   // 리스트 내 각 운동의 유저 정보 받아오기
   const getUserProfile = (id) => {
-    fetch(`https://deep-owls-visit-121-146-124-174.loca.lt/api/users/${id}`, {
-      headers: {
-        method: "GET",
-      },
-    })
+    fetch(
+      `https://shiny-turtles-jump-121-146-124-174.loca.lt/api/users/${id}`,
+      {
+        headers: {
+          method: "GET",
+        },
+      }
+    )
       .then((response) => response.json())
       .then((responseJson) => {
         return responseJson.avatar;

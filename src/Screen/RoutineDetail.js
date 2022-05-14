@@ -32,7 +32,7 @@ const RoutineDetail = (props) => {
     // 요일 별 부위
     try {
       const response = await fetch(
-        `https://deep-owls-visit-121-146-124-174.loca.lt/api/routines/${routineId}/days`,
+        `https://shiny-turtles-jump-121-146-124-174.loca.lt/api/routines/${routineId}/days`,
         {
           headers: {
             method: "GET",
@@ -79,7 +79,7 @@ const RoutineDetail = (props) => {
   const getEntireEx = async () => {
     try {
       const response = await fetch(
-        `${`https://deep-owls-visit-121-146-124-174.loca.lt`}/api/routines/${routineId}/exercises`,
+        `${`https://shiny-turtles-jump-121-146-124-174.loca.lt`}/api/routines/${routineId}/exercises`,
         {
           headers: {
             method: "GET",
@@ -93,11 +93,11 @@ const RoutineDetail = (props) => {
     }
   };
 
-  const firstAction = () => {
+  const firstAction = async () => {
     console.log("로딩 중");
-    routineDetail();
-    setClickedDay("mon");
-    getEntireEx();
+    await routineDetail();
+    await setClickedDay("mon");
+    await getEntireEx();
     setLoading(false);
   };
 
