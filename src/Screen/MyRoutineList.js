@@ -108,14 +108,14 @@ const MyRoutineList = (props) => {
 
   useEffect(() => {
     loading ? firstAction() : console.log("로딩 완료");
-  });
+  }, [loading]);
 
   // 요일 별 부위 검사 후 부위에 맞는 운동 삽입
   const updateExercise = (today) => {
     const tempArray = []; // 운동 리스트 저장 배열
     const tempBody = today.split(","); // 오늘 운동 부위
 
-    if (entireExercise !== null || entireExercise !== "undefined") {
+    if (entireExercise !== null || entireExercise !== undefined) {
       entireExercise.map((item) => {
         if (tempBody.includes(item.exercise.body_part)) {
           const thisExercise = {};

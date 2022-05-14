@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { View, Text, Image } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { connect } from "react-redux";
@@ -10,8 +10,6 @@ import Loader from "../Components/Loader";
 // 운동 완료 api
 
 const Exercise = (props) => {
-  const [loading, setLoading] = useState(false);
-
   console.log("props: " + JSON.stringify(props.route.params));
   const timerSets = props.route.params.timerSets;
   const set = props.route.params.set;
@@ -19,15 +17,6 @@ const Exercise = (props) => {
   const userRunningTime = props.route.params.userRunningTime;
   const userRestTime = props.route.params.userRestTime;
   const item = props.route.params.item;
-
-  const firstAction = async () => {
-    await setLoading(true);
-  };
-
-  // loading
-  useEffect(() => {
-    loading === false ? firstAction() : console.log("운동 화면");
-  });
 
   // 초를 분 단위로
   const secToMin = (sec) => {
@@ -42,7 +31,7 @@ const Exercise = (props) => {
     props.navigation.replace("MyRoutineList");
   };
 
-  return loading ? (
+  return (
     <View style={styles.container}>
       <View style={styles.topbar}>
         <Text style={styles.topbar_text}>LETFIT</Text>
@@ -138,8 +127,6 @@ const Exercise = (props) => {
         </View>
       </View>
     </View>
-  ) : (
-    Loader
   );
 };
 

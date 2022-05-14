@@ -5,7 +5,6 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { connect } from "react-redux";
 import { actionCreators } from "../store";
 import { styles } from "../Styles/snsStyle";
-import { useIsFocused } from "@react-navigation/native";
 import Loader from "../Components/Loader";
 import TopBar from "../Components/TopBar";
 import { imgSrc } from "../Components/ImgSrc";
@@ -15,7 +14,6 @@ import { imgSrc } from "../Components/ImgSrc";
 const SNS = (props) => {
   const [loading, setLoading] = useState(true);
   const [userInfo, setUserInfo] = useState({ posts: [] });
-  const isFocused = useIsFocused;
 
   const follow = async () => {
     if (props.user.userData.id === props.route.params.id) {
@@ -70,11 +68,7 @@ const SNS = (props) => {
 
   useEffect(() => {
     firstAction();
-  }, [isFocused]);
-
-  const goEdit = () => {
-    props.navigation.navigate("ProfileEdit", { userInfo });
-  };
+  }, [loading]);
 
   // sns 주인이면 upload 버튼 생성
   const uploadBtn = () => {
@@ -126,7 +120,7 @@ const SNS = (props) => {
   // 팔로우 or 수정
   const followOrEdit = () => {
     if (checkIsOwn()) {
-      goEdit();
+      props.navigation.navigate("ProfileEdit", { userInfo });
     } else {
       follow();
     }

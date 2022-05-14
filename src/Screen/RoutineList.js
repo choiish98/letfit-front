@@ -40,7 +40,7 @@ const RoutineList = (props) => {
 
   useEffect(() => {
     loading ? firstAction() : console.log("로딩 완료");
-  });
+  }, [loading]);
 
   const goSearch = () => {
     props.navigation.navigate("Search");

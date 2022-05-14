@@ -4,8 +4,6 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import Modal from "react-native-modal";
 
 const CustomModal = (props) => {
-  console.log("props: " + JSON.stringify(props));
-
   // 정렬 기능 - 팔로우
   const followSort = () => {
     let thisRoutine = props.renderRoutine;

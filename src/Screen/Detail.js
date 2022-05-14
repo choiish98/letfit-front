@@ -8,18 +8,7 @@ import { styles } from "../Styles/detailStyle";
 
 const Detail = (props) => {
   const [loading, setLoading] = useState(true);
-  const [postData, setPostData] = useState({
-    id: 1,
-    photo: "",
-    like: [],
-    poster: {
-      username: "",
-      avatar: "",
-    },
-    title: "",
-    description: "",
-    created_at: "",
-  });
+  const [postData, setPostData] = useState({});
 
   // 게시글 정보 호출
   const getPostData = async () => {
@@ -38,12 +27,12 @@ const Detail = (props) => {
   const firstAction = async () => {
     console.log("로딩 중");
     await getPostData();
-    await setLoading(false);
+    setLoading(false);
   };
 
   useEffect(() => {
     loading ? firstAction() : console.log("로딩 완료");
-  });
+  }, [loading]);
 
   // 게시글 삭제
   const deleteFeed = async () => {

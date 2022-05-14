@@ -63,7 +63,7 @@ const Home = (props) => {
 
   useEffect(() => {
     loading ? firstAction() : console.log("로딩 완료");
-  });
+  }, [loading]);
 
   // 회원 탈퇴
   const secession = async () => {
