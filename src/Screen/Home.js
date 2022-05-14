@@ -4,7 +4,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { connect } from "react-redux";
 import { actionCreators } from "../Actions/userIndex";
-import { routineActionCreators } from "../Actions/routineIndex";
 import { styles } from "../Styles/homeStyle";
 import Loader from "../Components/Loader";
 import * as Progress from "react-native-progress";
@@ -235,7 +234,6 @@ const Home = (props) => {
 function mapStateToProps(state) {
   return {
     user: state.userData,
-    routine: state.routineData,
   };
 }
 
@@ -243,8 +241,6 @@ function mapDispatchToProps(dispatch) {
   return {
     defineUser: (user) => dispatch(actionCreators.defineUser(user)),
     deleteUser: () => dispatch(actionCreators.deleteUser()),
-    defineRoutine: (routine) =>
-      dispatch(routineActionCreators.defineRoutine(routine)),
   };
 }
 

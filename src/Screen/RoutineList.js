@@ -4,6 +4,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { connect } from "react-redux";
 import { actionCreators } from "../store";
 import { styles } from "../Styles/routineList";
+import { routineActionCreators } from "../Actions/routineIndex";
 import TopBar from "../Components/TopBar";
 import RoutineCard from "../Components/RoutineCard";
 import CustomModal from "../Components/CustomModal";
@@ -25,6 +26,7 @@ const RoutineList = (props) => {
       const routineData = await response.json();
 
       setRenderRoutine(routineData);
+      props.defineRoutine(routineData);
     } catch (error) {
       console.log("error in getRoutinData: " + error);
     }
@@ -41,9 +43,7 @@ const RoutineList = (props) => {
   });
 
   const goSearch = () => {
-    props.navigation.navigate("Search", {
-      routineData: props.user.routineData,
-    });
+    props.navigation.navigate("Search");
   };
 
   const goMakeRoutine = () => {
@@ -105,8 +105,9 @@ const RoutineList = (props) => {
         </View>
         <CustomModal
           isModalVisible={isModalVisible}
-          toggleModal={toggleModal}
           renderRoutine={renderRoutine}
+          setRenderRoutine={setRenderRoutine}
+          toggleModal={toggleModal}
         />
         <View>{renderRoutine.map(itemView)}</View>
       </View>
@@ -115,13 +116,15 @@ const RoutineList = (props) => {
 };
 
 function mapStateToProps(state) {
-  return { user: state };
+  return { user: state, routine: state.routineData };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     defineUser: (user) => dispatch(actionCreators.defineUser(user)),
     deleteUser: () => dispatch(actionCreators.deleteUser()),
+    defineRoutine: (routine) =>
+      dispatch(routineActionCreators.defineRoutine(routine)),
   };
 }
 
